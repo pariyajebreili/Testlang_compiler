@@ -1,0 +1,8 @@
+def int main() {
+// main code
+return 0;
+}
+
+
+
+
