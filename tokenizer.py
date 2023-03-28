@@ -2,9 +2,10 @@ from ply.lex import lex
 
 
 # Define states for handling string literals
-#states = (
-#    ('STR', 'exclusive'),
-#)
+states = (
+    ('STR', 'inclusive'),
+)
+
 #--reserved--
 reserved = {
     'void': 'VOID',
@@ -20,11 +21,16 @@ reserved = {
     'def':'DEF',
     'var':'VAR',
     'float': 'FLOAT',
+    'in':    'IN',
+    'and':   'AND',
+    'or':    'OR',
+    'true':  'TRUE',
+    'false': 'FALSE',
 }
 
 #--Tokens--
 tokens=[
-    'NUMBER','VECTOR',
+    'NUMBER','VECTOR','COMMENT','STR',
     # Operators
     'PLUS','TIMES','DIVIDE','MOD','MINUS',
     # Delimeters
@@ -60,12 +66,50 @@ t_PARITY=r'\=\='
 t_NOT=r'\!'
 
 
+
+# Match the first {. Enter ccode state.
+def t_STR(t):
+    r'[\"\']'
+    t.lexer.begin('STR')
+    t.lexer.str_start = t.lexer.lexpos
+    t.lexer.str_marker = t.value
+
+
+def t_STR_chars(t):
+    r'[^"\'\n]+'
+
+
+def t_STR_newline(t):
+    r'\n+'
+    print("Incorrectly terminated string %s" % t.lexer.lexdata[t.lexer.str_start:t.lexer.lexpos - 1])
+    t.lexer.skip(1)
+
+
+def t_STR_end(t):
+    r'[\"\']'
+
+    if t.lexer.str_marker == t.value:
+        t.type = 'STR'
+        t.value = t.lexer.lexdata[t.lexer.str_start:t.lexer.lexpos - 1]
+        t.lexer.begin('INITIAL')
+        return t
+
+
+
+#ignore Tab and enter
+t_VECTOR = r'\[[^\]]*\]'
+t_ignore=' \t \n' 
+
+def t_COMMENT(t):
+    r'//.*'
+    pass
+
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     # Check if the identifier is a reserved keyword
     t.type = reserved.get(t.value, 'ID')
     return t
-
 
  # A regular expression rule with some action code
 def t_NUMBER(t):
@@ -77,11 +121,7 @@ def t_NUMBER(t):
         t.value = int(t.value)    
     return t
 
-t_VECTOR = r'\[[^\]]*\]'
 
-
-#ignore Tab and enter
-t_ignore=' \t \n' 
 
 # recognize illegal character
 def t_error(t):
@@ -92,7 +132,7 @@ def t_error(t):
 lexer=lex()
 newlexer = lexer.clone()
 
-file = open("testlang.txt")
+file = open("string.txt")
 line = file.read()
 file.close()
 
