@@ -2,7 +2,7 @@ def int sum(vector numList) {
 var int result = 0;
 for (i = 0 to length(numList)) {
 result = result + numList[i];
-//this is comment
+# this is comment
 }
 return result;
 
