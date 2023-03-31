@@ -20,7 +20,6 @@ reserved = {
     'int': 'INT',
     'def':'DEF',
     'var':'VAR',
-    'float': 'FLOAT',
     'in':    'IN',
     'and':   'AND',
     'or':    'OR',
