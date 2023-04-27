@@ -25,11 +25,12 @@ reserved = {
     'or':    'OR',
     'true':  'TRUE',
     'false': 'FALSE',
+    'vector':'VECTOR',
 }
 
 #--Tokens--
 tokens=[
-    'NUMBER','VECTOR','COMMENT','STR',
+    'NUMBER','COMMENT','STR',
     # Operators
     'PLUS','TIMES','DIVIDE','MOD','MINUS',
     # Delimeters
@@ -117,7 +118,6 @@ def t_ID(t):
  # A regular expression rule with some action code
 def t_NUMBER(t):
     r'[0-9]+'
-    #r'[0-9]+'
     if ("." in t.value):
         t.value = float(t.value)
     else:

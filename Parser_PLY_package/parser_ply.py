@@ -1,6 +1,17 @@
+from __future__ import absolute_import
+from __future__ import division
 from ply.lex import lex
 from ply.lex import TOKEN
 from ply.yacc import yacc
+import logging
+import os
+import subprocess
+import warnings
+import ply.yacc
+
+
+logger = logging.getLogger(__name__)
+TABMODULE = 'Parser_PLY_package.testlang_parsetab'
 
 
 # --Define states for handling string literals--
@@ -136,25 +147,32 @@ def t_error(t):
     t.lexer.skip(1)
 
 
+precedence = (
+    ('nonassoc', 'LESS_THAN', 'GREATER_THAN'),  # Nonassociative operators
+    ('nonassoc', 'LESS_EQUAL', 'GREATER_EQUAL'),  # Nonassociative operators
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'TIMES', 'DIVIDE', 'MOD'),
+)
+
 lexer=lex()
-newlexer = lexer.clone()
-
-file = open("testlang.txt")
-line = file.read()
-file.close()
-
-if __name__ == "__main__":
-    lexer.input(line)
-    newlexer.input(line)
-
-    for tok in lexer:
-        print(tok.type,tok.value)
-
-    #for tok in newlexer:
-    #    print(tok)
 
 
+#------- PARSER GENERATOR -------
+label_count=0
+temp_count=0
 
+#Error flag
+verity=True
 
-#--- PARSER GENERATOR ---
+#For generate Label
+def label():
+    global label_count
+    label_count +=1
+    return f'label{label_count}'
+
+#For generate temp
+def register():
+    global temp_count
+    temp_count +=1
+    return f'r{temp_count}'
 
