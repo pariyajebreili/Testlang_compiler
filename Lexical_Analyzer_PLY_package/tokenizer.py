@@ -15,6 +15,7 @@ reserved = {
     'return': 'RETURN',
     'while': 'WHILE',
     'print':'PRINT',
+    'to':'TO',
     'in':'IN',
     'num':'NUM',
     'int': 'INT',
@@ -26,6 +27,8 @@ reserved = {
     'true':  'TRUE',
     'false': 'FALSE',
     'vector':'VECTOR',
+    'type':'TYPE',
+    
 }
 
 #--Tokens--

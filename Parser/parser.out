@@ -1,0 +1,124 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COMMENT
+    STR
+    COLON
+    VOID
+    PRINT
+    IN
+    NUM
+    INT
+    TRUE
+    FALSE
+    VECTOR
+
+Grammar
+
+Rule 0     S' -> prog
+Rule 1     prog -> func prog
+Rule 2     prog -> empty
+Rule 3     empty -> <empty>
+Rule 4     func -> DEF TYPE ID LPAREN flist RPAREN LBRACE body RBRACE
+Rule 5     body -> stmt
+Rule 6     body -> stmt body
+Rule 7     stmt -> expr SEMI_COLON
+Rule 8     stmt -> defvar SEMI_COLON
+Rule 9     stmt -> IF LPAREN expr RPAREN stmt
+Rule 10    stmt -> IF LPAREN expr RPAREN stmt ELSE stmt
+Rule 11    stmt -> WHILE LPAREN expr RPAREN stmt
+Rule 12    stmt -> FOR LPAREN ID TO expr RPAREN stmt
+Rule 13    stmt -> RETURN expr SEMI_COLON
+Rule 14    stmt -> LBRACE body RBRACE
+Rule 15    defvar -> VAR TYPE ID
+Rule 16    flist -> TYPE ID
+Rule 17    flist -> TYPE ID COMMA flist
+Rule 18    flist -> <empty>
+Rule 19    clist -> expr
+Rule 20    clist -> expr COMMA clist
+Rule 21    clist -> <empty>
+Rule 22    expr -> VAR LPAREN clist RPAREN
+Rule 23    expr -> expr LSQUAREBR expr RSQUAREBR
+Rule 24    expr -> expr EQ expr
+Rule 25    expr -> expr PLUS expr
+Rule 26    expr -> expr MINUS expr
+Rule 27    expr -> expr TIMES expr
+Rule 28    expr -> expr DIVIDE expr
+Rule 29    expr -> expr MOD expr
+Rule 30    expr -> expr LESS_THAN expr
+Rule 31    expr -> expr GREATER_THAN expr
+Rule 32    expr -> expr PARITY expr
+Rule 33    expr -> expr NOT_EQ expr
+Rule 34    expr -> expr LESS_EQUAL expr
+Rule 35    expr -> expr GREATER_EQUAL expr
+Rule 36    expr -> expr OR expr
+Rule 37    expr -> expr AND expr
+Rule 38    expr -> NOT expr
+Rule 39    expr -> MINUS expr
+Rule 40    expr -> PLUS expr
+Rule 41    expr -> LPAREN expr RPAREN
+Rule 42    expr -> VAR
+Rule 43    expr -> NUMBER
+
+Terminals, with rules where they appear
+
+AND                  : 37
+COLON                : 
+COMMA                : 17 20
+COMMENT              : 
+DEF                  : 4
+DIVIDE               : 28
+ELSE                 : 10
+EQ                   : 24
+FALSE                : 
+FOR                  : 12
+GREATER_EQUAL        : 35
+GREATER_THAN         : 31
+IF                   : 9 10
+IN                   : 
+INT                  : 
+LBRACE               : 4 14
+LESS_EQUAL           : 34
+LESS_THAN            : 30
+LPAREN               : 4 9 10 11 12 22 41
+LSQUAREBR            : 23
+MINUS                : 26 39
+MOD                  : 29
+NOT                  : 38
+NOT_EQ               : 33
+NUM                  : 
+NUMBER               : 43
+OR                   : 36
+PARITY               : 32
+PLUS                 : 25 40
+PRINT                : 
+RBRACE               : 4 14
+RETURN               : 13
+RPAREN               : 4 9 10 11 12 22 41
+RSQUAREBR            : 23
+SEMI_COLON           : 7 8 13
+STR                  : 
+TIMES                : 27
+TO                   : 12
+TRUE                 : 
+TYPE                 : 4 15 16 17
+VAR                  : 15 22 42
+VECTOR               : 
+VOID                 : 
+WHILE                : 11
+error                : 
+
+Nonterminals, with rules where they appear
+
+ID                   : 4 12 15 16 17
+body                 : 4 6 14
+clist                : 20 22
+defvar               : 8
+empty                : 2
+expr                 : 7 9 10 11 12 13 19 20 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 39 40 41
+flist                : 4 17
+func                 : 1
+prog                 : 1 0
+stmt                 : 5 6 9 10 10 11 12
+

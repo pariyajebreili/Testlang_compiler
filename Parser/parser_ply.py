@@ -162,7 +162,7 @@ def register():
 varList=[]
 
 #For save Function type
-functionList=[('vector', 'list', (('int', 'n'),)+()),('vector', 'def int',(('vector', 'n'),)+())]
+functionList=[('vector', 'list', (('int', 'n'),)+()),('int', 'scan',(('int', 'n'),)+())]
 
 #For save return type
 returnList=[]
@@ -186,86 +186,95 @@ def functionType(f):
 
 
 def p_program_single(p):
-    '''
-    prog : func
-    '''
-    p[0]=[p[1]]
-    
-
-
-def p_program_multiple(p):
-    '''
+    """
     prog : func prog
-    '''
-    p[0]=[[p[1]],] + [p[2]]
+         | empty
+    """
+    if len(p) == 3:
+        p[0]=[[p[1]],] + [p[2]]
 
 
-def p_function(p):
+def p_empty(p):
+    "empty :"
+    p[0] = []   
+
+
+#def p_program_multiple(p):
+#    '''
+#    prog : func prog
+#    '''
+#    p[0]=[[p[1]],] + [p[2]]
+
+
+def p_func(p):
     '''
     func : DEF TYPE ID LPAREN flist RPAREN LBRACE body RBRACE
     '''
-    for i in functionList:
-        if(p[2] in i):
-            print('Unauthorized definition of a function')
-            global verity
-            verity=False
-
-    p[0]=(p[2],p[3],p[5],p[8])
-    functionList.append((p[2],p[3],p[5]))
-    varList.append((p[2],p[3]))
-    for i in returnList:
-        if(p[2]=='int'):
-            if(p[2]!=i[0] and i[0]!='number'):
-                print(f'{p[1]}!={i} : Illegal return type')
-                verity=False
-        elif (p[2]=='list'):
-            if(p[2]!=i[0]):
-                print(f'{p[2]}!={i} : Illegal return type')
+    if p[1] == 'DEF':
+        for i in functionList:
+            if(p[2] in i):
+                print('Unauthorized definition of a function')
+                global verity
                 verity=False
 
-    for i in range(0,len(functionList)):
-        for j in range(0,len(inputs)):
-            if(functionList[i][1]==inputs[j][0]):
-                inputs[j]=(functionList[i][0],)+inputs[j]
-
-
-    for i in functionList:
-        for j in inputs:
-            if(i[1]==j[1]):
-                t=0
-                if(len(i[2])!=len(j[2])):
-                    print(f'{i[1]}({i[2]}) != {j[2]} : Number of unauthorized inputs in the function')
+        p[0]=(p[2],p[3],p[5],p[8])
+        functionList.append((p[2],p[3],p[5]))
+        varList.append((p[2],p[3]))
+        for i in returnList:
+            if(p[2]=='int'):
+                if(p[2]!=i[0] and i[0]!='number'):
+                    print(f'{p[1]}!={i} : Illegal return type')
                     verity=False
-                    
-                else:
-                    for k in j[2]:
+            elif (p[2]=='list'):
+                if(p[2]!=i[0]):
+                    print(f'{p[2]}!={i} : Illegal return type')
+                    verity=False
+
+        for i in range(0,len(functionList)):
+            for j in range(0,len(inputs)):
+                if(functionList[i][1]==inputs[j][0]):
+                    inputs[j]=(functionList[i][0],)+inputs[j]
+
+
+        for i in functionList:
+            for j in inputs:
+                if(i[1]==j[1]):
+                    t=0
+                    if(len(i[2])!=len(j[2])):
+                        print(f'{i[1]}({i[2]}) != {j[2]} : Number of unauthorized inputs in the function')
+                        verity=False
                         
-                        if(k[0]!=i[2][t][0]):
-                            for x in functionList:
-                                if(k[0]==x[1]):
-                                    if(i[2][t][0]!=x[0]):
-                                        print(f'Illegal parameter!')
-                                        verity=False
+                    else:
+                        for k in j[2]:
+                            
+                            if(k[0]!=i[2][t][0]):
+                                for x in functionList:
+                                    if(k[0]==x[1]):
+                                        if(i[2][t][0]!=x[0]):
+                                            print(f'Illegal parameter!')
+                                            verity=False
 
-                            if(i[2][t][0]=='num' and k[0]!='number'):
-                                if(k[0]=='list'):
-                                    print('Illegal parameter!')
-                                    verity=False
-                            elif(i[2][t][0]=='list'):
-                                if(k[0]=='num' or k[0]=='number'):
-                                    print('Illegal parameter!')
-                                    verity=False
-                        t+=1
-                    
-    for i in functionList:
-        for j in assignmentList:
-            if(i[1]==j[1]):
-                if(i[0]!=j[0][0]):
-                    print(f'{j[0]} = {(i[0],i[1])} : illegal assignment!')
-                    verity=False
-    
-    varList.clear()
-    returnList.clear()
+                                if(i[2][t][0]=='num' and k[0]!='number'):
+                                    if(k[0]=='list'):
+                                        print('Illegal parameter!')
+                                        verity=False
+                                elif(i[2][t][0]=='list'):
+                                    if(k[0]=='num' or k[0]=='number'):
+                                        print('Illegal parameter!')
+                                        verity=False
+                            t+=1
+                        
+        for i in functionList:
+            for j in assignmentList:
+                if(i[1]==j[1]):
+                    if(i[0]!=j[0][0]):
+                        print(f'{j[0]} = {(i[0],i[1])} : illegal assignment!')
+                        verity=False
+        
+        varList.clear()
+        returnList.clear()
+    else:
+        print("this is error you should type def first")
 
 
 
@@ -283,7 +292,7 @@ def p_body_function(p):
     
 
 
-def p_statement(p):
+def p_stmt(p):
     '''
     stmt : expr SEMI_COLON
          | defvar SEMI_COLON
@@ -376,7 +385,7 @@ def p_variable_array(p):
         
 
 
-def p_define_expression(p):
+def p_expr(p):
     '''
     expr : VAR LPAREN clist RPAREN
          | expr LSQUAREBR expr RSQUAREBR
@@ -589,19 +598,7 @@ def p_error(p):
 
 parser=yacc()
 
-parser.parse(line, debug=True)
+parser.parse(line)
 
-
-
-import logging
-logging.basicConfig(
-level = logging.DEBUG,
-filename = "C:\\Users\\pariya\\OneDrive\\Desktop\\testlang-compiler\\Parser_PLY_package\\testlang.txt",
-filemode = "w",
-format = "%(line)10s:%(lineno)4d:%(message)s"
-)
-log = logging.getLogger()
-#lex.lex(debug=True,debuglog=log)
-yacc.yacc(debug=True,debuglog=log)
 
 print(verity)
