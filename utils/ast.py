@@ -33,6 +33,12 @@ class Node(object):
         self.parent = parent
 
 
+class Prog1(Node):
+    def __init__(self, lineno):
+        self.lineno = lineno
+        #self.func = func
+        self.children = ()
+
 
 class Prog2(Node):
     def __init__(self, func, prog, lineno):
@@ -40,3 +46,44 @@ class Prog2(Node):
         self.func = func
         self.prog = prog
         self.children = (func, prog,)
+
+
+
+class Func(Node):
+    def __init__(self, type, iden , flist, body, lineno):
+        self.lineno = lineno
+        self.type = type
+        self.iden = iden
+        self.flist = flist
+        self.body = body
+        self.children = (type, iden , flist, body,)
+
+
+class Body1(Node):
+    def __init__(self, stmt, lineno):
+        self.lineno = lineno
+        self.stmt = stmt
+        self.children = (stmt,)
+
+
+class Body2(Node):
+    def __init__(self, stmt, body, lineno):
+        self.lineno = lineno
+        self.stmt = stmt
+        self.body = body
+        self.children = (stmt, body,)
+
+
+class Stmt1(Node):
+    def __init__(self, expr, lineno):
+        self.lineno = lineno
+        self.expr = expr
+        self.children = (expr,)
+
+
+
+class Stmt2(Node):
+    def __init__(self, defvar, lineno):
+        self.lineno = lineno
+        self.defvar = defvar
+        self.children = (defvar,)

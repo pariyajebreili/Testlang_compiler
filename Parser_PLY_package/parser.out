@@ -51,7 +51,8 @@ Unused terminals:
 Grammar
 
 Rule 0     S' -> prog
-Rule 1     prog -> func prog
+Rule 1     prog -> func
+Rule 2     prog -> func prog
 
 Terminals, with rules where they appear
 
@@ -101,9 +102,45 @@ VECTOR               :
 VOID                 : 
 WHILE                : 
 error                : 
+func                 : 1 2
 
 Nonterminals, with rules where they appear
 
-func                 : 1
-prog                 : 1 0
+prog                 : 2 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . prog
+    (1) prog -> . func
+    (2) prog -> . func prog
+
+    func            shift and go to state 2
+
+    prog                           shift and go to state 1
+
+state 1
+
+    (0) S' -> prog .
+
+
+
+state 2
+
+    (1) prog -> func .
+    (2) prog -> func . prog
+    (1) prog -> . func
+    (2) prog -> . func prog
+
+    $end            reduce using rule 1 (prog -> func .)
+    func            shift and go to state 2
+
+    prog                           shift and go to state 3
+
+state 3
+
+    (2) prog -> func prog .
+
+    $end            reduce using rule 2 (prog -> func prog .)
 

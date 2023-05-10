@@ -32,8 +32,7 @@ class Tokens(object):
         'true':  'TRUE',
         'false': 'FALSE',
         'vector':'VECTOR',
-        'type':'TYPE',
-        
+        #'type':'TYPE',
     }
 
     #--Tokens--
