@@ -138,7 +138,7 @@ def t_error(t):
 lexer=lex()
 newlexer = lexer.clone()
 
-file = open("testlang.txt")
+file = open("Lexical_Analyzer_PLY_package/testlang.txt")
 line = file.read()
 file.close()
 

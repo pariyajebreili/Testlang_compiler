@@ -1,0 +1,109 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    NUMBER
+    COMMENT
+    STR
+    PLUS
+    TIMES
+    DIVIDE
+    MOD
+    MINUS
+    LPAREN
+    RPAREN
+    LBRACE
+    RBRACE
+    LSQUAREBR
+    RSQUAREBR
+    COLON
+    COMMA
+    SEMI_COLON
+    LESS_THAN
+    LESS_EQUAL
+    GREATER_THAN
+    GREATER_EQUAL
+    EQ
+    NOT_EQ
+    PARITY
+    NOT
+    VOID
+    FOR
+    IF
+    ELSE
+    RETURN
+    WHILE
+    PRINT
+    TO
+    IN
+    NUM
+    INT
+    DEF
+    VAR
+    AND
+    OR
+    TRUE
+    FALSE
+    VECTOR
+    TYPE
+    IDEN
+
+Grammar
+
+Rule 0     S' -> prog
+Rule 1     prog -> func prog
+
+Terminals, with rules where they appear
+
+AND                  : 
+COLON                : 
+COMMA                : 
+COMMENT              : 
+DEF                  : 
+DIVIDE               : 
+ELSE                 : 
+EQ                   : 
+FALSE                : 
+FOR                  : 
+GREATER_EQUAL        : 
+GREATER_THAN         : 
+IDEN                 : 
+IF                   : 
+IN                   : 
+INT                  : 
+LBRACE               : 
+LESS_EQUAL           : 
+LESS_THAN            : 
+LPAREN               : 
+LSQUAREBR            : 
+MINUS                : 
+MOD                  : 
+NOT                  : 
+NOT_EQ               : 
+NUM                  : 
+NUMBER               : 
+OR                   : 
+PARITY               : 
+PLUS                 : 
+PRINT                : 
+RBRACE               : 
+RETURN               : 
+RPAREN               : 
+RSQUAREBR            : 
+SEMI_COLON           : 
+STR                  : 
+TIMES                : 
+TO                   : 
+TRUE                 : 
+TYPE                 : 
+VAR                  : 
+VECTOR               : 
+VOID                 : 
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+func                 : 1
+prog                 : 1 0
+

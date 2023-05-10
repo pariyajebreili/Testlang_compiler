@@ -1,0 +1,11 @@
+fc main() -> numeric : {
+    n : numeric;
+    n = 5;
+    a : numeric;
+    a = 3;    
+    for a, i <- 5 : {
+        print(i);
+        i = i + 1;
+    }
+    return 1;
+}

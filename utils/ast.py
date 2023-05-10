@@ -32,3 +32,11 @@ class Node(object):
     def setParent(self, parent):
         self.parent = parent
 
+
+
+class Prog2(Node):
+    def __init__(self, func, prog, lineno):
+        self.lineno = lineno
+        self.func = func
+        self.prog = prog
+        self.children = (func, prog,)
