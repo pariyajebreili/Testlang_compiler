@@ -87,3 +87,86 @@ class Stmt2(Node):
         self.lineno = lineno
         self.defvar = defvar
         self.children = (defvar,)
+
+
+
+class Stmt3(Node):
+    def __init__(self, expr, stmt, else_choice, lineno):
+        self.lineno = lineno
+        self.expr = expr
+        self.stmt = stmt
+        self.else_choice = else_choice
+        self.children = (expr, stmt, else_choice,)
+
+
+
+class Else_choice2(Node):
+    def __init__(self, stmt, lineno):
+        self.lineno = lineno
+        self.stmt = stmt
+        self.children = (stmt,)
+
+
+
+
+
+class Type(Node):
+    def __init__(self, type_value, lineno):
+        self.lineno = lineno
+        self.type_value = type_value
+        self.children = (type_value,)
+
+
+class Defvar1(Node):
+    def __init__(self, type, iden, lineno):
+        self.lineno = lineno
+        self.type = type
+        self.iden = iden
+        self.children = (type, iden,)
+
+
+class Defvar2(Node):
+    def __init__(self, type, iden, expr, lineno):
+        self.lineno = lineno
+        self.type = type
+        self.iden = iden
+        self.expr = expr
+        self.children = (type, iden, expr,)
+
+class Flist2(Node):
+    def __init__(self, type, iden, lineno):
+        self.lineno = lineno
+        self.type = type
+        self.iden = iden
+        self.children = (type, iden,)
+
+
+class Flist3(Node):
+    def __init__(self, type, iden, flist, lineno):
+        self.lineno = lineno
+        self.type = type
+        self.iden = iden
+        self.flist = flist
+        self.children = (type, iden, flist,)
+
+
+
+class Num(Node):
+    def __init__(self, num_value, lineno):
+        self.lineno = lineno
+        self.num_value = num_value
+        self.children = (num_value,)
+
+
+class Iden(Node):
+    def __init__(self, iden_value, lineno):
+        self.lineno = lineno
+        self.iden_value = iden_value
+        self.children = (iden_value,)
+
+
+class Empty(Node):
+    def __init__(self, lineno):
+        self.lineno = lineno
+        self.name = ""
+        self.children = ()

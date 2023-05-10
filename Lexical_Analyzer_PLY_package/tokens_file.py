@@ -32,19 +32,20 @@ class Tokens(object):
         'true':  'TRUE',
         'false': 'FALSE',
         'vector':'VECTOR',
+        'null':'NULL',
         #'type':'TYPE',
     }
 
     #--Tokens--
     tokens=[
-        'NUMBER','COMMENT','STR',
+        'NUMBER','COMMENT','STR','IDEN',
         # Operators
         'PLUS','TIMES','DIVIDE','MOD','MINUS',
         # Delimeters
         'LPAREN','RPAREN','LBRACE','RBRACE','LSQUAREBR','RSQUAREBR','COLON','COMMA','SEMI_COLON',
         # Logical Operators
         'LESS_THAN','LESS_EQUAL','GREATER_THAN','GREATER_EQUAL','EQ','NOT_EQ','PARITY','NOT',
-    ]+ list(reserved.values())+ ['IDEN']
+    ]+ list(reserved.values())
 
 
 
@@ -71,40 +72,6 @@ class Tokens(object):
     t_NOT_EQ=r'\!\='
     t_PARITY=r'\=\='
     t_NOT=r'\!'
-
-    # Define a lexer rule for the STRING token
-    #string_literal_patter=r'(\"[^\"]*\"|\'[^\']*\')'
-    #@TOKEN(string_literal_patter)
-    #def t_STR(t):
-    #    return t
-
-
-    #def t_STR(t):
-    #    r'[\"\']'
-    #    t.lexer.begin('STR')
-    #    t.lexer.str_start = t.lexer.lexpos
-    #    t.lexer.str_marker = t.value
-
-
-    #def t_STR_chars(t):
-    #    r'[^"\'\n]+'
-
-
-    #def t_STR_newline(t):
-    #    r'\n+'
-    #    print("Incorrectly terminated string %s" % t.lexer.lexdata[t.lexer.str_start:t.lexer.lexpos - 1])
-    #    t.lexer.skip(1)
-
-
-    #def t_STR_end(t):
-    #    r'[\"\']'
-
-    #    if t.lexer.str_marker == t.value:
-    #        t.type = 'STR'
-    #        t.value = t.lexer.lexdata[t.lexer.str_start:t.lexer.lexpos - 1]
-    #        t.lexer.begin('INITIAL')
-    #        return t
-
 
 
     #ignore Tab and enter

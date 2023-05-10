@@ -10,137 +10,116 @@ Unused terminals:
     DIVIDE
     MOD
     MINUS
-    LPAREN
-    RPAREN
-    LBRACE
-    RBRACE
     LSQUAREBR
     RSQUAREBR
     COLON
-    COMMA
-    SEMI_COLON
     LESS_THAN
     LESS_EQUAL
     GREATER_THAN
     GREATER_EQUAL
-    EQ
     NOT_EQ
     PARITY
     NOT
     VOID
     FOR
-    IF
-    ELSE
     RETURN
     WHILE
     PRINT
     TO
     IN
-    NUM
-    INT
-    DEF
-    VAR
     AND
     OR
     TRUE
     FALSE
-    VECTOR
-    TYPE
-    IDEN
 
 Grammar
 
 Rule 0     S' -> prog
-Rule 1     prog -> func
+Rule 1     prog -> empty
 Rule 2     prog -> func prog
+Rule 3     func -> DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
+Rule 4     func -> DEF type iden LPAREN error RPAREN LBRACE body RBRACE
+Rule 5     body -> stmt
+Rule 6     body -> stmt body
+Rule 7     stmt -> expr SEMI_COLON
+Rule 8     stmt -> defvar SEMI_COLON
+Rule 9     stmt -> IF LPAREN expr RPAREN stmt else_choice
+Rule 10    stmt -> IF LPAREN error RPAREN stmt else_choice
+Rule 11    else_choice -> empty
+Rule 12    else_choice -> ELSE stmt
+Rule 13    defvar -> VAR type iden
+Rule 14    defvar -> VAR type iden EQ expr
+Rule 15    flist -> empty
+Rule 16    flist -> type iden
+Rule 17    flist -> type iden COMMA flist
+Rule 18    iden -> IDEN
+Rule 19    type -> INT
+Rule 20    type -> VECTOR
+Rule 21    type -> NULL
+Rule 22    num -> NUM
+Rule 23    empty -> <empty>
 
 Terminals, with rules where they appear
 
 AND                  : 
 COLON                : 
-COMMA                : 
+COMMA                : 17
 COMMENT              : 
-DEF                  : 
+DEF                  : 3 4
 DIVIDE               : 
-ELSE                 : 
-EQ                   : 
+ELSE                 : 12
+EQ                   : 14
 FALSE                : 
 FOR                  : 
 GREATER_EQUAL        : 
 GREATER_THAN         : 
-IDEN                 : 
-IF                   : 
+IDEN                 : 18
+IF                   : 9 10
 IN                   : 
-INT                  : 
-LBRACE               : 
+INT                  : 19
+LBRACE               : 3 4
 LESS_EQUAL           : 
 LESS_THAN            : 
-LPAREN               : 
+LPAREN               : 3 4 9 10
 LSQUAREBR            : 
 MINUS                : 
 MOD                  : 
 NOT                  : 
 NOT_EQ               : 
-NUM                  : 
+NULL                 : 21
+NUM                  : 22
 NUMBER               : 
 OR                   : 
 PARITY               : 
 PLUS                 : 
 PRINT                : 
-RBRACE               : 
+RBRACE               : 3 4
 RETURN               : 
-RPAREN               : 
+RPAREN               : 3 4 9 10
 RSQUAREBR            : 
-SEMI_COLON           : 
+SEMI_COLON           : 7 8
 STR                  : 
 TIMES                : 
 TO                   : 
 TRUE                 : 
-TYPE                 : 
-VAR                  : 
-VECTOR               : 
+VAR                  : 13 14
+VECTOR               : 20
 VOID                 : 
 WHILE                : 
-error                : 
-func                 : 1 2
+error                : 4 10
 
 Nonterminals, with rules where they appear
 
+body                 : 3 4 6
+defvar               : 8
+else_choice          : 9 10
+empty                : 1 11 15
+expr                 : 7 9 14
+flist                : 3 17
+func                 : 2
+iden                 : 3 4 13 14 16 17
+num                  : 
 prog                 : 2 0
-
-Parsing method: LALR
-
-state 0
-
-    (0) S' -> . prog
-    (1) prog -> . func
-    (2) prog -> . func prog
-
-    func            shift and go to state 2
-
-    prog                           shift and go to state 1
-
-state 1
-
-    (0) S' -> prog .
-
-
-
-state 2
-
-    (1) prog -> func .
-    (2) prog -> func . prog
-    (1) prog -> . func
-    (2) prog -> . func prog
-
-    $end            reduce using rule 1 (prog -> func .)
-    func            shift and go to state 2
-
-    prog                           shift and go to state 3
-
-state 3
-
-    (2) prog -> func prog .
-
-    $end            reduce using rule 2 (prog -> func prog .)
+stmt                 : 5 6 9 10 12
+type                 : 3 4 13 14 16 17
 
