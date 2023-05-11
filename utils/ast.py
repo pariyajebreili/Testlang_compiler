@@ -99,6 +99,24 @@ class Stmt3(Node):
         self.children = (expr, stmt, else_choice,)
 
 
+class Stmt4(Node):
+    def __init__(self, func, lineno):
+        self.lineno = lineno
+        self.func = func
+        self.children = (func,)
+
+
+class Stmt5(Node):
+    def __init__(self, iden1, oper, expr1, expr2, stmt, lineno):
+        self.lineno = lineno
+        self.iden1 = iden1
+        self.oper = oper
+        self.expr1 = expr1
+        self.expr2 = expr2
+        self.stmt = stmt
+        self.children = (iden1, expr1, expr2, stmt,)
+
+
 class Stmt6(Node):
     def __init__(self, expr, lineno):
         self.lineno = lineno
@@ -110,6 +128,14 @@ class Stmt7(Node):
         self.lineno = lineno
         self.body = body
         self.children = (body,)
+
+
+class Stmt8(Node):
+    def __init__(self, expr, stmt, lineno):
+        self.lineno = lineno
+        self.expr = expr
+        self.stmt = stmt
+        self.children = (expr, stmt,)
 
 
 

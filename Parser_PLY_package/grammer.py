@@ -58,7 +58,7 @@ class Grammar(object):
     def p_func_error(self, p):  
         '''func : DEF type iden LPAREN error RPAREN LBRACE body RBRACE'''
         self.parser_messages.add_message(
-            {"message": "No Appropriate Parameters Defined Saeid", "lineno": self.last_message_line, "is_warning": True})
+            {"message": "No Appropriate Parameters Defined", "lineno": self.last_message_line, "is_warning": True})
         p[5] = p[5].value
         p[0] = "func"
         p[0] = {
@@ -159,6 +159,27 @@ class Grammar(object):
         }
 
 
+    def p_stmt4(self, p):
+        '''stmt : func'''
+        p[0] = "stmt"
+        p[0] = {
+            "name": "stmt",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Stmt4(p[1]["ast"], self.lexer.lineno)
+        }
+
+        
+    def p_stmt5(self, p):
+        '''stmt : FOR LPAREN iden EQ expr TO expr RPAREN stmt'''
+        p[0] = "stmt"
+        p[0] = {
+            "name": "stmt",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Stmt5(p[3]["ast"], p[4], p[5]["ast"], p[7]["ast"], p[9]["ast"], self.lexer.lineno)
+        }
+
         
     def p_stmt6(self, p):
         '''stmt : RETURN expr SEMI_COLON'''
@@ -181,6 +202,15 @@ class Grammar(object):
         }
 
 
+    def p_stmt8(self, p):
+        '''stmt : WHILE LPAREN expr RPAREN stmt'''
+        p[0] = "stmt"
+        p[0] = {
+            "name": "stmt",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Stmt8(p[3]["ast"], p[5]["ast"], self.lexer.lineno)
+        }
 
 
     def p_expr1(self, p):

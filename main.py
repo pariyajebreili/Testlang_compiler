@@ -18,4 +18,3 @@ if not file_not_found:
     compiler.compile(data, show_syntax_tree=True, print_messages=True)
 else:
     Colorprints.print_in_red("NO File With This Directory!")
-    #C:\Users\Saeid\Desktop\BestCompiler\debugged.tes
