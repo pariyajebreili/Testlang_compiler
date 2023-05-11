@@ -7,7 +7,6 @@ class Lexer(object):
         self.lexer = lex(object=tokens)        
 
     def build(self, data):
-        #data = "C:\\Users\\pariya\\OneDrive\\Desktop\\testlang-compiler\\testgrammer.tes"
         self.lexer.input(data)
         for tok in self.lexer:
             print(tok.value, tok.type)

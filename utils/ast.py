@@ -33,11 +33,11 @@ class Node(object):
         self.parent = parent
 
 
-#class Prog1(Node):
-#    def __init__(self, lineno):
-#        self.lineno = lineno
-#        #self.func = func
-#        self.children = ()
+class Prog1(Node):
+    def __init__(self, func, lineno):
+        self.lineno = lineno
+        self.func = func
+        self.children = ()
 
 
 class Prog2(Node):
@@ -97,6 +97,19 @@ class Stmt3(Node):
         self.stmt = stmt
         self.else_choice = else_choice
         self.children = (expr, stmt, else_choice,)
+
+
+class Stmt6(Node):
+    def __init__(self, expr, lineno):
+        self.lineno = lineno
+        self.expr = expr
+        self.children = (expr,)
+
+class Stmt7(Node):
+    def __init__(self, body, lineno):
+        self.lineno = lineno
+        self.body = body
+        self.children = (body,)
 
 
 

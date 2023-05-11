@@ -146,8 +146,8 @@ if __name__ == "__main__":
     lexer.input(line)
     newlexer.input(line)
 
-    for tok in lexer:
-        print(tok.type,tok.value)
+    #for tok in lexer:
+    #    print(tok.type,tok.value)
 
     #for tok in newlexer:
     #    print(tok)

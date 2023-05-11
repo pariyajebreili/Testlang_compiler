@@ -6,11 +6,6 @@ class Tokens(object):
     def __init__(self, lexer_messages):
         self.lexer_messages = lexer_messages
 
-    # Define states for handling string literals
-    #states = (
-    #    ('STR', 'inclusive'),
-    #)
-
     #--reserved--
     reserved = {
         'void': 'VOID',
@@ -19,10 +14,10 @@ class Tokens(object):
         'else' : 'ELSE',
         'return': 'RETURN',
         'while': 'WHILE',
-        'print':'PRINT',
+        #'print':'PRINT',
         'to':'TO',
         'in':'IN',
-        'num':'NUM',
+        #'num':'NUM',
         'int': 'INT',
         'def':'DEF',
         'var':'VAR',
@@ -33,12 +28,11 @@ class Tokens(object):
         'false': 'FALSE',
         'vector':'VECTOR',
         'null':'NULL',
-        #'type':'TYPE',
     }
 
     #--Tokens--
     tokens=[
-        'NUMBER','COMMENT','STR','IDEN',
+        'NUM','COMMENT','STR','IDEN',
         # Operators
         'PLUS','TIMES','DIVIDE','MOD','MINUS',
         # Delimeters
@@ -75,7 +69,7 @@ class Tokens(object):
 
 
     #ignore Tab and enter
-    t_VECTOR = r'\[[^\]]*\]'
+    #t_VECTOR = r'\[[^\]]*\]'
     t_ignore=' \t \n' 
 
     def t_COMMENT(self, t):
@@ -89,7 +83,7 @@ class Tokens(object):
         return t
 
     # A regular expression rule with some action code
-    def t_NUMBER(self,t):
+    def t_NUM(self,t):
         r'[0-9]+'
         
         t.value = int(t.value)    

@@ -14,16 +14,16 @@ class Grammar(object):
 
 
     def p_prog1(self, p):
-        '''prog : empty'''
+        '''prog : func'''
         p[0] = "prog"
         p[0] = {
             "name": "prog",
             "lineno": self.lexer.lineno,
             "st": SyntaxTreeUtil.create_node(p),  
-            "ast": Empty(self.lexer.lineno)
+            "ast": Prog1(p[1]["ast"], self.lexer.lineno)
         }
-        #config.syntax_tree = p[0]["st"]
-        #config.ast = p[0]["ast"]
+        config.syntax_tree = p[0]["st"]
+        config.ast = p[0]["ast"]
 
 
 
@@ -157,6 +157,29 @@ class Grammar(object):
             "st": SyntaxTreeUtil.create_node(p),
             "ast": Else_choice2(p[2]["ast"], self.lexer.lineno)
         }
+
+
+        
+    def p_stmt6(self, p):
+        '''stmt : RETURN expr SEMI_COLON'''
+        p[0] = "stmt"
+        p[0] = {
+            "name": "stmt",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Stmt6(p[2]["ast"], self.lexer.lineno)
+        }
+
+    def p_stmt7(self, p):
+        '''stmt : LBRACE body RBRACE'''
+        p[0] = "stmt"
+        p[0] = {
+            "name": "stmt",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Stmt7(p[2]["ast"], self.lexer.lineno)
+        }
+
 
 
 
@@ -303,6 +326,7 @@ class Grammar(object):
         }
 
 
+
     def p_expr9(self, p):
         '''expr : num'''
         p[0] = "expr"
@@ -314,7 +338,7 @@ class Grammar(object):
         }
 
 
-     
+
 
     def p_clist1(self, p):
         '''clist : empty'''
