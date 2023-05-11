@@ -160,6 +160,191 @@ class Grammar(object):
 
 
 
+    def p_expr1(self, p):
+        '''expr : expr LSQUAREBR expr RSQUAREBR'''
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr1(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
+        }
+
+
+    def p_expr1_error(self, p):
+        '''expr : expr LSQUAREBR error RSQUAREBR'''
+        self.parser_messages.add_message(
+            {"message": "No Appropraite Arguments", "lineno": self.last_message_line, "is_warning": True})
+        p[3] = p[3].value
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr1(p[1]["ast"], p[3], self.lexer.lineno)
+        }
+
+
+
+    def p_expr2(self, p):
+        '''expr : iden LPAREN clist RPAREN'''
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr1(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
+        }
+
+    def p_expr2_error(self, p):
+        '''expr : iden LPAREN error RPAREN'''
+        self.parser_messages.add_message(
+            {"message": "No Appropraite Arguments", "lineno": self.last_message_line, "is_warning": True})
+        p[3] = p[3].value
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr1(p[1]["ast"], p[3], self.lexer.lineno)
+        }
+
+
+
+    def p_expr3(self, p):
+        '''expr : expr QMARK expr COLON expr'''
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr3(p[1]["ast"], p[3]["ast"], p[5]["ast"], self.lexer.lineno)
+        }
+
+    def p_expr4(self, p):
+        '''expr : expr PARITY expr 
+                 | expr NOT_EQ expr 
+                 | expr DIVIDE expr
+                 | expr TIMES expr
+                 | expr MINUS expr
+                 | expr PLUS expr
+                 | expr MOD expr 
+                 | expr GREATER_EQUAL expr 
+                 | expr LESS_EQUAL expr 
+                 | expr GREATER_THAN expr
+                 | expr LESS_THAN expr
+                 | expr OR expr 
+                 | expr AND expr 
+                 | expr EQ expr'''
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr4(p[1]["ast"], p[2], p[3]["ast"], self.lexer.lineno)
+        }
+
+    def p_expr5(self, p):
+        '''expr : MINUS expr 
+                 | PLUS expr 
+                 | NOT expr'''
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr5(p[1], p[2]["ast"], self.lexer.lineno)
+        }
+
+    def p_expr6(self, p):
+        '''expr : LSQUAREBR clist RSQUAREBR'''
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr6(p[2]["ast"], self.lexer.lineno)
+        }
+
+    def p_expr6_error(self, p):
+        '''expr : LSQUAREBR error RSQUAREBR'''
+        self.parser_messages.add_message(
+            {"message": "No Appropriate Value For List", "lineno": self.last_message_line, "is_warning": True})
+        p[2] = p[2].value
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr6(p[2], self.lexer.lineno)
+        }
+
+
+    def p_expr7(self, p):
+        '''expr : iden'''
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr7(p[1]["ast"], self.lexer.lineno)
+        }
+
+
+
+    def p_expr8(self, p):
+        '''expr : iden EQ expr'''
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr8(p[1]["ast"], p[2], p[3]["ast"], self.lexer.lineno)
+        }
+
+
+    def p_expr9(self, p):
+        '''expr : num'''
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr9(p[1]["ast"], self.lexer.lineno)
+        }
+
+
+     
+
+    def p_clist1(self, p):
+        '''clist : empty'''
+        p[0] = "clist"
+        p[0] = {
+            "name": "clist",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Empty(self.lexer.lineno)
+        }
+
+    def p_clist2(self, p):
+        '''clist : expr'''
+        p[0] = "clist"
+        p[0] = {
+            "name": "clist",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Clist2(p[1]["ast"], self.lexer.lineno)
+        }
+
+    def p_clist3(self, p):
+        '''clist : expr COMMA clist'''
+        p[0] = "clist"
+        p[0] = {
+            "name": "clist",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Clist3(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
+        }
 
 
 
@@ -260,3 +445,25 @@ class Grammar(object):
     def p_empty(self, p):
         '''empty :'''
         pass
+
+
+    def p_error(self, p):
+        if p:
+            self.parser_messages.add_message(
+                {"message": f"Syntax Error at Token: {p.value}", "lineno": self.lexer.lineno})
+            self.last_message_line = self.lexer.lineno
+        else:
+            self.parser_messages.add_message(
+                {"message": "Syntax Error at EOF", "lineno": self.lexer.lineno})
+    
+
+
+    precedence = (
+        ('left', 'error'),
+        ('left', 'AND', 'OR'),
+        ('left', 'NOT', 'LESS_EQUAL', 'GREATER_EQUAL','NOT_EQ', 'PARITY', 'LESS_THAN', 'GREATER_THAN'),
+        ('left', 'EQ', 'QMARK', 'COLON'),
+        ('left', 'PLUS', 'MINUS'),
+        ('left', 'TIMES', 'DIVIDE', 'MOD'),
+        ('left', 'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE')
+    )

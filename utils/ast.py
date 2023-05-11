@@ -33,11 +33,11 @@ class Node(object):
         self.parent = parent
 
 
-class Prog1(Node):
-    def __init__(self, lineno):
-        self.lineno = lineno
-        #self.func = func
-        self.children = ()
+#class Prog1(Node):
+#    def __init__(self, lineno):
+#        self.lineno = lineno
+#        #self.func = func
+#        self.children = ()
 
 
 class Prog2(Node):
@@ -108,6 +108,80 @@ class Else_choice2(Node):
 
 
 
+class Expr1(Node):
+    def __init__(self, expr, expr2, lineno):
+        self.lineno = lineno
+        self.expr = expr
+        self.expr2 = expr2
+        self.children = (expr, expr2,)
+
+
+
+class Expr2(Node):
+    def __init__(self, iden, clist, lineno):
+        self.lineno = lineno
+        self.iden = iden
+        self.clist = clist
+        self.children = (iden, clist,)
+
+
+
+class Expr3(Node):
+    def __init__(self, expr, expr2, expr3, lineno):
+        self.lineno = lineno
+        self.expr = expr
+        self.expr2 = expr2
+        self.expr3 = expr3
+        self.children = (expr, expr2, expr3,)
+
+
+class Expr4(Node):
+    def __init__(self, expr, oper, expr2, lineno):
+        self.lineno = lineno
+        self.expr = expr
+        self.oper = oper
+        self.expr2 = expr2
+        self.children = (expr, oper, expr2,)
+
+
+
+class Expr5(Node):
+    def __init__(self, oper, expr, lineno):
+        self.lineno = lineno
+        self.oper = oper
+        self.expr = expr
+        self.children = (oper, expr,)
+
+
+
+class Expr6(Node):
+    def __init__(self, clist, lineno):
+        self.lineno = lineno
+        self.clist = clist
+        self.children = (clist,)
+
+
+class Expr7(Node):
+    def __init__(self, iden, lineno):
+        self.lineno = lineno
+        self.iden = iden
+        self.children = (iden,)
+
+
+class Expr8(Node):
+    def __init__(self, iden, oper, expr, lineno):
+        self.lineno = lineno
+        self.iden = iden
+        self.oper = oper
+        self.expr = expr
+        self.children = (iden, expr,)
+
+
+class Expr9(Node):
+    def __init__(self, num, lineno):
+        self.lineno = lineno
+        self.num = num
+        self.children = (num,)
 
 
 class Type(Node):
@@ -115,6 +189,19 @@ class Type(Node):
         self.lineno = lineno
         self.type_value = type_value
         self.children = (type_value,)
+
+class Clist2(Node):
+    def __init__(self, expr, lineno):
+        self.lineno = lineno
+        self.expr = expr
+        self.children = (expr,)
+
+class Clist3(Node):
+    def __init__(self, expr, clist, lineno):
+        self.lineno = lineno
+        self.expr = expr
+        self.clist = clist
+        self.children = (expr, clist,)
 
 
 class Defvar1(Node):

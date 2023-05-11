@@ -4,7 +4,7 @@ from Lexical_Analyzer_PLY_package.tokens_file import Tokens
 from Lexical_Analyzer_PLY_package.lexer import Lexer
 from Parser_PLY_package.grammer import Grammar
 from Parser_PLY_package.parser import Parser
-#from compiler_levels.semantic.type_checker import TypeChecker
+from semantic.type_checker import TypeChecker
 #from compiler_levels.semantic.preprocess import PreProcess
 
 from utils.show_tree import show_tree
@@ -26,7 +26,7 @@ class Compiler(object):
         self.grammar.lexer = self.lexer.lexer
         self.parser = Parser(self.grammar)
 
-        #self.type_checker = TypeChecker(self.semantic_messages)
+        self.type_checker = TypeChecker(self.semantic_messages)
         #self.preprocess = PreProcess(self.semantic_messages)
         self.compiled_failed = False
         #self.iR_generator = IRGenerator() 
@@ -37,7 +37,7 @@ class Compiler(object):
 
     def compile(self, data, show_syntax_tree=False, print_messages=True):
 
-        #self.lexer.build(data)
+        self.lexer.build(data)
         if data.strip() == "":
             Colorprints.print_in_red("No Code For Generting!")
             return
@@ -76,9 +76,9 @@ class Compiler(object):
             #        Colorprints.print_in_purple(f"No Semantic Error Found!")
             #        self.semantic_messages.print_messages()
 
-            #    elif self.semantic_messages.errors != 0 and not self.compiled_failed:
-            #        Colorprints.print_in_red(f"{self.semantic_messages.errors} Semantic Errors Found!")
-            #        self.semantic_messages.print_messages()
+                #elif self.semantic_messages.errors != 0 and not self.compiled_failed:
+                #    Colorprints.print_in_red(f"{self.semantic_messages.errors} Semantic Errors Found!")
+                #    self.semantic_messages.print_messages()
 
             #IR generartion and Optimization
             #if self.lexer_messages.errors == 0 and self.parser_messages.errors == 0 and self.semantic_messages.errors == 0:
@@ -92,11 +92,11 @@ class Compiler(object):
                 #f.close()
 
 
-                Colorprints.print_in_lightGray("TSLANG Terminal")
-                self.run_tsvm.run()
+                #Colorprints.print_in_lightGray("TSLANG Terminal")
+                #self.run_tsvm.run()
 
-            else:
-                self.compiled_failed = True                
+            #else:
+                #self.compiled_failed = True                
         except:
             self.compiled_failed = True
 

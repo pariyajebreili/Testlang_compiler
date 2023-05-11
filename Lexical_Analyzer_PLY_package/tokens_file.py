@@ -44,18 +44,18 @@ class Tokens(object):
         # Delimeters
         'LPAREN','RPAREN','LBRACE','RBRACE','LSQUAREBR','RSQUAREBR','COLON','COMMA','SEMI_COLON',
         # Logical Operators
-        'LESS_THAN','LESS_EQUAL','GREATER_THAN','GREATER_EQUAL','EQ','NOT_EQ','PARITY','NOT',
+        'LESS_THAN','LESS_EQUAL','GREATER_THAN','GREATER_EQUAL','EQ','NOT_EQ','PARITY','NOT','QMARK',
     ]+ list(reserved.values())
 
 
 
-
+    t_QMARK = r'\?'
     t_PLUS=r'\+'
     t_MINUS=r'\-'
     t_TIMES=r'\*'
     t_DIVIDE=r'\/'
     t_MOD=r'%'
-    t_LPAREN  = r'\('
+    t_LPAREN = r'\('
     t_RPAREN = r'\)'
     t_LBRACE=r'\{'
     t_RBRACE=r'\}'
@@ -91,10 +91,8 @@ class Tokens(object):
     # A regular expression rule with some action code
     def t_NUMBER(self,t):
         r'[0-9]+'
-        if ("." in t.value):
-            t.value = float(t.value)
-        else:
-            t.value = int(t.value)    
+        
+        t.value = int(t.value)    
         return t
 
 
