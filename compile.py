@@ -5,12 +5,11 @@ from Lexical_Analyzer_PLY_package.lexer import Lexer
 from Parser_PLY_package.grammer import Grammar
 from Parser_PLY_package.parser import Parser
 from semantic.type_checker import TypeChecker
-#from compiler_levels.semantic.preprocess import PreProcess
-
+from semantic.preprocess import PreProcess
 from utils.show_tree import show_tree
 import config
 from utils.color_prints import Colorprints
-import os 
+
 
 class Compiler(object):
     def __init__(self):
@@ -27,11 +26,8 @@ class Compiler(object):
         self.parser = Parser(self.grammar)
 
         self.type_checker = TypeChecker(self.semantic_messages)
-        #self.preprocess = PreProcess(self.semantic_messages)
+        self.preprocess = PreProcess(self.semantic_messages)
         self.compiled_failed = False
-        #self.iR_generator = IRGenerator() 
-        #self.iR_optimizer = IR_optimizer()
-        #self.run_tsvm = RunTSVM()
     
 
 
@@ -68,35 +64,18 @@ class Compiler(object):
                     self.parser_messages.print_messages()
 
             #semantic
-            #self.preprocess.visit(config.ast, None)
-            #self.type_checker.visit(config.ast, None)
+            self.preprocess.visit(config.ast, None)
+            self.type_checker.visit(config.ast, None)
             #semantic errors
-            #if print_messages:
-            #    if self.semantic_messages.errors == 0 and not self.compiled_failed:
-            #        Colorprints.print_in_purple(f"No Semantic Error Found!")
-            #        self.semantic_messages.print_messages()
+            if print_messages:
+                if self.semantic_messages.errors == 0 and not self.compiled_failed:
+                    Colorprints.print_in_purple(f"No Semantic Error Found!")
+                    self.semantic_messages.print_messages()
 
-                #elif self.semantic_messages.errors != 0 and not self.compiled_failed:
-                #    Colorprints.print_in_red(f"{self.semantic_messages.errors} Semantic Errors Found!")
-                #    self.semantic_messages.print_messages()
-
-            #IR generartion and Optimization
-            #if self.lexer_messages.errors == 0 and self.parser_messages.errors == 0 and self.semantic_messages.errors == 0:
-            #    self.iR_generator.visit(config.ast, None)
-                
-                # self.iR_optimizer.delete_mov_to_same_register()
-                #self.iR_optimizer.delete_empty_lines_from_code()
-
-                #f = open(f"{os.path.join(os.getcwd(), 'generated_IR.out')}", "w")
-                #f.write(config.iR_code)
-                #f.close()
-
-
-                #Colorprints.print_in_lightGray("TSLANG Terminal")
-                #self.run_tsvm.run()
-
-            #else:
-                #self.compiled_failed = True                
+                elif self.semantic_messages.errors != 0 and not self.compiled_failed:
+                    Colorprints.print_in_red(f"{self.semantic_messages.errors} Semantic Errors Found!")
+                    self.semantic_messages.print_messages()
+       
         except:
             self.compiled_failed = True
 

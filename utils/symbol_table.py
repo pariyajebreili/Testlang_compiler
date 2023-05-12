@@ -6,7 +6,7 @@ class Symbol:
 class VariableSymbol(Symbol):
     pass
 
-class ArraySymbol(Symbol):
+class VectorSymbol(Symbol):
     def __init__(self, name, type, size):
         self.name = name
         self.type = type
