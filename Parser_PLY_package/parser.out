@@ -4,7 +4,6 @@ Unused terminals:
 
     COMMENT
     STR
-    VOID
     IN
     TRUE
     FALSE
@@ -60,35 +59,34 @@ Rule 45    clist -> empty
 Rule 46    clist -> expr
 Rule 47    clist -> expr COMMA clist
 Rule 48    defvar -> VAR type iden
-Rule 49    defvar -> VAR type iden EQ expr
-Rule 50    flist -> empty
-Rule 51    flist -> type iden
-Rule 52    flist -> type iden COMMA flist
-Rule 53    iden -> IDEN
-Rule 54    type -> INT
-Rule 55    type -> VECTOR
-Rule 56    type -> NULL
-Rule 57    num -> NUM
-Rule 58    empty -> <empty>
+Rule 49    flist -> empty
+Rule 50    flist -> type iden
+Rule 51    flist -> type iden COMMA flist
+Rule 52    iden -> IDEN
+Rule 53    type -> INT
+Rule 54    type -> VECTOR
+Rule 55    type -> NULL
+Rule 56    num -> NUM
+Rule 57    empty -> <empty>
 
 Terminals, with rules where they appear
 
 AND                  : 35
 COLON                : 22
-COMMA                : 47 52
+COMMA                : 47 51
 COMMENT              : 
 DEF                  : 3 4
 DIVIDE               : 25
 ELSE                 : 12
-EQ                   : 14 36 43 49
+EQ                   : 14 36 43
 FALSE                : 
 FOR                  : 14
 GREATER_EQUAL        : 30
 GREATER_THAN         : 32
-IDEN                 : 53
+IDEN                 : 52
 IF                   : 9 10
 IN                   : 
-INT                  : 54
+INT                  : 53
 LBRACE               : 3 4 16
 LESS_EQUAL           : 31
 LESS_THAN            : 33
@@ -98,8 +96,8 @@ MINUS                : 27 37
 MOD                  : 29
 NOT                  : 39
 NOT_EQ               : 24
-NULL                 : 56
-NUM                  : 57
+NULL                 : 55
+NUM                  : 56
 OR                   : 34
 PARITY               : 23
 PLUS                 : 28 38
@@ -113,9 +111,8 @@ STR                  :
 TIMES                : 26
 TO                   : 14
 TRUE                 : 
-VAR                  : 48 49
-VECTOR               : 55
-VOID                 : 
+VAR                  : 48
+VECTOR               : 54
 WHILE                : 17
 error                : 4 10 19 21 41
 
@@ -125,15 +122,15 @@ body                 : 3 4 6 16
 clist                : 20 40 47
 defvar               : 8
 else_choice          : 9 10
-empty                : 11 45 50
-expr                 : 7 9 14 14 15 17 18 18 19 22 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 38 39 43 46 47 49
-flist                : 3 52
+empty                : 11 45 49
+expr                 : 7 9 14 14 15 17 18 18 19 22 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 38 39 43 46 47
+flist                : 3 51
 func                 : 1 2 13
-iden                 : 3 4 14 20 21 42 43 48 49 51 52
+iden                 : 3 4 14 20 21 42 43 48 50 51
 num                  : 44
 prog                 : 2 0
 stmt                 : 5 6 9 10 12 14 17
-type                 : 3 4 48 49 51 52
+type                 : 3 4 48 50 51
 
 Parsing method: LALR
 
@@ -175,9 +172,9 @@ state 3
 
     (3) func -> DEF . type iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> DEF . type iden LPAREN error RPAREN LBRACE body RBRACE
-    (54) type -> . INT
-    (55) type -> . VECTOR
-    (56) type -> . NULL
+    (53) type -> . INT
+    (54) type -> . VECTOR
+    (55) type -> . NULL
 
     INT             shift and go to state 6
     VECTOR          shift and go to state 7
@@ -196,7 +193,7 @@ state 5
 
     (3) func -> DEF type . iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> DEF type . iden LPAREN error RPAREN LBRACE body RBRACE
-    (53) iden -> . IDEN
+    (52) iden -> . IDEN
 
     IDEN            shift and go to state 10
 
@@ -204,23 +201,23 @@ state 5
 
 state 6
 
-    (54) type -> INT .
+    (53) type -> INT .
 
-    IDEN            reduce using rule 54 (type -> INT .)
+    IDEN            reduce using rule 53 (type -> INT .)
 
 
 state 7
 
-    (55) type -> VECTOR .
+    (54) type -> VECTOR .
 
-    IDEN            reduce using rule 55 (type -> VECTOR .)
+    IDEN            reduce using rule 54 (type -> VECTOR .)
 
 
 state 8
 
-    (56) type -> NULL .
+    (55) type -> NULL .
 
-    IDEN            reduce using rule 56 (type -> NULL .)
+    IDEN            reduce using rule 55 (type -> NULL .)
 
 
 state 9
@@ -233,47 +230,47 @@ state 9
 
 state 10
 
-    (53) iden -> IDEN .
+    (52) iden -> IDEN .
 
-    LPAREN          reduce using rule 53 (iden -> IDEN .)
-    COMMA           reduce using rule 53 (iden -> IDEN .)
-    RPAREN          reduce using rule 53 (iden -> IDEN .)
-    EQ              reduce using rule 53 (iden -> IDEN .)
-    SEMI_COLON      reduce using rule 53 (iden -> IDEN .)
-    LSQUAREBR       reduce using rule 53 (iden -> IDEN .)
-    QMARK           reduce using rule 53 (iden -> IDEN .)
-    PARITY          reduce using rule 53 (iden -> IDEN .)
-    NOT_EQ          reduce using rule 53 (iden -> IDEN .)
-    DIVIDE          reduce using rule 53 (iden -> IDEN .)
-    TIMES           reduce using rule 53 (iden -> IDEN .)
-    MINUS           reduce using rule 53 (iden -> IDEN .)
-    PLUS            reduce using rule 53 (iden -> IDEN .)
-    MOD             reduce using rule 53 (iden -> IDEN .)
-    GREATER_EQUAL   reduce using rule 53 (iden -> IDEN .)
-    LESS_EQUAL      reduce using rule 53 (iden -> IDEN .)
-    GREATER_THAN    reduce using rule 53 (iden -> IDEN .)
-    LESS_THAN       reduce using rule 53 (iden -> IDEN .)
-    OR              reduce using rule 53 (iden -> IDEN .)
-    AND             reduce using rule 53 (iden -> IDEN .)
-    RSQUAREBR       reduce using rule 53 (iden -> IDEN .)
-    COLON           reduce using rule 53 (iden -> IDEN .)
-    TO              reduce using rule 53 (iden -> IDEN .)
+    LPAREN          reduce using rule 52 (iden -> IDEN .)
+    COMMA           reduce using rule 52 (iden -> IDEN .)
+    RPAREN          reduce using rule 52 (iden -> IDEN .)
+    EQ              reduce using rule 52 (iden -> IDEN .)
+    SEMI_COLON      reduce using rule 52 (iden -> IDEN .)
+    LSQUAREBR       reduce using rule 52 (iden -> IDEN .)
+    QMARK           reduce using rule 52 (iden -> IDEN .)
+    PARITY          reduce using rule 52 (iden -> IDEN .)
+    NOT_EQ          reduce using rule 52 (iden -> IDEN .)
+    DIVIDE          reduce using rule 52 (iden -> IDEN .)
+    TIMES           reduce using rule 52 (iden -> IDEN .)
+    MINUS           reduce using rule 52 (iden -> IDEN .)
+    PLUS            reduce using rule 52 (iden -> IDEN .)
+    MOD             reduce using rule 52 (iden -> IDEN .)
+    GREATER_EQUAL   reduce using rule 52 (iden -> IDEN .)
+    LESS_EQUAL      reduce using rule 52 (iden -> IDEN .)
+    GREATER_THAN    reduce using rule 52 (iden -> IDEN .)
+    LESS_THAN       reduce using rule 52 (iden -> IDEN .)
+    OR              reduce using rule 52 (iden -> IDEN .)
+    AND             reduce using rule 52 (iden -> IDEN .)
+    RSQUAREBR       reduce using rule 52 (iden -> IDEN .)
+    COLON           reduce using rule 52 (iden -> IDEN .)
+    TO              reduce using rule 52 (iden -> IDEN .)
 
 
 state 11
 
     (3) func -> DEF type iden LPAREN . flist RPAREN LBRACE body RBRACE
     (4) func -> DEF type iden LPAREN . error RPAREN LBRACE body RBRACE
-    (50) flist -> . empty
-    (51) flist -> . type iden
-    (52) flist -> . type iden COMMA flist
-    (58) empty -> .
-    (54) type -> . INT
-    (55) type -> . VECTOR
-    (56) type -> . NULL
+    (49) flist -> . empty
+    (50) flist -> . type iden
+    (51) flist -> . type iden COMMA flist
+    (57) empty -> .
+    (53) type -> . INT
+    (54) type -> . VECTOR
+    (55) type -> . NULL
 
     error           shift and go to state 14
-    RPAREN          reduce using rule 58 (empty -> .)
+    RPAREN          reduce using rule 57 (empty -> .)
     INT             shift and go to state 6
     VECTOR          shift and go to state 7
     NULL            shift and go to state 8
@@ -284,9 +281,9 @@ state 11
 
 state 12
 
-    (51) flist -> type . iden
-    (52) flist -> type . iden COMMA flist
-    (53) iden -> . IDEN
+    (50) flist -> type . iden
+    (51) flist -> type . iden COMMA flist
+    (52) iden -> . IDEN
 
     IDEN            shift and go to state 10
 
@@ -308,17 +305,17 @@ state 14
 
 state 15
 
-    (50) flist -> empty .
+    (49) flist -> empty .
 
-    RPAREN          reduce using rule 50 (flist -> empty .)
+    RPAREN          reduce using rule 49 (flist -> empty .)
 
 
 state 16
 
-    (51) flist -> type iden .
-    (52) flist -> type iden . COMMA flist
+    (50) flist -> type iden .
+    (51) flist -> type iden . COMMA flist
 
-    RPAREN          reduce using rule 51 (flist -> type iden .)
+    RPAREN          reduce using rule 50 (flist -> type iden .)
     COMMA           shift and go to state 19
 
 
@@ -338,16 +335,16 @@ state 18
 
 state 19
 
-    (52) flist -> type iden COMMA . flist
-    (50) flist -> . empty
-    (51) flist -> . type iden
-    (52) flist -> . type iden COMMA flist
-    (58) empty -> .
-    (54) type -> . INT
-    (55) type -> . VECTOR
-    (56) type -> . NULL
+    (51) flist -> type iden COMMA . flist
+    (49) flist -> . empty
+    (50) flist -> . type iden
+    (51) flist -> . type iden COMMA flist
+    (57) empty -> .
+    (53) type -> . INT
+    (54) type -> . VECTOR
+    (55) type -> . NULL
 
-    RPAREN          reduce using rule 58 (empty -> .)
+    RPAREN          reduce using rule 57 (empty -> .)
     INT             shift and go to state 6
     VECTOR          shift and go to state 7
     NULL            shift and go to state 8
@@ -398,11 +395,10 @@ state 20
     (43) expr -> . iden EQ expr
     (44) expr -> . num
     (48) defvar -> . VAR type iden
-    (49) defvar -> . VAR type iden EQ expr
     (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> . DEF type iden LPAREN error RPAREN LBRACE body RBRACE
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     IF              shift and go to state 29
     FOR             shift and go to state 31
@@ -468,11 +464,10 @@ state 21
     (43) expr -> . iden EQ expr
     (44) expr -> . num
     (48) defvar -> . VAR type iden
-    (49) defvar -> . VAR type iden EQ expr
     (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> . DEF type iden LPAREN error RPAREN LBRACE body RBRACE
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     IF              shift and go to state 29
     FOR             shift and go to state 31
@@ -498,9 +493,9 @@ state 21
 
 state 22
 
-    (52) flist -> type iden COMMA flist .
+    (51) flist -> type iden COMMA flist .
 
-    RPAREN          reduce using rule 52 (flist -> type iden COMMA flist .)
+    RPAREN          reduce using rule 51 (flist -> type iden COMMA flist .)
 
 
 state 23
@@ -580,11 +575,10 @@ state 24
     (43) expr -> . iden EQ expr
     (44) expr -> . num
     (48) defvar -> . VAR type iden
-    (49) defvar -> . VAR type iden EQ expr
     (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> . DEF type iden LPAREN error RPAREN LBRACE body RBRACE
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     IF              shift and go to state 29
     FOR             shift and go to state 31
@@ -658,11 +652,10 @@ state 26
     (43) expr -> . iden EQ expr
     (44) expr -> . num
     (48) defvar -> . VAR type iden
-    (49) defvar -> . VAR type iden EQ expr
     (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> . DEF type iden LPAREN error RPAREN LBRACE body RBRACE
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     RBRACE          reduce using rule 5 (body -> stmt .)
     IF              shift and go to state 29
@@ -800,8 +793,8 @@ state 32
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -828,7 +821,7 @@ state 34
     (45) clist -> . empty
     (46) clist -> . expr
     (47) clist -> . expr COMMA clist
-    (58) empty -> .
+    (57) empty -> .
     (18) expr -> . expr LSQUAREBR expr RSQUAREBR
     (19) expr -> . expr LSQUAREBR error RSQUAREBR
     (20) expr -> . iden LPAREN clist RPAREN
@@ -856,11 +849,11 @@ state 34
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     error           shift and go to state 70
-    RSQUAREBR       reduce using rule 58 (empty -> .)
+    RSQUAREBR       reduce using rule 57 (empty -> .)
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
     NOT             shift and go to state 37
@@ -904,8 +897,8 @@ state 35
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -948,8 +941,8 @@ state 36
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -992,8 +985,8 @@ state 37
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1037,10 +1030,9 @@ state 38
 state 39
 
     (48) defvar -> VAR . type iden
-    (49) defvar -> VAR . type iden EQ expr
-    (54) type -> . INT
-    (55) type -> . VECTOR
-    (56) type -> . NULL
+    (53) type -> . INT
+    (54) type -> . VECTOR
+    (55) type -> . NULL
 
     INT             shift and go to state 6
     VECTOR          shift and go to state 7
@@ -1050,30 +1042,30 @@ state 39
 
 state 40
 
-    (57) num -> NUM .
+    (56) num -> NUM .
 
-    SEMI_COLON      reduce using rule 57 (num -> NUM .)
-    LSQUAREBR       reduce using rule 57 (num -> NUM .)
-    QMARK           reduce using rule 57 (num -> NUM .)
-    PARITY          reduce using rule 57 (num -> NUM .)
-    NOT_EQ          reduce using rule 57 (num -> NUM .)
-    DIVIDE          reduce using rule 57 (num -> NUM .)
-    TIMES           reduce using rule 57 (num -> NUM .)
-    MINUS           reduce using rule 57 (num -> NUM .)
-    PLUS            reduce using rule 57 (num -> NUM .)
-    MOD             reduce using rule 57 (num -> NUM .)
-    GREATER_EQUAL   reduce using rule 57 (num -> NUM .)
-    LESS_EQUAL      reduce using rule 57 (num -> NUM .)
-    GREATER_THAN    reduce using rule 57 (num -> NUM .)
-    LESS_THAN       reduce using rule 57 (num -> NUM .)
-    OR              reduce using rule 57 (num -> NUM .)
-    AND             reduce using rule 57 (num -> NUM .)
-    EQ              reduce using rule 57 (num -> NUM .)
-    COMMA           reduce using rule 57 (num -> NUM .)
-    RSQUAREBR       reduce using rule 57 (num -> NUM .)
-    RPAREN          reduce using rule 57 (num -> NUM .)
-    COLON           reduce using rule 57 (num -> NUM .)
-    TO              reduce using rule 57 (num -> NUM .)
+    SEMI_COLON      reduce using rule 56 (num -> NUM .)
+    LSQUAREBR       reduce using rule 56 (num -> NUM .)
+    QMARK           reduce using rule 56 (num -> NUM .)
+    PARITY          reduce using rule 56 (num -> NUM .)
+    NOT_EQ          reduce using rule 56 (num -> NUM .)
+    DIVIDE          reduce using rule 56 (num -> NUM .)
+    TIMES           reduce using rule 56 (num -> NUM .)
+    MINUS           reduce using rule 56 (num -> NUM .)
+    PLUS            reduce using rule 56 (num -> NUM .)
+    MOD             reduce using rule 56 (num -> NUM .)
+    GREATER_EQUAL   reduce using rule 56 (num -> NUM .)
+    LESS_EQUAL      reduce using rule 56 (num -> NUM .)
+    GREATER_THAN    reduce using rule 56 (num -> NUM .)
+    LESS_THAN       reduce using rule 56 (num -> NUM .)
+    OR              reduce using rule 56 (num -> NUM .)
+    AND             reduce using rule 56 (num -> NUM .)
+    EQ              reduce using rule 56 (num -> NUM .)
+    COMMA           reduce using rule 56 (num -> NUM .)
+    RSQUAREBR       reduce using rule 56 (num -> NUM .)
+    RPAREN          reduce using rule 56 (num -> NUM .)
+    COLON           reduce using rule 56 (num -> NUM .)
+    TO              reduce using rule 56 (num -> NUM .)
 
 
 state 41
@@ -1090,7 +1082,7 @@ state 42
     (45) clist -> . empty
     (46) clist -> . expr
     (47) clist -> . expr COMMA clist
-    (58) empty -> .
+    (57) empty -> .
     (18) expr -> . expr LSQUAREBR expr RSQUAREBR
     (19) expr -> . expr LSQUAREBR error RSQUAREBR
     (20) expr -> . iden LPAREN clist RPAREN
@@ -1118,11 +1110,11 @@ state 42
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     error           shift and go to state 79
-    RPAREN          reduce using rule 58 (empty -> .)
+    RPAREN          reduce using rule 57 (empty -> .)
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
     NOT             shift and go to state 37
@@ -1166,8 +1158,8 @@ state 43
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1268,8 +1260,8 @@ state 48
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     error           shift and go to state 83
     MINUS           shift and go to state 35
@@ -1313,8 +1305,8 @@ state 49
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1357,8 +1349,8 @@ state 50
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1401,8 +1393,8 @@ state 51
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1445,8 +1437,8 @@ state 52
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1489,8 +1481,8 @@ state 53
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1533,8 +1525,8 @@ state 54
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1577,8 +1569,8 @@ state 55
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1621,8 +1613,8 @@ state 56
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1665,8 +1657,8 @@ state 57
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1709,8 +1701,8 @@ state 58
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1753,8 +1745,8 @@ state 59
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1797,8 +1789,8 @@ state 60
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1841,8 +1833,8 @@ state 61
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1885,8 +1877,8 @@ state 62
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1929,8 +1921,8 @@ state 63
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -1995,8 +1987,8 @@ state 65
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     error           shift and go to state 100
     MINUS           shift and go to state 35
@@ -2013,7 +2005,7 @@ state 65
 state 66
 
     (14) stmt -> FOR LPAREN . iden EQ expr TO expr RPAREN stmt
-    (53) iden -> . IDEN
+    (52) iden -> . IDEN
 
     IDEN            shift and go to state 10
 
@@ -2089,8 +2081,8 @@ state 68
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -2357,8 +2349,7 @@ state 75
 state 76
 
     (48) defvar -> VAR type . iden
-    (49) defvar -> VAR type . iden EQ expr
-    (53) iden -> . IDEN
+    (52) iden -> . IDEN
 
     IDEN            shift and go to state 10
 
@@ -3615,7 +3606,7 @@ state 106
     (45) clist -> . empty
     (46) clist -> . expr
     (47) clist -> . expr COMMA clist
-    (58) empty -> .
+    (57) empty -> .
     (18) expr -> . expr LSQUAREBR expr RSQUAREBR
     (19) expr -> . expr LSQUAREBR error RSQUAREBR
     (20) expr -> . iden LPAREN clist RPAREN
@@ -3643,11 +3634,11 @@ state 106
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
-    RSQUAREBR       reduce using rule 58 (empty -> .)
-    RPAREN          reduce using rule 58 (empty -> .)
+    RSQUAREBR       reduce using rule 57 (empty -> .)
+    RPAREN          reduce using rule 57 (empty -> .)
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
     NOT             shift and go to state 37
@@ -3664,10 +3655,8 @@ state 106
 state 107
 
     (48) defvar -> VAR type iden .
-    (49) defvar -> VAR type iden . EQ expr
 
     SEMI_COLON      reduce using rule 48 (defvar -> VAR type iden .)
-    EQ              shift and go to state 118
 
 
 state 108
@@ -3812,8 +3801,8 @@ state 112
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -3822,7 +3811,7 @@ state 112
     IDEN            shift and go to state 10
     NUM             shift and go to state 40
 
-    expr                           shift and go to state 119
+    expr                           shift and go to state 118
     iden                           shift and go to state 23
     num                            shift and go to state 38
 
@@ -3866,11 +3855,10 @@ state 113
     (43) expr -> . iden EQ expr
     (44) expr -> . num
     (48) defvar -> . VAR type iden
-    (49) defvar -> . VAR type iden EQ expr
     (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> . DEF type iden LPAREN error RPAREN LBRACE body RBRACE
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     IF              shift and go to state 29
     FOR             shift and go to state 31
@@ -3887,7 +3875,7 @@ state 113
     NUM             shift and go to state 40
 
     expr                           shift and go to state 27
-    stmt                           shift and go to state 120
+    stmt                           shift and go to state 119
     defvar                         shift and go to state 28
     func                           shift and go to state 30
     iden                           shift and go to state 23
@@ -3933,11 +3921,10 @@ state 114
     (43) expr -> . iden EQ expr
     (44) expr -> . num
     (48) defvar -> . VAR type iden
-    (49) defvar -> . VAR type iden EQ expr
     (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> . DEF type iden LPAREN error RPAREN LBRACE body RBRACE
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     IF              shift and go to state 29
     FOR             shift and go to state 31
@@ -3953,7 +3940,7 @@ state 114
     IDEN            shift and go to state 10
     NUM             shift and go to state 40
 
-    stmt                           shift and go to state 121
+    stmt                           shift and go to state 120
     expr                           shift and go to state 27
     defvar                         shift and go to state 28
     func                           shift and go to state 30
@@ -3990,8 +3977,8 @@ state 115
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -4001,7 +3988,7 @@ state 115
     NUM             shift and go to state 40
 
     iden                           shift and go to state 23
-    expr                           shift and go to state 122
+    expr                           shift and go to state 121
     num                            shift and go to state 38
 
 state 116
@@ -4044,11 +4031,10 @@ state 116
     (43) expr -> . iden EQ expr
     (44) expr -> . num
     (48) defvar -> . VAR type iden
-    (49) defvar -> . VAR type iden EQ expr
     (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> . DEF type iden LPAREN error RPAREN LBRACE body RBRACE
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     IF              shift and go to state 29
     FOR             shift and go to state 31
@@ -4065,7 +4051,7 @@ state 116
     NUM             shift and go to state 40
 
     expr                           shift and go to state 27
-    stmt                           shift and go to state 123
+    stmt                           shift and go to state 122
     defvar                         shift and go to state 28
     func                           shift and go to state 30
     iden                           shift and go to state 23
@@ -4080,50 +4066,6 @@ state 117
 
 
 state 118
-
-    (49) defvar -> VAR type iden EQ . expr
-    (18) expr -> . expr LSQUAREBR expr RSQUAREBR
-    (19) expr -> . expr LSQUAREBR error RSQUAREBR
-    (20) expr -> . iden LPAREN clist RPAREN
-    (21) expr -> . iden LPAREN error RPAREN
-    (22) expr -> . expr QMARK expr COLON expr
-    (23) expr -> . expr PARITY expr
-    (24) expr -> . expr NOT_EQ expr
-    (25) expr -> . expr DIVIDE expr
-    (26) expr -> . expr TIMES expr
-    (27) expr -> . expr MINUS expr
-    (28) expr -> . expr PLUS expr
-    (29) expr -> . expr MOD expr
-    (30) expr -> . expr GREATER_EQUAL expr
-    (31) expr -> . expr LESS_EQUAL expr
-    (32) expr -> . expr GREATER_THAN expr
-    (33) expr -> . expr LESS_THAN expr
-    (34) expr -> . expr OR expr
-    (35) expr -> . expr AND expr
-    (36) expr -> . expr EQ expr
-    (37) expr -> . MINUS expr
-    (38) expr -> . PLUS expr
-    (39) expr -> . NOT expr
-    (40) expr -> . LSQUAREBR clist RSQUAREBR
-    (41) expr -> . LSQUAREBR error RSQUAREBR
-    (42) expr -> . iden
-    (43) expr -> . iden EQ expr
-    (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
-
-    MINUS           shift and go to state 35
-    PLUS            shift and go to state 36
-    NOT             shift and go to state 37
-    LSQUAREBR       shift and go to state 34
-    IDEN            shift and go to state 10
-    NUM             shift and go to state 40
-
-    iden                           shift and go to state 23
-    expr                           shift and go to state 124
-    num                            shift and go to state 38
-
-state 119
 
     (22) expr -> expr QMARK expr COLON expr .
     (18) expr -> expr . LSQUAREBR expr RSQUAREBR
@@ -4185,65 +4127,65 @@ state 119
   ! EQ              [ shift and go to state 63 ]
 
 
-state 120
+state 119
 
     (9) stmt -> IF LPAREN expr RPAREN stmt . else_choice
     (11) else_choice -> . empty
     (12) else_choice -> . ELSE stmt
-    (58) empty -> .
+    (57) empty -> .
 
   ! shift/reduce conflict for ELSE resolved as shift
-    ELSE            shift and go to state 127
-    IF              reduce using rule 58 (empty -> .)
-    FOR             reduce using rule 58 (empty -> .)
-    RETURN          reduce using rule 58 (empty -> .)
-    LBRACE          reduce using rule 58 (empty -> .)
-    WHILE           reduce using rule 58 (empty -> .)
-    MINUS           reduce using rule 58 (empty -> .)
-    PLUS            reduce using rule 58 (empty -> .)
-    NOT             reduce using rule 58 (empty -> .)
-    LSQUAREBR       reduce using rule 58 (empty -> .)
-    VAR             reduce using rule 58 (empty -> .)
-    DEF             reduce using rule 58 (empty -> .)
-    IDEN            reduce using rule 58 (empty -> .)
-    NUM             reduce using rule 58 (empty -> .)
-    RBRACE          reduce using rule 58 (empty -> .)
+    ELSE            shift and go to state 125
+    IF              reduce using rule 57 (empty -> .)
+    FOR             reduce using rule 57 (empty -> .)
+    RETURN          reduce using rule 57 (empty -> .)
+    LBRACE          reduce using rule 57 (empty -> .)
+    WHILE           reduce using rule 57 (empty -> .)
+    MINUS           reduce using rule 57 (empty -> .)
+    PLUS            reduce using rule 57 (empty -> .)
+    NOT             reduce using rule 57 (empty -> .)
+    LSQUAREBR       reduce using rule 57 (empty -> .)
+    VAR             reduce using rule 57 (empty -> .)
+    DEF             reduce using rule 57 (empty -> .)
+    IDEN            reduce using rule 57 (empty -> .)
+    NUM             reduce using rule 57 (empty -> .)
+    RBRACE          reduce using rule 57 (empty -> .)
 
-  ! ELSE            [ reduce using rule 58 (empty -> .) ]
+  ! ELSE            [ reduce using rule 57 (empty -> .) ]
 
-    else_choice                    shift and go to state 125
-    empty                          shift and go to state 126
+    else_choice                    shift and go to state 123
+    empty                          shift and go to state 124
 
-state 121
+state 120
 
     (10) stmt -> IF LPAREN error RPAREN stmt . else_choice
     (11) else_choice -> . empty
     (12) else_choice -> . ELSE stmt
-    (58) empty -> .
+    (57) empty -> .
 
   ! shift/reduce conflict for ELSE resolved as shift
-    ELSE            shift and go to state 127
-    IF              reduce using rule 58 (empty -> .)
-    FOR             reduce using rule 58 (empty -> .)
-    RETURN          reduce using rule 58 (empty -> .)
-    LBRACE          reduce using rule 58 (empty -> .)
-    WHILE           reduce using rule 58 (empty -> .)
-    MINUS           reduce using rule 58 (empty -> .)
-    PLUS            reduce using rule 58 (empty -> .)
-    NOT             reduce using rule 58 (empty -> .)
-    LSQUAREBR       reduce using rule 58 (empty -> .)
-    VAR             reduce using rule 58 (empty -> .)
-    DEF             reduce using rule 58 (empty -> .)
-    IDEN            reduce using rule 58 (empty -> .)
-    NUM             reduce using rule 58 (empty -> .)
-    RBRACE          reduce using rule 58 (empty -> .)
+    ELSE            shift and go to state 125
+    IF              reduce using rule 57 (empty -> .)
+    FOR             reduce using rule 57 (empty -> .)
+    RETURN          reduce using rule 57 (empty -> .)
+    LBRACE          reduce using rule 57 (empty -> .)
+    WHILE           reduce using rule 57 (empty -> .)
+    MINUS           reduce using rule 57 (empty -> .)
+    PLUS            reduce using rule 57 (empty -> .)
+    NOT             reduce using rule 57 (empty -> .)
+    LSQUAREBR       reduce using rule 57 (empty -> .)
+    VAR             reduce using rule 57 (empty -> .)
+    DEF             reduce using rule 57 (empty -> .)
+    IDEN            reduce using rule 57 (empty -> .)
+    NUM             reduce using rule 57 (empty -> .)
+    RBRACE          reduce using rule 57 (empty -> .)
 
-  ! ELSE            [ reduce using rule 58 (empty -> .) ]
+  ! ELSE            [ reduce using rule 57 (empty -> .) ]
 
-    else_choice                    shift and go to state 128
-    empty                          shift and go to state 126
+    else_choice                    shift and go to state 126
+    empty                          shift and go to state 124
 
-state 122
+state 121
 
     (14) stmt -> FOR LPAREN iden EQ expr . TO expr RPAREN stmt
     (18) expr -> expr . LSQUAREBR expr RSQUAREBR
@@ -4264,7 +4206,7 @@ state 122
     (35) expr -> expr . AND expr
     (36) expr -> expr . EQ expr
 
-    TO              shift and go to state 129
+    TO              shift and go to state 127
     LSQUAREBR       shift and go to state 48
     QMARK           shift and go to state 49
     PARITY          shift and go to state 50
@@ -4283,7 +4225,7 @@ state 122
     EQ              shift and go to state 63
 
 
-state 123
+state 122
 
     (17) stmt -> WHILE LPAREN expr RPAREN stmt .
 
@@ -4304,47 +4246,7 @@ state 123
     ELSE            reduce using rule 17 (stmt -> WHILE LPAREN expr RPAREN stmt .)
 
 
-state 124
-
-    (49) defvar -> VAR type iden EQ expr .
-    (18) expr -> expr . LSQUAREBR expr RSQUAREBR
-    (19) expr -> expr . LSQUAREBR error RSQUAREBR
-    (22) expr -> expr . QMARK expr COLON expr
-    (23) expr -> expr . PARITY expr
-    (24) expr -> expr . NOT_EQ expr
-    (25) expr -> expr . DIVIDE expr
-    (26) expr -> expr . TIMES expr
-    (27) expr -> expr . MINUS expr
-    (28) expr -> expr . PLUS expr
-    (29) expr -> expr . MOD expr
-    (30) expr -> expr . GREATER_EQUAL expr
-    (31) expr -> expr . LESS_EQUAL expr
-    (32) expr -> expr . GREATER_THAN expr
-    (33) expr -> expr . LESS_THAN expr
-    (34) expr -> expr . OR expr
-    (35) expr -> expr . AND expr
-    (36) expr -> expr . EQ expr
-
-    SEMI_COLON      reduce using rule 49 (defvar -> VAR type iden EQ expr .)
-    LSQUAREBR       shift and go to state 48
-    QMARK           shift and go to state 49
-    PARITY          shift and go to state 50
-    NOT_EQ          shift and go to state 51
-    DIVIDE          shift and go to state 52
-    TIMES           shift and go to state 53
-    MINUS           shift and go to state 54
-    PLUS            shift and go to state 55
-    MOD             shift and go to state 56
-    GREATER_EQUAL   shift and go to state 57
-    LESS_EQUAL      shift and go to state 58
-    GREATER_THAN    shift and go to state 59
-    LESS_THAN       shift and go to state 60
-    OR              shift and go to state 61
-    AND             shift and go to state 62
-    EQ              shift and go to state 63
-
-
-state 125
+state 123
 
     (9) stmt -> IF LPAREN expr RPAREN stmt else_choice .
 
@@ -4365,7 +4267,7 @@ state 125
     ELSE            reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt else_choice .)
 
 
-state 126
+state 124
 
     (11) else_choice -> empty .
 
@@ -4386,7 +4288,7 @@ state 126
     RBRACE          reduce using rule 11 (else_choice -> empty .)
 
 
-state 127
+state 125
 
     (12) else_choice -> ELSE . stmt
     (7) stmt -> . expr SEMI_COLON
@@ -4426,11 +4328,10 @@ state 127
     (43) expr -> . iden EQ expr
     (44) expr -> . num
     (48) defvar -> . VAR type iden
-    (49) defvar -> . VAR type iden EQ expr
     (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> . DEF type iden LPAREN error RPAREN LBRACE body RBRACE
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     IF              shift and go to state 29
     FOR             shift and go to state 31
@@ -4446,14 +4347,14 @@ state 127
     IDEN            shift and go to state 10
     NUM             shift and go to state 40
 
-    stmt                           shift and go to state 130
+    stmt                           shift and go to state 128
     expr                           shift and go to state 27
     defvar                         shift and go to state 28
     func                           shift and go to state 30
     iden                           shift and go to state 23
     num                            shift and go to state 38
 
-state 128
+state 126
 
     (10) stmt -> IF LPAREN error RPAREN stmt else_choice .
 
@@ -4474,7 +4375,7 @@ state 128
     ELSE            reduce using rule 10 (stmt -> IF LPAREN error RPAREN stmt else_choice .)
 
 
-state 129
+state 127
 
     (14) stmt -> FOR LPAREN iden EQ expr TO . expr RPAREN stmt
     (18) expr -> . expr LSQUAREBR expr RSQUAREBR
@@ -4504,8 +4405,8 @@ state 129
     (42) expr -> . iden
     (43) expr -> . iden EQ expr
     (44) expr -> . num
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     MINUS           shift and go to state 35
     PLUS            shift and go to state 36
@@ -4515,10 +4416,10 @@ state 129
     NUM             shift and go to state 40
 
     iden                           shift and go to state 23
-    expr                           shift and go to state 131
+    expr                           shift and go to state 129
     num                            shift and go to state 38
 
-state 130
+state 128
 
     (12) else_choice -> ELSE stmt .
 
@@ -4539,7 +4440,7 @@ state 130
     RBRACE          reduce using rule 12 (else_choice -> ELSE stmt .)
 
 
-state 131
+state 129
 
     (14) stmt -> FOR LPAREN iden EQ expr TO expr . RPAREN stmt
     (18) expr -> expr . LSQUAREBR expr RSQUAREBR
@@ -4560,7 +4461,7 @@ state 131
     (35) expr -> expr . AND expr
     (36) expr -> expr . EQ expr
 
-    RPAREN          shift and go to state 132
+    RPAREN          shift and go to state 130
     LSQUAREBR       shift and go to state 48
     QMARK           shift and go to state 49
     PARITY          shift and go to state 50
@@ -4579,7 +4480,7 @@ state 131
     EQ              shift and go to state 63
 
 
-state 132
+state 130
 
     (14) stmt -> FOR LPAREN iden EQ expr TO expr RPAREN . stmt
     (7) stmt -> . expr SEMI_COLON
@@ -4619,11 +4520,10 @@ state 132
     (43) expr -> . iden EQ expr
     (44) expr -> . num
     (48) defvar -> . VAR type iden
-    (49) defvar -> . VAR type iden EQ expr
     (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
     (4) func -> . DEF type iden LPAREN error RPAREN LBRACE body RBRACE
-    (53) iden -> . IDEN
-    (57) num -> . NUM
+    (52) iden -> . IDEN
+    (56) num -> . NUM
 
     IF              shift and go to state 29
     FOR             shift and go to state 31
@@ -4641,12 +4541,12 @@ state 132
 
     iden                           shift and go to state 23
     expr                           shift and go to state 27
-    stmt                           shift and go to state 133
+    stmt                           shift and go to state 131
     defvar                         shift and go to state 28
     func                           shift and go to state 30
     num                            shift and go to state 38
 
-state 133
+state 131
 
     (14) stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .
 
@@ -4670,5 +4570,5 @@ WARNING:
 WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for EQ in state 23 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 119 resolved as shift
 WARNING: shift/reduce conflict for ELSE in state 120 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 121 resolved as shift

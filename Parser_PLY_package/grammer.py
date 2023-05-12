@@ -403,7 +403,7 @@ class Grammar(object):
 
 
 
-    def p_defvar1(self, p):
+    def p_defvar(self, p):
         '''defvar : VAR type iden'''
         #
         p[0] = "defvar"
@@ -411,21 +411,21 @@ class Grammar(object):
             "name": "defvar",
             "lineno": self.lexer.lineno,
             "st": SyntaxTreeUtil.create_node(p),
-            "ast": Defvar1(p[2]["ast"], p[3]["ast"], self.lexer.lineno)
+            "ast": Defvar(p[2]["ast"], p[3]["ast"], self.lexer.lineno)
         }
 
 
 
-    def p_defvar2(self, p):
-        '''defvar : VAR type iden EQ expr'''
-        #
-        p[0] = "defvar"
-        p[0] = {
-            "name": "defvar",
-            "lineno": self.lexer.lineno,
-            "st": SyntaxTreeUtil.create_node(p),
-            "ast": Defvar2(p[2]["ast"], p[3]["ast"], p[5]["ast"], self.lexer.lineno)
-        }
+    #def p_defvar2(self, p):
+    #    '''defvar2 : VAR type iden EQ expr'''
+    #    #
+    #    p[0] = "defvar2"
+    #    p[0] = {
+    #        "name": "defvar2",
+    #        "lineno": self.lexer.lineno,
+    #        "st": SyntaxTreeUtil.create_node(p),
+    #        "ast": Defvar2(p[2]["ast"], p[3]["ast"], p[5]["ast"], self.lexer.lineno)
+    #    }
 
 
     def p_flist1(self, p):

@@ -8,7 +8,6 @@ class Tokens(object):
 
     #--reserved--
     reserved = {
-        'void': 'VOID',
         'for' : 'FOR',
         'if' : 'IF',
         'else' : 'ELSE',
@@ -21,11 +20,11 @@ class Tokens(object):
         'int': 'INT',
         'def':'DEF',
         'var':'VAR',
-        'in':    'IN',
-        'and':   'AND',
-        'or':    'OR',
-        'true':  'TRUE',
-        'false': 'FALSE',
+        'in':  'IN',
+        'and': 'AND',
+        'or':  'OR',
+        'true': 'TRUE',
+        'false':'FALSE',
         'vector':'VECTOR',
         'null':'NULL',
     }

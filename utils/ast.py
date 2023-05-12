@@ -139,6 +139,14 @@ class Stmt8(Node):
 
 
 
+class Stmt9(Node):
+    def __init__(self, defvar, lineno):
+        self.lineno = lineno
+        self.defvar = defvar
+        self.children = (defvar,)
+
+
+
 class Else_choice2(Node):
     def __init__(self, stmt, lineno):
         self.lineno = lineno
@@ -243,7 +251,7 @@ class Clist3(Node):
         self.children = (expr, clist,)
 
 
-class Defvar1(Node):
+class Defvar(Node):
     def __init__(self, type, iden, lineno):
         self.lineno = lineno
         self.type = type
@@ -251,13 +259,13 @@ class Defvar1(Node):
         self.children = (type, iden,)
 
 
-class Defvar2(Node):
-    def __init__(self, type, iden, expr, lineno):
-        self.lineno = lineno
-        self.type = type
-        self.iden = iden
-        self.expr = expr
-        self.children = (type, iden, expr,)
+#class Defvar2(Node):
+#    def __init__(self, type, iden, expr, lineno):
+#        self.lineno = lineno
+#        self.type = type
+#        self.iden = iden
+#        self.expr = expr
+#        self.children = (type, iden, expr,)
 
 class Flist2(Node):
     def __init__(self, type, iden, lineno):
