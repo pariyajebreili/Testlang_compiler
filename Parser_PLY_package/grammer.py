@@ -40,8 +40,6 @@ class Grammar(object):
         config.ast = p[0]["ast"]
 
 
-
-
     def p_func(self, p):
         '''func : DEF type iden LPAREN flist RPAREN LBRACE body RBRACE'''
         p[0] = "func"

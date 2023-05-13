@@ -7,22 +7,22 @@ import config
 class PreProcess(NodeVisitor):
 
     def __init__(self, semantic_messages):
-        #print(f"semantic init")
+        print(f"semantic init")
         self.create_and_push_builtin_funcs(config.global_symbol_table)
         self.semantic_messages = semantic_messages
     
     def visit_Prog1(self, node, table):
-        #print(f"visiting22: prog1")
+        print(f"visiting22: prog1")
         self.visit(node.func, config.global_symbol_table)
 
     def visit_Prog2(self, node, table):
-        #print(f"visiting22: prog2")
+        print(f"visiting22: prog2")
         self.visit(node.func, config.global_symbol_table)
         self.visit(node.prog, config.global_symbol_table)
 
 
     def visit_Func(self, node, table):
-        #print(f"visiting22: func")
+        print(f"visiting22: func")
 
         parameters = self.get_parameters(node)
         function_name= node.iden.iden_value["name"]
@@ -44,42 +44,42 @@ class PreProcess(NodeVisitor):
         
 
     def visit_Body1(self, node, table):
-        #print(f"visiting22: body1")
+        print(f"visiting22: body1")
         self.visit(node.stmt, table)
             
     def visit_Body2(self, node, table):
-        #print(f"visiting22: body2")
+        print(f"visiting22: body2")
         self.visit(node.stmt, table)
         self.visit(node.body, table)
 
     def visit_Stmt1(self, node, table):
-        #print(f"visiting22: stmt1")
+        print(f"visiting22: stmt1")
         pass            
 
     def visit_Stmt2(self, node, table):
-        #print(f"visiting22: stmt2")
+        print(f"visiting22: stmt2")
         self.visit(node.defvar, table)
 
     def visit_Stmt3(self, node, table):
-        #print(f"visiting22: stmt3")
+        print(f"visiting22: stmt3")
         if_block_symbol_table = SymbolTable(table, f"if_block_{node.lineno}")
         self.visit(node.stmt, if_block_symbol_table)
         self.visit(node.else_choice, table)
 
 
     def visit_Else_choice1(self, node, table):
-        #print(f"visiting22: stmt4")
+        print(f"visiting22: stmt4")
         pass
 
 
     def visit_Else_choice2(self, node, table):
-        #print(f"visiting22: stmt4")
+        print(f"visiting22: stmt4")
         else_block_symbol_table = SymbolTable(table, f"else_block_{node.lineno}") 
         self.visit(node.stmt, else_block_symbol_table)
 
 
     def visit_Stmt5(self, node, table):
-        #print(f"visiting22: stmt5")
+        print(f"visiting22: stmt5")
         for_block_symbol_table = SymbolTable(table, f"for_block_{node.lineno}") 
         
         name1 = node.iden1.iden_value["name"]
@@ -91,31 +91,31 @@ class PreProcess(NodeVisitor):
 
 
     def visit_Stmt6(self, node, table):
-        #print(f"visiting22: stmt6")
+        print(f"visiting22: stmt6")
         pass
 
 
     def visit_Stmt7(self, node, table):
-        #print(f"visiting22: stmt7")
+        print(f"visiting22: stmt7")
         body_block_symbol_table = SymbolTable(table, f"body_block_{node.lineno}") 
         self.visit(node.body, body_block_symbol_table)
 
     
     def visit_Defvar(self, node, table):
-        #print(f"visiting22: defvar")
+        print(f"visiting22: defvar")
         pass
 
             
     def visit_Type(self, node, table):
-        #print(f"visiting22: type")
+        print(f"visiting22: type")
         pass
 
     def visit_Iden(self, node, table):
-        #print(f"visiting22: iden")
+        print(f"visiting22: iden")
         pass
 
     def visit_Empty(self, node, table):
-        #print(f"visiting22: empty")
+        print(f"visiting22: empty")
         pass
 
 
