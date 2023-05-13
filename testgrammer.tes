@@ -1,3 +1,15 @@
+def int find(vector A, int n) {
+    var int k;
+    var float j;
+    for(i = 0 to length(A)) {
+        if (n == k) {
+            return j;
+    } 
+    j= j + 1;
+    }
+    return -1;
+}
+
 def int main() {
     var int A;
     var int a;
@@ -8,5 +20,6 @@ def int main() {
     print(find(A, a));
     print(find(A));
     print(find(a, A));
+    
     return A;
 }

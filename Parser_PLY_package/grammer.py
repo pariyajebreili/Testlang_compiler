@@ -1,4 +1,4 @@
-from Lexical_Analyzer_PLY_package.tokens_file import Tokens   
+from lexer.tokens import Tokens   
 from utils.syntax_tree import SyntaxTreeUtil
 from utils.ast import *
 import config
@@ -202,15 +202,15 @@ class Grammar(object):
         }
 
 
-    def p_stmt8(self, p):
-        '''stmt : WHILE LPAREN expr RPAREN stmt'''
-        p[0] = "stmt"
-        p[0] = {
-            "name": "stmt",
-            "lineno": self.lexer.lineno,
-            "st": SyntaxTreeUtil.create_node(p),
-            "ast": Stmt8(p[3]["ast"], p[5]["ast"], self.lexer.lineno)
-        }
+    #def p_stmt8(self, p):
+    #    '''stmt : WHILE LPAREN expr RPAREN stmt'''
+    #    p[0] = "stmt"
+    #    p[0] = {
+    #        "name": "stmt",
+    #        "lineno": self.lexer.lineno,
+    #        "st": SyntaxTreeUtil.create_node(p),
+    #        "ast": Stmt8(p[3]["ast"], p[5]["ast"], self.lexer.lineno)
+    #    }
 
 
     def p_expr1(self, p):
@@ -345,15 +345,15 @@ class Grammar(object):
 
 
 
-    def p_expr8(self, p):
-        '''expr : iden EQ expr'''
-        p[0] = "expr"
-        p[0] = {
-            "name": "expr",
-            "lineno": self.lexer.lineno,
-            "st": SyntaxTreeUtil.create_node(p),
-            "ast": Expr8(p[1]["ast"], p[2], p[3]["ast"], self.lexer.lineno)
-        }
+    #def p_expr8(self, p):
+    #    '''expr : iden EQ expr'''
+    #    p[0] = "expr"
+    #    p[0] = {
+    #        "name": "expr",
+    #        "lineno": self.lexer.lineno,
+    #        "st": SyntaxTreeUtil.create_node(p),
+    #        "ast": Expr8(p[1]["ast"], p[2], p[3]["ast"], self.lexer.lineno)
+    #    }
 
 
 
@@ -403,7 +403,7 @@ class Grammar(object):
 
 
 
-    def p_defvar(self, p):
+    def p_defvar1(self, p):
         '''defvar : VAR type iden'''
         #
         p[0] = "defvar"
@@ -416,16 +416,16 @@ class Grammar(object):
 
 
 
-    #def p_defvar2(self, p):
-    #    '''defvar2 : VAR type iden EQ expr'''
-    #    #
-    #    p[0] = "defvar2"
-    #    p[0] = {
-    #        "name": "defvar2",
-    #        "lineno": self.lexer.lineno,
-    #        "st": SyntaxTreeUtil.create_node(p),
-    #        "ast": Defvar2(p[2]["ast"], p[3]["ast"], p[5]["ast"], self.lexer.lineno)
-    #    }
+    def p_defvar2(self, p):
+        '''defvar : VAR type iden EQ expr'''
+        #
+        p[0] = "defvar"
+        p[0] = {
+            "name": "defvar",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Defvar2(p[2]["ast"], p[3]["ast"], p[5]["ast"], self.lexer.lineno)
+        }
 
 
     def p_flist1(self, p):

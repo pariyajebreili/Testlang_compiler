@@ -1,6 +1,3 @@
-from ply.lex import lex
-from ply.lex import TOKEN
-
 class Tokens(object):
 
     def __init__(self, lexer_messages):
@@ -13,18 +10,12 @@ class Tokens(object):
         'else' : 'ELSE',
         'return': 'RETURN',
         'while': 'WHILE',
-        #'print':'PRINT',
         'to':'TO',
-        'in':'IN',
-        #'num':'NUM',
         'int': 'INT',
         'def':'DEF',
         'var':'VAR',
-        'in':  'IN',
         'and': 'AND',
         'or':  'OR',
-        'true': 'TRUE',
-        'false':'FALSE',
         'vector':'VECTOR',
         'null':'NULL',
     }
@@ -69,7 +60,7 @@ class Tokens(object):
 
     #ignore Tab and enter
     #t_VECTOR = r'\[[^\]]*\]'
-    t_ignore=' \t \n' 
+   
 
     def t_COMMENT(self, t):
         r"[ ]*\043[^\n]*"  # \043 is '#'
@@ -84,15 +75,17 @@ class Tokens(object):
     # A regular expression rule with some action code
     def t_NUM(self,t):
         r'[0-9]+'
-        
         t.value = int(t.value)    
         return t
-
+    
 
     def t_newline(self, t):
-        r"""\n+"""
+        r"\n+"
+        #t.lexer.lineno += t.value.count("\n")
         t.lexer.lineno += len(t.value)
-
+        #print(t.lexer.lineno)
+    t_ignore = ' \t'
+   
     # recognize illegal character
     def t_error(self, t):
         self.lexer_messages.add_message(

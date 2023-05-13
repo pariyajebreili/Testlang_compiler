@@ -215,13 +215,13 @@ class Expr7(Node):
         self.children = (iden,)
 
 
-class Expr8(Node):
-    def __init__(self, iden, oper, expr, lineno):
-        self.lineno = lineno
-        self.iden = iden
-        self.oper = oper
-        self.expr = expr
-        self.children = (iden, expr,)
+#class Expr8(Node):
+#    def __init__(self, iden, oper, expr, lineno):
+#        self.lineno = lineno
+#        self.iden = iden
+#        self.oper = oper
+#        self.expr = expr
+#        self.children = (iden, expr,)
 
 
 class Expr9(Node):
@@ -259,13 +259,13 @@ class Defvar(Node):
         self.children = (type, iden,)
 
 
-#class Defvar2(Node):
-#    def __init__(self, type, iden, expr, lineno):
-#        self.lineno = lineno
-#        self.type = type
-#        self.iden = iden
-#        self.expr = expr
-#        self.children = (type, iden, expr,)
+class Defvar2(Node):
+    def __init__(self, type, iden, expr, lineno):
+        self.lineno = lineno
+        self.type = type
+        self.iden = iden
+        self.expr = expr
+        self.children = (type, iden, expr,)
 
 class Flist2(Node):
     def __init__(self, type, iden, lineno):

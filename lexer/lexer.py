@@ -8,5 +8,5 @@ class Lexer(object):
 
     def build(self, data):
         self.lexer.input(data)
-        for tok in self.lexer:
-            print(tok.value, tok.type)
+        #for tok in self.lexer:
+            #print(tok.value, tok.type)
