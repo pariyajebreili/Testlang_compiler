@@ -211,33 +211,57 @@ class Grammar(object):
     #    }
 
 
+    #def p_expr1(self, p):
+    #    '''expr : expr LSQUAREBR expr RSQUAREBR'''
+    #    p[0] = "expr"
+    #    p[0] = {
+    #        "name": "expr",
+    #        "lineno": self.lexer.lineno,
+    #        "st": SyntaxTreeUtil.create_node(p),
+    #        "ast": Expr1(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
+    #    }
+
+
+    #def p_expr1_error(self, p):
+    #    '''expr : expr LSQUAREBR error RSQUAREBR'''
+    #    self.parser_messages.add_message(
+    #        {"message": "No Appropraite Arguments", "lineno": self.last_message_line, "is_warning": True})
+    #    p[3] = p[3].value
+    #    p[0] = "expr"
+    #    p[0] = {
+    #        "name": "expr",
+    #        "lineno": self.lexer.lineno,
+    #        "st": SyntaxTreeUtil.create_node(p),
+    #        "ast": Expr1(p[1]["ast"], p[3], self.lexer.lineno)
+    #    }
+
+
+
+    #def p_expr2(self, p):
+    #    '''expr : iden LPAREN clist RPAREN'''
+    #    p[0] = "expr"
+    #    p[0] = {
+    #        "name": "expr",
+    #        "lineno": self.lexer.lineno,
+    #        "st": SyntaxTreeUtil.create_node(p),
+    #        "ast": Expr1(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
+    #    }
+
+    #def p_expr2_error(self, p):
+    #    '''expr : iden LPAREN error RPAREN'''
+    #    self.parser_messages.add_message(
+    #        {"message": "No Appropraite Arguments", "lineno": self.last_message_line, "is_warning": True})
+    #    p[3] = p[3].value
+    #    p[0] = "expr"
+    #    p[0] = {
+    #        "name": "expr",
+    #        "lineno": self.lexer.lineno,
+    #        "st": SyntaxTreeUtil.create_node(p),
+    #        "ast": Expr1(p[1]["ast"], p[3], self.lexer.lineno)
+    #    }
+
+
     def p_expr1(self, p):
-        '''expr : expr LSQUAREBR expr RSQUAREBR'''
-        p[0] = "expr"
-        p[0] = {
-            "name": "expr",
-            "lineno": self.lexer.lineno,
-            "st": SyntaxTreeUtil.create_node(p),
-            "ast": Expr1(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
-        }
-
-
-    def p_expr1_error(self, p):
-        '''expr : expr LSQUAREBR error RSQUAREBR'''
-        self.parser_messages.add_message(
-            {"message": "No Appropraite Arguments", "lineno": self.last_message_line, "is_warning": True})
-        p[3] = p[3].value
-        p[0] = "expr"
-        p[0] = {
-            "name": "expr",
-            "lineno": self.lexer.lineno,
-            "st": SyntaxTreeUtil.create_node(p),
-            "ast": Expr1(p[1]["ast"], p[3], self.lexer.lineno)
-        }
-
-
-
-    def p_expr2(self, p):
         '''expr : iden LPAREN clist RPAREN'''
         p[0] = "expr"
         p[0] = {
@@ -246,8 +270,7 @@ class Grammar(object):
             "st": SyntaxTreeUtil.create_node(p),
             "ast": Expr1(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
         }
-
-    def p_expr2_error(self, p):
+    def p_expr1_error(self, p):
         '''expr : iden LPAREN error RPAREN'''
         self.parser_messages.add_message(
             {"message": "No Appropraite Arguments", "lineno": self.last_message_line, "is_warning": True})
@@ -260,6 +283,28 @@ class Grammar(object):
             "ast": Expr1(p[1]["ast"], p[3], self.lexer.lineno)
         }
 
+    def p_expr2(self, p):
+        '''expr : expr LSQUAREBR expr RSQUAREBR'''
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr2(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
+        }
+
+    def p_expr2_error(self, p):  
+        '''expr : expr LSQUAREBR error RSQUAREBR'''
+        self.parser_messages.add_message(
+            {"message": "No Appropraite Value", "lineno": self.last_message_line, "is_warning": True})
+        p[3] = p[3].value
+        p[0] = "expr"
+        p[0] = {
+            "name": "expr",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Expr1(p[1]["ast"], p[3], self.lexer.lineno)
+        }
 
 
     def p_expr3(self, p):

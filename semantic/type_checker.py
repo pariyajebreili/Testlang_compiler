@@ -134,21 +134,6 @@ class TypeChecker(NodeVisitor):
 
 
     def visit_Expr1(self, node, table):
-        # calling an array
-        #print(f"visiting: expr2")
-        type_of_array_iden = self.visit(node.expr, table)
-        type_of_array_index = self.visit(node.expr2, table)
-        if type_of_array_iden == "vector" and type_of_array_index == "int":
-            return "int"
-
-        else:
-            self.semantic_messages.add_message({"message": f" Expected an Vector ", "lineno": node.expr.lineno})
-            if type_of_array_index != "int":
-                self.semantic_messages.add_message({"message": f'{node.expr.lineno}: Expected Numeric Value', "lineno": node.expr.lineno})
-            return "none"
-
-
-    def visit_Expr2(self, node, table):
         #function call
         #print(f"visiting: expr1")
         function_iden = node.iden.iden_value["name"]
@@ -184,6 +169,22 @@ class TypeChecker(NodeVisitor):
             else:
                 self.semantic_messages.add_message({"message": f"'{function_iden}' Is Not Declared AS a Function", "lineno": node.iden.lineno})
                 return result.type
+
+
+    def visit_Expr2(self, node, table):
+        # calling an array
+        #print(f"visiting: expr2")
+        type_of_array_iden = self.visit(node.expr, table)
+        type_of_array_index = self.visit(node.expr2, table)
+        if type_of_array_iden == "vector" and type_of_array_index == "int":
+            return "int"
+
+        else:
+            self.semantic_messages.add_message({"message": f" Expected an Array ", "lineno": node.expr.lineno})
+            if type_of_array_index != "int":
+                self.semantic_messages.add_message({"message": f'{node.expr.lineno}: Expected Numeric Value', "lineno": node.expr.lineno})
+            return "none"
+
 
 
 

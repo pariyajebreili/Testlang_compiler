@@ -25,8 +25,8 @@ class Compiler(object):
         self.grammar.lexer = self.lexer.lexer
         self.parser = Parser(self.grammar)
 
-        #self.type_checker = TypeChecker(self.semantic_messages)
-        #self.preprocess = PreProcess(self.semantic_messages)
+        self.type_checker = TypeChecker(self.semantic_messages)
+        self.preprocess = PreProcess(self.semantic_messages)
         self.compiled_failed = False
     
 
@@ -64,17 +64,17 @@ class Compiler(object):
                     self.parser_messages.print_messages()
 
             #semantic
-            #self.preprocess.visit(config.ast, None)
-            #self.type_checker.visit(config.ast, None)
+            self.preprocess.visit(config.ast, None)
+            self.type_checker.visit(config.ast, None)
             #semantic errors
-            #if print_messages:
-                #if self.semantic_messages.errors == 0 and not self.compiled_failed:
-                    #Colorprints.print_in_purple(f"No Semantic Error Found!")
-                    #self.semantic_messages.print_messages()
+            if print_messages:
+                if self.semantic_messages.errors == 0 and not self.compiled_failed:
+                    Colorprints.print_in_purple(f"No Semantic Error Found!")
+                    self.semantic_messages.print_messages()
 
-                #elif self.semantic_messages.errors != 0 and not self.compiled_failed:
-                    #Colorprints.print_in_red(f"{self.semantic_messages.errors} Semantic Errors Found!")
-                    #self.semantic_messages.print_messages()
+                elif self.semantic_messages.errors != 0 and not self.compiled_failed:
+                    Colorprints.print_in_red(f"{self.semantic_messages.errors} Semantic Errors Found!")
+                    self.semantic_messages.print_messages()
        
         except:
             self.compiled_failed = True
