@@ -84,18 +84,16 @@ class TypeChecker(NodeVisitor):
 
     def visit_Stmt5(self, node, table):
         #print(f"visiting: stmt5")
-        expr_type = self.visit(node.expr, table)
-        for_block_symbol_table = self.find_symbol_table(f"for_block_{node.lineno}", table)
-        
-        name1 = node.iden1.iden_value["name"]
-        setattr(node, "type", expr_type)
-        iden1 = VariableSymbol(name1, type)
-        
-        
-        for_block_symbol_table.put(iden1)
-        self.visit(node.stmt, for_block_symbol_table)
+        type_of_first = self.visit(node.expr1, table)
+        type_of_second = self.visit(node.expr2, table)
+        if type_of_first == "int" and type_of_second == "int":
+            return "int"
 
-
+        else:
+            self.semantic_messages.add_message({"message": f" Expected an int ", "lineno": node.expr.lineno})
+            if type_of_second != "int":
+                self.semantic_messages.add_message({"message": f'{node.expr.lineno}: Expected Numeric Value', "lineno": node.expr.lineno})
+            return "none"
 
 
     def visit_Stmt6(self, node, table):

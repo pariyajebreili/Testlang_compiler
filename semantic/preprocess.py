@@ -80,15 +80,7 @@ class PreProcess(NodeVisitor):
 
     def visit_Stmt5(self, node, table):
         #print(f"visiting22: stmt5")
-        for_block_symbol_table = SymbolTable(table, f"for_block_{node.lineno}") 
-        
-        name1 = node.iden1.iden_value["name"]
-        type1 = "int"
-        iden1 = VariableSymbol(name1, type1)
-        for_block_symbol_table.put(iden1)
-        
-        self.visit(node.stmt, for_block_symbol_table)
-
+        pass
 
     def visit_Stmt6(self, node, table):
         #print(f"visiting22: stmt6")
@@ -130,10 +122,10 @@ class PreProcess(NodeVisitor):
         vector_funcition_symbol = FunctionSymbol("list", "vector", [{"iden": "x", "type": "int"}] )
         table.put(vector_funcition_symbol)
 
-        #getVector_funcition_symbol = FunctionSymbol("getVector", "vector", [{"iden": "A", "type": "vector"}] )
-        #table.put(getVector_funcition_symbol)
+        getVector_funcition_symbol = FunctionSymbol("getVector", "vector", [{"iden": "A", "type": "vector"}] )
+        table.put(getVector_funcition_symbol)
 
-        printVector_funcition_symbol = FunctionSymbol("printVector", "vector", [{"iden": "A", "type": "vector"}] )
+        printVector_funcition_symbol = FunctionSymbol("print", "vector", [{"iden": "A", "type": "vector"}] )
         table.put(printVector_funcition_symbol)
 
         len_funcition_symbol = FunctionSymbol("length", "int", [{"iden": "A", "type": "vector"}] )

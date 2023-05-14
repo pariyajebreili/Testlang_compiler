@@ -169,13 +169,13 @@ class Grammar(object):
 
         
     def p_stmt5(self, p):
-        '''stmt : FOR LPAREN iden EQ expr TO expr RPAREN stmt'''
+        '''stmt : FOR LPAREN expr TO expr RPAREN stmt'''
         p[0] = "stmt"
         p[0] = {
             "name": "stmt",
             "lineno": self.lexer.lineno,
             "st": SyntaxTreeUtil.create_node(p),
-            "ast": Stmt5(p[3]["ast"], p[4], p[5]["ast"], p[7]["ast"], p[9]["ast"], self.lexer.lineno)
+            "ast": Stmt5(p[3]["ast"], p[5]["ast"], p[7]["ast"], self.lexer.lineno)
         }
 
         

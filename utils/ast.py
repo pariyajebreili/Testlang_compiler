@@ -107,14 +107,12 @@ class Stmt4(Node):
 
 
 class Stmt5(Node):
-    def __init__(self, iden1, oper, expr1, expr2, stmt, lineno):
+    def __init__(self, expr1, expr2, stmt, lineno):
         self.lineno = lineno
-        self.iden1 = iden1
-        self.oper = oper
         self.expr1 = expr1
         self.expr2 = expr2
         self.stmt = stmt
-        self.children = (iden1, expr1, expr2, stmt,)
+        self.children = (expr1, expr2, stmt,)
 
 
 class Stmt6(Node):

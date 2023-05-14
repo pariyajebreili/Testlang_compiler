@@ -22,7 +22,7 @@ Rule 10    stmt -> IF LPAREN error RPAREN stmt else_choice
 Rule 11    else_choice -> empty
 Rule 12    else_choice -> ELSE stmt
 Rule 13    stmt -> func
-Rule 14    stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt
+Rule 14    stmt -> FOR LPAREN expr TO expr RPAREN stmt
 Rule 15    stmt -> RETURN expr SEMI_COLON
 Rule 16    stmt -> LBRACE body RBRACE
 Rule 17    expr -> iden LPAREN clist RPAREN
@@ -75,7 +75,7 @@ COMMENT              :
 DEF                  : 3 4
 DIVIDE               : 24
 ELSE                 : 12
-EQ                   : 14 35 47
+EQ                   : 35 47
 FOR                  : 14
 GREATER_EQUAL        : 29
 GREATER_THAN         : 31
@@ -120,7 +120,7 @@ empty                : 11 43 48
 expr                 : 7 9 14 14 15 19 19 20 21 21 21 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 37 38 44 45 47
 flist                : 3 50
 func                 : 1 2 13
-iden                 : 3 4 14 17 18 41 46 47 49 50
+iden                 : 3 4 17 18 41 46 47 49 50
 num                  : 42
 prog                 : 2 0
 stmt                 : 5 6 9 10 12 14
@@ -357,7 +357,7 @@ state 20
     (9) stmt -> . IF LPAREN expr RPAREN stmt else_choice
     (10) stmt -> . IF LPAREN error RPAREN stmt else_choice
     (13) stmt -> . func
-    (14) stmt -> . FOR LPAREN iden EQ expr TO expr RPAREN stmt
+    (14) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
     (15) stmt -> . RETURN expr SEMI_COLON
     (16) stmt -> . LBRACE body RBRACE
     (17) expr -> . iden LPAREN clist RPAREN
@@ -424,7 +424,7 @@ state 21
     (9) stmt -> . IF LPAREN expr RPAREN stmt else_choice
     (10) stmt -> . IF LPAREN error RPAREN stmt else_choice
     (13) stmt -> . func
-    (14) stmt -> . FOR LPAREN iden EQ expr TO expr RPAREN stmt
+    (14) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
     (15) stmt -> . RETURN expr SEMI_COLON
     (16) stmt -> . LBRACE body RBRACE
     (17) expr -> . iden LPAREN clist RPAREN
@@ -529,7 +529,7 @@ state 24
     (9) stmt -> . IF LPAREN expr RPAREN stmt else_choice
     (10) stmt -> . IF LPAREN error RPAREN stmt else_choice
     (13) stmt -> . func
-    (14) stmt -> . FOR LPAREN iden EQ expr TO expr RPAREN stmt
+    (14) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
     (15) stmt -> . RETURN expr SEMI_COLON
     (16) stmt -> . LBRACE body RBRACE
     (17) expr -> . iden LPAREN clist RPAREN
@@ -604,7 +604,7 @@ state 26
     (9) stmt -> . IF LPAREN expr RPAREN stmt else_choice
     (10) stmt -> . IF LPAREN error RPAREN stmt else_choice
     (13) stmt -> . func
-    (14) stmt -> . FOR LPAREN iden EQ expr TO expr RPAREN stmt
+    (14) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
     (15) stmt -> . RETURN expr SEMI_COLON
     (16) stmt -> . LBRACE body RBRACE
     (17) expr -> . iden LPAREN clist RPAREN
@@ -739,7 +739,7 @@ state 30
 
 state 31
 
-    (14) stmt -> FOR . LPAREN iden EQ expr TO expr RPAREN stmt
+    (14) stmt -> FOR . LPAREN expr TO expr RPAREN stmt
 
     LPAREN          shift and go to state 64
 
@@ -1909,12 +1909,46 @@ state 63
 
 state 64
 
-    (14) stmt -> FOR LPAREN . iden EQ expr TO expr RPAREN stmt
+    (14) stmt -> FOR LPAREN . expr TO expr RPAREN stmt
+    (17) expr -> . iden LPAREN clist RPAREN
+    (18) expr -> . iden LPAREN error RPAREN
+    (19) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (20) expr -> . expr LSQUAREBR error RSQUAREBR
+    (21) expr -> . expr QMARK expr COLON expr
+    (22) expr -> . expr PARITY expr
+    (23) expr -> . expr NOT_EQ expr
+    (24) expr -> . expr DIVIDE expr
+    (25) expr -> . expr TIMES expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr PLUS expr
+    (28) expr -> . expr MOD expr
+    (29) expr -> . expr GREATER_EQUAL expr
+    (30) expr -> . expr LESS_EQUAL expr
+    (31) expr -> . expr GREATER_THAN expr
+    (32) expr -> . expr LESS_THAN expr
+    (33) expr -> . expr OR expr
+    (34) expr -> . expr AND expr
+    (35) expr -> . expr EQ expr
+    (36) expr -> . MINUS expr
+    (37) expr -> . PLUS expr
+    (38) expr -> . NOT expr
+    (39) expr -> . LSQUAREBR clist RSQUAREBR
+    (40) expr -> . LSQUAREBR error RSQUAREBR
+    (41) expr -> . iden
+    (42) expr -> . num
     (51) iden -> . IDEN
+    (55) num -> . NUM
 
+    MINUS           shift and go to state 34
+    PLUS            shift and go to state 35
+    NOT             shift and go to state 36
+    LSQUAREBR       shift and go to state 33
     IDEN            shift and go to state 10
+    NUM             shift and go to state 39
 
-    iden                           shift and go to state 97
+    expr                           shift and go to state 97
+    iden                           shift and go to state 23
+    num                            shift and go to state 37
 
 state 65
 
@@ -3276,9 +3310,42 @@ state 96
 
 state 97
 
-    (14) stmt -> FOR LPAREN iden . EQ expr TO expr RPAREN stmt
+    (14) stmt -> FOR LPAREN expr . TO expr RPAREN stmt
+    (19) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (20) expr -> expr . LSQUAREBR error RSQUAREBR
+    (21) expr -> expr . QMARK expr COLON expr
+    (22) expr -> expr . PARITY expr
+    (23) expr -> expr . NOT_EQ expr
+    (24) expr -> expr . DIVIDE expr
+    (25) expr -> expr . TIMES expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . PLUS expr
+    (28) expr -> expr . MOD expr
+    (29) expr -> expr . GREATER_EQUAL expr
+    (30) expr -> expr . LESS_EQUAL expr
+    (31) expr -> expr . GREATER_THAN expr
+    (32) expr -> expr . LESS_THAN expr
+    (33) expr -> expr . OR expr
+    (34) expr -> expr . AND expr
+    (35) expr -> expr . EQ expr
 
-    EQ              shift and go to state 110
+    TO              shift and go to state 110
+    LSQUAREBR       shift and go to state 46
+    QMARK           shift and go to state 47
+    PARITY          shift and go to state 48
+    NOT_EQ          shift and go to state 49
+    DIVIDE          shift and go to state 50
+    TIMES           shift and go to state 51
+    MINUS           shift and go to state 52
+    PLUS            shift and go to state 53
+    MOD             shift and go to state 54
+    GREATER_EQUAL   shift and go to state 55
+    LESS_EQUAL      shift and go to state 56
+    GREATER_THAN    shift and go to state 57
+    LESS_THAN       shift and go to state 58
+    OR              shift and go to state 59
+    AND             shift and go to state 60
+    EQ              shift and go to state 61
 
 
 state 98
@@ -3580,7 +3647,7 @@ state 108
     (9) stmt -> . IF LPAREN expr RPAREN stmt else_choice
     (10) stmt -> . IF LPAREN error RPAREN stmt else_choice
     (13) stmt -> . func
-    (14) stmt -> . FOR LPAREN iden EQ expr TO expr RPAREN stmt
+    (14) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
     (15) stmt -> . RETURN expr SEMI_COLON
     (16) stmt -> . LBRACE body RBRACE
     (17) expr -> . iden LPAREN clist RPAREN
@@ -3644,7 +3711,7 @@ state 109
     (9) stmt -> . IF LPAREN expr RPAREN stmt else_choice
     (10) stmt -> . IF LPAREN error RPAREN stmt else_choice
     (13) stmt -> . func
-    (14) stmt -> . FOR LPAREN iden EQ expr TO expr RPAREN stmt
+    (14) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
     (15) stmt -> . RETURN expr SEMI_COLON
     (16) stmt -> . LBRACE body RBRACE
     (17) expr -> . iden LPAREN clist RPAREN
@@ -3702,7 +3769,7 @@ state 109
 
 state 110
 
-    (14) stmt -> FOR LPAREN iden EQ . expr TO expr RPAREN stmt
+    (14) stmt -> FOR LPAREN expr TO . expr RPAREN stmt
     (17) expr -> . iden LPAREN clist RPAREN
     (18) expr -> . iden LPAREN error RPAREN
     (19) expr -> . expr LSQUAREBR expr RSQUAREBR
@@ -3739,8 +3806,8 @@ state 110
     IDEN            shift and go to state 10
     NUM             shift and go to state 39
 
-    iden                           shift and go to state 23
     expr                           shift and go to state 116
+    iden                           shift and go to state 23
     num                            shift and go to state 37
 
 state 111
@@ -3914,7 +3981,7 @@ state 115
 
 state 116
 
-    (14) stmt -> FOR LPAREN iden EQ expr . TO expr RPAREN stmt
+    (14) stmt -> FOR LPAREN expr TO expr . RPAREN stmt
     (19) expr -> expr . LSQUAREBR expr RSQUAREBR
     (20) expr -> expr . LSQUAREBR error RSQUAREBR
     (21) expr -> expr . QMARK expr COLON expr
@@ -3933,7 +4000,7 @@ state 116
     (34) expr -> expr . AND expr
     (35) expr -> expr . EQ expr
 
-    TO              shift and go to state 122
+    RPAREN          shift and go to state 122
     LSQUAREBR       shift and go to state 46
     QMARK           shift and go to state 47
     PARITY          shift and go to state 48
@@ -4040,7 +4107,7 @@ state 120
     (9) stmt -> . IF LPAREN expr RPAREN stmt else_choice
     (10) stmt -> . IF LPAREN error RPAREN stmt else_choice
     (13) stmt -> . func
-    (14) stmt -> . FOR LPAREN iden EQ expr TO expr RPAREN stmt
+    (14) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
     (15) stmt -> . RETURN expr SEMI_COLON
     (16) stmt -> . LBRACE body RBRACE
     (17) expr -> . iden LPAREN clist RPAREN
@@ -4118,116 +4185,13 @@ state 121
 
 state 122
 
-    (14) stmt -> FOR LPAREN iden EQ expr TO . expr RPAREN stmt
-    (17) expr -> . iden LPAREN clist RPAREN
-    (18) expr -> . iden LPAREN error RPAREN
-    (19) expr -> . expr LSQUAREBR expr RSQUAREBR
-    (20) expr -> . expr LSQUAREBR error RSQUAREBR
-    (21) expr -> . expr QMARK expr COLON expr
-    (22) expr -> . expr PARITY expr
-    (23) expr -> . expr NOT_EQ expr
-    (24) expr -> . expr DIVIDE expr
-    (25) expr -> . expr TIMES expr
-    (26) expr -> . expr MINUS expr
-    (27) expr -> . expr PLUS expr
-    (28) expr -> . expr MOD expr
-    (29) expr -> . expr GREATER_EQUAL expr
-    (30) expr -> . expr LESS_EQUAL expr
-    (31) expr -> . expr GREATER_THAN expr
-    (32) expr -> . expr LESS_THAN expr
-    (33) expr -> . expr OR expr
-    (34) expr -> . expr AND expr
-    (35) expr -> . expr EQ expr
-    (36) expr -> . MINUS expr
-    (37) expr -> . PLUS expr
-    (38) expr -> . NOT expr
-    (39) expr -> . LSQUAREBR clist RSQUAREBR
-    (40) expr -> . LSQUAREBR error RSQUAREBR
-    (41) expr -> . iden
-    (42) expr -> . num
-    (51) iden -> . IDEN
-    (55) num -> . NUM
-
-    MINUS           shift and go to state 34
-    PLUS            shift and go to state 35
-    NOT             shift and go to state 36
-    LSQUAREBR       shift and go to state 33
-    IDEN            shift and go to state 10
-    NUM             shift and go to state 39
-
-    iden                           shift and go to state 23
-    expr                           shift and go to state 124
-    num                            shift and go to state 37
-
-state 123
-
-    (12) else_choice -> ELSE stmt .
-
-    ELSE            reduce using rule 12 (else_choice -> ELSE stmt .)
-    IF              reduce using rule 12 (else_choice -> ELSE stmt .)
-    FOR             reduce using rule 12 (else_choice -> ELSE stmt .)
-    RETURN          reduce using rule 12 (else_choice -> ELSE stmt .)
-    LBRACE          reduce using rule 12 (else_choice -> ELSE stmt .)
-    MINUS           reduce using rule 12 (else_choice -> ELSE stmt .)
-    PLUS            reduce using rule 12 (else_choice -> ELSE stmt .)
-    NOT             reduce using rule 12 (else_choice -> ELSE stmt .)
-    LSQUAREBR       reduce using rule 12 (else_choice -> ELSE stmt .)
-    VAR             reduce using rule 12 (else_choice -> ELSE stmt .)
-    DEF             reduce using rule 12 (else_choice -> ELSE stmt .)
-    IDEN            reduce using rule 12 (else_choice -> ELSE stmt .)
-    NUM             reduce using rule 12 (else_choice -> ELSE stmt .)
-    RBRACE          reduce using rule 12 (else_choice -> ELSE stmt .)
-
-
-state 124
-
-    (14) stmt -> FOR LPAREN iden EQ expr TO expr . RPAREN stmt
-    (19) expr -> expr . LSQUAREBR expr RSQUAREBR
-    (20) expr -> expr . LSQUAREBR error RSQUAREBR
-    (21) expr -> expr . QMARK expr COLON expr
-    (22) expr -> expr . PARITY expr
-    (23) expr -> expr . NOT_EQ expr
-    (24) expr -> expr . DIVIDE expr
-    (25) expr -> expr . TIMES expr
-    (26) expr -> expr . MINUS expr
-    (27) expr -> expr . PLUS expr
-    (28) expr -> expr . MOD expr
-    (29) expr -> expr . GREATER_EQUAL expr
-    (30) expr -> expr . LESS_EQUAL expr
-    (31) expr -> expr . GREATER_THAN expr
-    (32) expr -> expr . LESS_THAN expr
-    (33) expr -> expr . OR expr
-    (34) expr -> expr . AND expr
-    (35) expr -> expr . EQ expr
-
-    RPAREN          shift and go to state 125
-    LSQUAREBR       shift and go to state 46
-    QMARK           shift and go to state 47
-    PARITY          shift and go to state 48
-    NOT_EQ          shift and go to state 49
-    DIVIDE          shift and go to state 50
-    TIMES           shift and go to state 51
-    MINUS           shift and go to state 52
-    PLUS            shift and go to state 53
-    MOD             shift and go to state 54
-    GREATER_EQUAL   shift and go to state 55
-    LESS_EQUAL      shift and go to state 56
-    GREATER_THAN    shift and go to state 57
-    LESS_THAN       shift and go to state 58
-    OR              shift and go to state 59
-    AND             shift and go to state 60
-    EQ              shift and go to state 61
-
-
-state 125
-
-    (14) stmt -> FOR LPAREN iden EQ expr TO expr RPAREN . stmt
+    (14) stmt -> FOR LPAREN expr TO expr RPAREN . stmt
     (7) stmt -> . expr SEMI_COLON
     (8) stmt -> . defvar SEMI_COLON
     (9) stmt -> . IF LPAREN expr RPAREN stmt else_choice
     (10) stmt -> . IF LPAREN error RPAREN stmt else_choice
     (13) stmt -> . func
-    (14) stmt -> . FOR LPAREN iden EQ expr TO expr RPAREN stmt
+    (14) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
     (15) stmt -> . RETURN expr SEMI_COLON
     (16) stmt -> . LBRACE body RBRACE
     (17) expr -> . iden LPAREN clist RPAREN
@@ -4276,31 +4240,51 @@ state 125
     IDEN            shift and go to state 10
     NUM             shift and go to state 39
 
-    iden                           shift and go to state 23
     expr                           shift and go to state 27
-    stmt                           shift and go to state 126
+    stmt                           shift and go to state 124
     defvar                         shift and go to state 28
     func                           shift and go to state 30
+    iden                           shift and go to state 23
     num                            shift and go to state 37
 
-state 126
+state 123
 
-    (14) stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .
+    (12) else_choice -> ELSE stmt .
 
-    IF              reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    FOR             reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    RETURN          reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    LBRACE          reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    MINUS           reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    PLUS            reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    NOT             reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    LSQUAREBR       reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    VAR             reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    DEF             reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    IDEN            reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    NUM             reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    RBRACE          reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
-    ELSE            reduce using rule 14 (stmt -> FOR LPAREN iden EQ expr TO expr RPAREN stmt .)
+    ELSE            reduce using rule 12 (else_choice -> ELSE stmt .)
+    IF              reduce using rule 12 (else_choice -> ELSE stmt .)
+    FOR             reduce using rule 12 (else_choice -> ELSE stmt .)
+    RETURN          reduce using rule 12 (else_choice -> ELSE stmt .)
+    LBRACE          reduce using rule 12 (else_choice -> ELSE stmt .)
+    MINUS           reduce using rule 12 (else_choice -> ELSE stmt .)
+    PLUS            reduce using rule 12 (else_choice -> ELSE stmt .)
+    NOT             reduce using rule 12 (else_choice -> ELSE stmt .)
+    LSQUAREBR       reduce using rule 12 (else_choice -> ELSE stmt .)
+    VAR             reduce using rule 12 (else_choice -> ELSE stmt .)
+    DEF             reduce using rule 12 (else_choice -> ELSE stmt .)
+    IDEN            reduce using rule 12 (else_choice -> ELSE stmt .)
+    NUM             reduce using rule 12 (else_choice -> ELSE stmt .)
+    RBRACE          reduce using rule 12 (else_choice -> ELSE stmt .)
+
+
+state 124
+
+    (14) stmt -> FOR LPAREN expr TO expr RPAREN stmt .
+
+    IF              reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    FOR             reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    RETURN          reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    LBRACE          reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    MINUS           reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    PLUS            reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    NOT             reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    LSQUAREBR       reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    VAR             reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    DEF             reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    IDEN            reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    NUM             reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    RBRACE          reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    ELSE            reduce using rule 14 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
 
 WARNING: 
 WARNING: Conflicts:
