@@ -1,6 +1,6 @@
-from utils.symbol_table import *
-import utils.ast as AST
-from utils.node_visitor import NodeVisitor
+from my_utils.symbol_table import *
+import my_utils.ast as AST
+from my_utils.node_visitor import NodeVisitor
 import config
 
 
@@ -11,18 +11,18 @@ class TypeChecker(NodeVisitor):
     
 
     def visit_Prog1(self, node, table):
-        #print(f"visiting: prog1")
+        print(f"visiting: prog1")
         self.visit(node.func, config.global_symbol_table)
 
     
     def visit_Prog2(self, node, table):
-        #print(f"visiting: prog2")
+        print(f"visiting: prog2")
         self.visit(node.func,config.global_symbol_table)
         self.visit(node.prog, config.global_symbol_table)
 
 
     def visit_Func(self, node, table):
-        #print(f"visiting: func")
+        print(f"visiting: func")
         function_symbol = table.get(node.iden.iden_value["name"])
         function_name = function_symbol.name
         function_body_block = self.find_symbol_table(f"{function_name}_function_body_block_table", table)
@@ -32,31 +32,31 @@ class TypeChecker(NodeVisitor):
         
 
     def visit_Body1(self, node, table):
-        #print(f"visiting: body1")
+        print(f"visiting: body1")
         self.visit(node.stmt, table)
 
 
     def visit_Body2(self, node, table):
-        #print(f"visiting: body2")
+        print(f"visiting: body2")
         self.visit(node.stmt, table)
         self.visit(node.body, table)
 
 
 
     def visit_Stmt1(self, node, table):
-        #print(f"visiting: stmt1")
+        print(f"visiting: stmt1")
         self.visit(node.expr, table)
 
 
 
     def visit_Stmt2(self, node, table):
-        #print(f"visiting: stmt2")
+        print(f"visiting: stmt2")
         self.visit(node.defvar, table)
 
 
 
     def visit_Stmt3(self, node, table):
-        #print(f"visiting: stmt3")
+        print(f"visiting: stmt3")
         self.visit(node.expr, table)
         if_block_symbol_table = self.find_symbol_table(f"if_block_{node.lineno}", table) 
         self.visit(node.stmt, if_block_symbol_table)
@@ -65,25 +65,25 @@ class TypeChecker(NodeVisitor):
 
 
     def visit_Else_choice1(self, node, table):
-        #print(f"visiting: stmt4")
+        print(f"visiting: stmt4")
         pass
 
 
     def visit_Else_choice2(self, node, table):
-        #print(f"visiting: stmt4")
+        print(f"visiting: stmt4")
         else_block_symbol_table = self.find_symbol_table(f"else_block_{node.lineno}", table) 
         self.visit(node.stmt, else_block_symbol_table)
 
 
 
     def visit_Stmt4(self, node, table):
-        #print(f"visiting: prog2")
+        print(f"visiting: prog2")
         self.visit(node.func,config.global_symbol_table)
 
     
 
     def visit_Stmt5(self, node, table):
-        #print(f"visiting: stmt5")
+        print(f"visiting: stmt5")
         type_of_first = self.visit(node.expr1, table)
         type_of_second = self.visit(node.expr2, table)
         if type_of_first == "int" and type_of_second == "int":
@@ -97,7 +97,7 @@ class TypeChecker(NodeVisitor):
 
 
     def visit_Stmt6(self, node, table):
-        #print(f"visiting: stmt6")
+        print(f"visiting: stmt6")
         res = self.visit(node.expr, table)
         function_name = []
         while not "_function_body_block_table" in table.name and table:
@@ -115,13 +115,13 @@ class TypeChecker(NodeVisitor):
 
 
     def visit_Stmt7(self, node, table):
-        #print(f"visiting: stmt7")
+        print(f"visiting: stmt7")
         body_block_symbol_table = self.find_symbol_table(f"body_block_{node.lineno}", table)
         self.visit(node.body, body_block_symbol_table)
 
 
     def visit_Defvar(self, node, table):
-        #print(f"visiting: defvar")
+        print(f"visiting: defvar")
         name = node.iden.iden_value["name"]
         type = node.type.type_value["name"]
         if not table.put(VariableSymbol(name, type)):
@@ -133,7 +133,7 @@ class TypeChecker(NodeVisitor):
 
     def visit_Expr1(self, node, table):
         #function call
-        #print(f"visiting: expr1")
+        print(f"visiting: expr1")
         function_iden = node.iden.iden_value["name"]
         function_symbol = table.get(function_iden)
         if isinstance(function_symbol, FunctionSymbol):
@@ -144,7 +144,6 @@ class TypeChecker(NodeVisitor):
                     self.semantic_messages.add_message({"message": f"Function '{function_iden}' Expected {len(parameters)} Arguments Not {len(arguments)}", "lineno": node.clist.lineno})
                     return function_symbol.type
 
-            # check arguments types with parameters types
             for i in range(len(function_symbol.parameters)):
                 par_type = parameters[i]
                 arg_type = arguments[i]
@@ -152,33 +151,30 @@ class TypeChecker(NodeVisitor):
                     self.semantic_messages.add_message({"message": f"{node.clist.lineno}: {i+1}th Argument of Function '{function_iden}' Expected '{par_type}'", "lineno":node.clist.lineno})
                     return function_symbol.type
             return function_symbol.type
-        
-
-        #function is not declared but it can be called becasue of error handling, it returns "none"        
+              
         else:
             result = table.get(function_iden, check_parent=False)
-            #if there is not a var with the same name in the same scope then it would make a function that returns "none" in the same scope
+ 
             if not result:
                 self.semantic_messages.add_message({"message": f"Function: '{function_iden}' Not Defined", "lineno": node.iden.lineno})
                 new_declared_func_for_error_handling = FunctionSymbol(function_iden, "none",[])
                 table.put(new_declared_func_for_error_handling)
 
-            #if there is a var in the same scope with this name, return it's type
+    
             else:
                 self.semantic_messages.add_message({"message": f"'{function_iden}' Is Not Declared AS a Function", "lineno": node.iden.lineno})
                 return result.type
 
 
     def visit_Expr2(self, node, table):
-        # calling an array
-        #print(f"visiting: expr2")
+        print(f"visiting: expr2")
         type_of_array_iden = self.visit(node.expr, table)
         type_of_array_index = self.visit(node.expr2, table)
         if type_of_array_iden == "vector" and type_of_array_index == "int":
             return "int"
 
         else:
-            self.semantic_messages.add_message({"message": f" Expected an Array ", "lineno": node.expr.lineno})
+            self.semantic_messages.add_message({"message": f" Expected an Vector ", "lineno": node.expr.lineno})
             if type_of_array_index != "int":
                 self.semantic_messages.add_message({"message": f'{node.expr.lineno}: Expected Numeric Value', "lineno": node.expr.lineno})
             return "none"
@@ -187,7 +183,7 @@ class TypeChecker(NodeVisitor):
 
 
     def visit_Expr3(self, node, table):
-        #print(f"visiting: expr3")
+        print(f"visiting: expr3")
         condition_expr = self.visit(node.expr, table)
         true_block_expr = self.visit(node.expr2, table)
         false_block_expr = self.visit(node.expr3, table)
@@ -198,12 +194,11 @@ class TypeChecker(NodeVisitor):
 
 
     def visit_Expr4(self, node, table):
-        #print(f"visiting: expr4")
+        print(f"visiting: expr4")
         first_operand = self.visit(node.expr, table)
         second_operand = self.visit(node.expr2, table)
         operator = node.oper["name"]
 
-        #check if it's like id = expr
         first_operand_is_iden = isinstance(node.expr, AST.Expr7)
         if operator == "=" and first_operand == "none" and second_operand !="none" and first_operand_is_iden:
             first_operand_name = node.expr.iden.iden_value["name"]
@@ -219,8 +214,7 @@ class TypeChecker(NodeVisitor):
 
 
     def visit_Expr5(self, node, table):
-        #print(f"visiting: expr5")
-        #operator
+        print(f"visiting: expr5")
         operand = self.visit(node.expr, table)
         operator = node.oper["name"]
         if operand == "int" :
@@ -237,13 +231,13 @@ class TypeChecker(NodeVisitor):
 
 
     def visit_Expr6(self, node, table):
-        #print(f"visiting: expr6")
+        print(f"visiting: expr6")
         return self.visit(node.expr, table)
 
 
 
     def visit_Expr7(self, node, table):
-        #print(f"visiting: expr7")
+        print(f"visiting: expr7")
         result = self.visit(node.iden, table)
         if not result:
             new_declared_symbol_for_error_handling = VariableSymbol(node.iden.iden_value["name"],"none")
@@ -252,47 +246,42 @@ class TypeChecker(NodeVisitor):
         return result
         
 
-
-    #def visit_Expr8(self, node, table):
-    #    print(f"visiting: expr8")
-    #    function_iden = node.iden.iden_value["name"]
-        
-    
-
-
     def visit_Expr9(self, node, table):
-        #print(f"visiting: expr9")
+        print(f"visiting: expr9")
         return self.visit(node.num, table)
-
-
+    
+    #def visit_Expr10(self, node, table):
+    #    print(f"visiting: expr10")
+    #    return self.visit(node.string, table)
 
 
     def visit_Clist1(self, node, table):
-        #print(f"visiting: clist1")
+        print(f"visiting: clist1")
         pass
 
     def visit_Clist2(self, node, table):
-        #print(f"visiting: clist2")
+        print(f"visiting: clist2")
         return self.visit(node.expr, table)
         
     def visit_Clist3(self, node, table):
-        #print(f"visiting: clist3")
+        print(f"visiting: clist3")
         self.visit(node.clist, table)
         return self.visit(node.expr, table)
 
 
-
+    
     def visit_Type(self, node, table):
-        #print(f"visiting: type")
+        print(f"visiting: type")
         type = node.type_value["name"]
         return type
 
+
     def visit_Num(self, node, table):
-        #print(f"visiting: num")
+        print(f"visiting: num")
         return "int" 
 
     def visit_Iden(self, node, table):
-        #print(f"visiting: iden")
+        print(f"visiting: iden")
         name = node.iden_value["name"]
         symbol = table.get(name)
         if not symbol:
@@ -303,7 +292,7 @@ class TypeChecker(NodeVisitor):
         return symbol.type
 
     def visit_Empty(self, node, table):
-        #print(f"visiting: empty")
+        print(f"visiting: empty")
         pass
 
 

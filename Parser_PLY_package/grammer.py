@@ -1,7 +1,7 @@
-from lexer.tokens import Tokens   
-from utils.syntax_tree import SyntaxTreeUtil
-from utils.ast import *
 import config
+from Lexical_Analyzer_PLY_package.tokens import Tokens   
+from my_utils.syntax_tree import SyntaxTreeUtil
+from my_utils.ast import *
 
 
 class Grammar(object):
@@ -10,8 +10,6 @@ class Grammar(object):
 
     def __init__(self, parser_messages):
         self.parser_messages = parser_messages
-
-
 
     def p_prog1(self, p):
         '''prog : func'''
@@ -200,65 +198,17 @@ class Grammar(object):
         }
 
 
-    #def p_stmt8(self, p):
-    #    '''stmt : WHILE LPAREN expr RPAREN stmt'''
-    #    p[0] = "stmt"
-    #    p[0] = {
-    #        "name": "stmt",
-    #        "lineno": self.lexer.lineno,
-    #        "st": SyntaxTreeUtil.create_node(p),
-    #        "ast": Stmt8(p[3]["ast"], p[5]["ast"], self.lexer.lineno)
-    #    }
+    def p_stmt8(self, p):
+        '''stmt : WHILE LPAREN expr RPAREN stmt'''
+        p[0] = "stmt"
+        p[0] = {
+            "name": "stmt",
+            "lineno": self.lexer.lineno,
+            "st": SyntaxTreeUtil.create_node(p),
+            "ast": Stmt8(p[3]["ast"], p[5]["ast"], self.lexer.lineno)
+        }
 
 
-    #def p_expr1(self, p):
-    #    '''expr : expr LSQUAREBR expr RSQUAREBR'''
-    #    p[0] = "expr"
-    #    p[0] = {
-    #        "name": "expr",
-    #        "lineno": self.lexer.lineno,
-    #        "st": SyntaxTreeUtil.create_node(p),
-    #        "ast": Expr1(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
-    #    }
-
-
-    #def p_expr1_error(self, p):
-    #    '''expr : expr LSQUAREBR error RSQUAREBR'''
-    #    self.parser_messages.add_message(
-    #        {"message": "No Appropraite Arguments", "lineno": self.last_message_line, "is_warning": True})
-    #    p[3] = p[3].value
-    #    p[0] = "expr"
-    #    p[0] = {
-    #        "name": "expr",
-    #        "lineno": self.lexer.lineno,
-    #        "st": SyntaxTreeUtil.create_node(p),
-    #        "ast": Expr1(p[1]["ast"], p[3], self.lexer.lineno)
-    #    }
-
-
-
-    #def p_expr2(self, p):
-    #    '''expr : iden LPAREN clist RPAREN'''
-    #    p[0] = "expr"
-    #    p[0] = {
-    #        "name": "expr",
-    #        "lineno": self.lexer.lineno,
-    #        "st": SyntaxTreeUtil.create_node(p),
-    #        "ast": Expr1(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
-    #    }
-
-    #def p_expr2_error(self, p):
-    #    '''expr : iden LPAREN error RPAREN'''
-    #    self.parser_messages.add_message(
-    #        {"message": "No Appropraite Arguments", "lineno": self.last_message_line, "is_warning": True})
-    #    p[3] = p[3].value
-    #    p[0] = "expr"
-    #    p[0] = {
-    #        "name": "expr",
-    #        "lineno": self.lexer.lineno,
-    #        "st": SyntaxTreeUtil.create_node(p),
-    #        "ast": Expr1(p[1]["ast"], p[3], self.lexer.lineno)
-    #    }
 
 
     def p_expr1(self, p):
@@ -270,6 +220,8 @@ class Grammar(object):
             "st": SyntaxTreeUtil.create_node(p),
             "ast": Expr1(p[1]["ast"], p[3]["ast"], self.lexer.lineno)
         }
+
+
     def p_expr1_error(self, p):
         '''expr : iden LPAREN error RPAREN'''
         self.parser_messages.add_message(
@@ -386,20 +338,6 @@ class Grammar(object):
             "ast": Expr7(p[1]["ast"], self.lexer.lineno)
         }
 
-
-
-    #def p_expr8(self, p):
-    #    '''expr : iden EQ expr'''
-    #    p[0] = "expr"
-    #    p[0] = {
-    #        "name": "expr",
-    #        "lineno": self.lexer.lineno,
-    #        "st": SyntaxTreeUtil.create_node(p),
-    #        "ast": Expr8(p[1]["ast"], p[2], p[3]["ast"], self.lexer.lineno)
-    #    }
-
-
-
     def p_expr9(self, p):
         '''expr : num'''
         p[0] = "expr"
@@ -409,6 +347,18 @@ class Grammar(object):
             "st": SyntaxTreeUtil.create_node(p),
             "ast": Expr9(p[1]["ast"], self.lexer.lineno)
         }
+        
+
+    #def p_expr10(self, p):
+    #    '''expr : STR'''
+    #    p[0] = "expr"
+    #    p[0] = {
+    #        "name": "expr",
+    #        "lineno": self.lexer.lineno,
+    #        "st": SyntaxTreeUtil.create_node(p),
+    #        "ast": Expr10(p[1]["ast"], self.lexer.lineno)
+    #    }
+
 
 
 
@@ -448,7 +398,6 @@ class Grammar(object):
 
     def p_defvar1(self, p):
         '''defvar : VAR type iden'''
-        #
         p[0] = "defvar"
         p[0] = {
             "name": "defvar",
@@ -461,7 +410,6 @@ class Grammar(object):
 
     def p_defvar2(self, p):
         '''defvar : VAR type iden EQ expr'''
-        #
         p[0] = "defvar"
         p[0] = {
             "name": "defvar",
@@ -512,13 +460,25 @@ class Grammar(object):
             "st": SyntaxTreeUtil.create_node(p),
             "ast": Iden(p[1], self.lexer.lineno)
         }
-       
 
+
+
+    #def p_string(self, p):
+    #    '''string : STRING'''
+    #    p[0] = "string"
+    #    p[0] = {
+    #        "name": "string",
+    #        "lineno": self.lexer.lineno,
+    #        "st": SyntaxTreeUtil.create_node(p),
+    #        "ast": STRING(p[1], self.lexer.lineno)
+    #    }
 
     def p_type(self, p):
         '''type : INT
                 | VECTOR
+                | STRING
                 | NULL'''
+        
         p[0] = "type"
         p[0] = {
             "name": "type",
@@ -555,12 +515,3 @@ class Grammar(object):
     
 
 
-    precedence = (
-        ('left', 'error'),
-        ('left', 'AND', 'OR'),
-        ('left', 'NOT', 'LESS_EQUAL', 'GREATER_EQUAL','NOT_EQ', 'PARITY', 'LESS_THAN', 'GREATER_THAN'),
-        ('left', 'EQ', 'QMARK', 'COLON'),
-        ('left', 'PLUS', 'MINUS'),
-        ('left', 'TIMES', 'DIVIDE', 'MOD'),
-        ('left', 'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE')
-    )

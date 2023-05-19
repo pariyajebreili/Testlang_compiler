@@ -1,6 +1,6 @@
 from os import error
-from utils.symbol_table import *
-import utils.ast as AST
+from my_utils.symbol_table import *
+import my_utils.ast as AST
 
 class NodeVisitor(object):
     

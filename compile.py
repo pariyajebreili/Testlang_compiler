@@ -1,14 +1,14 @@
-from utils.symbol_table import SymbolTable
-from utils.compiler_messages import CompilerMessages
-from lexer.tokens import Tokens
-from lexer.lexer import Lexer
+from my_utils.symbol_table import SymbolTable
+#from my_utils.compiler_messages import CompilerMessages
+from Lexical_Analyzer_PLY_package.tokens import Tokens
+from Lexical_Analyzer_PLY_package.lexer import Lexer
 from Parser_PLY_package.grammer import Grammar
 from Parser_PLY_package.parser import Parser
 from semantic.type_checker import TypeChecker
 from semantic.preprocess import PreProcess
-from utils.show_tree import show_tree
+from my_utils.show_tree import show_tree
 import config
-from utils.color_prints import Colorprints
+from my_utils.colorprints import ColorPrints
 
 
 class Compiler(object):
@@ -35,7 +35,7 @@ class Compiler(object):
 
         self.lexer.build(data)
         if data.strip() == "":
-            Colorprints.print_in_red("No Code For Generting!")
+            ColorPrints.print_in_red("No Code For Generting!")
             return
         self.parser.build(data)
         try:
@@ -43,24 +43,24 @@ class Compiler(object):
                 try:
                     show_tree(config.syntax_tree)
                 except:
-                    Colorprints.print_in_red("Can Not Build The Syntax Tree!")
+                    ColorPrints.print_in_red("Can Not Build The Syntax Tree!")
             #lexer errors
             if print_messages:
                 if self.lexer_messages.errors == 0 and not self.compiled_failed:
-                    Colorprints.print_in_purple(f"No Lexer Error Found!")
+                    ColorPrints.print_in_purple(f"No Lexer Error Found!")
                     self.lexer_messages.print_messages()
 
                 elif self.lexer_messages.errors != 0 and not self.compiled_failed:
-                    Colorprints.print_in_red(f"{self.lexer_messages.errors} Lexer Errors Found!")
+                    ColorPrints.print_in_red(f"{self.lexer_messages.errors} Lexer Errors Found!")
                     self.lexer_messages.print_messages()
                 
                 #parser errors
                 if self.parser_messages.errors == 0 and not self.compiled_failed:
-                    Colorprints.print_in_purple(f"No Parser Error Found!")
+                    ColorPrints.print_in_purple(f"No Parser Error Found!")
                     self.parser_messages.print_messages()
 
                 elif self.parser_messages.errors != 0 and not self.compiled_failed:
-                    Colorprints.print_in_red(f"{self.parser_messages.errors} Parser Errors Found!")
+                    ColorPrints.print_in_red(f"{self.parser_messages.errors} Parser Errors Found!")
                     self.parser_messages.print_messages()
 
             #semantic
@@ -69,15 +69,47 @@ class Compiler(object):
             #semantic errors
             if print_messages:
                 if self.semantic_messages.errors == 0 and not self.compiled_failed:
-                    Colorprints.print_in_purple(f"No Semantic Error Found!")
+                    ColorPrints.print_in_purple(f"No Semantic Error Found!")
                     self.semantic_messages.print_messages()
 
                 elif self.semantic_messages.errors != 0 and not self.compiled_failed:
-                    Colorprints.print_in_red(f"{self.semantic_messages.errors} Semantic Errors Found!")
+                    ColorPrints.print_in_red(f"{self.semantic_messages.errors} Semantic Errors Found!")
                     self.semantic_messages.print_messages()
        
         except:
             self.compiled_failed = True
 
         if self.compiled_failed:
-            Colorprints.print_in_red("Compile Failed!!!!!!")
+            ColorPrints.print_in_red("Compile Failed!!!!!!")
+
+
+
+class CompilerMessages(object):
+    def __init__(self):
+        self.errors = 0
+        self.warnings = 0
+        self.messages = []
+
+
+    def print_messages(self):
+        self.messages.sort(key=self.sort_by_lineno)
+        for msg in self.messages:
+            ColorPrints.print_in_black(f"{config.code_file_path}:", end="")
+            ColorPrints.print_in_cyan(f"{msg['lineno']}: ", end="")
+            if "is_warning" in msg:
+                ColorPrints.print_in_yellow(f"{msg['message']}")
+            else:
+                ColorPrints.print_in_red(f"{msg['message']}")
+
+
+    def add_message(self, message):
+        if not message in self.messages:
+            self.messages.append(message)
+            if not "is_warning" in message:
+                self.errors += 1 
+            else:
+                message["message"] = "WARNING" + message["message"]
+                self.warnings +=1
+
+    def sort_by_lineno(self, msg):
+        return msg["lineno"]

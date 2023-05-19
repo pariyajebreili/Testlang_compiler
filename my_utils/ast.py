@@ -210,20 +210,26 @@ class Expr7(Node):
         self.children = (iden,)
 
 
-#class Expr8(Node):
-#    def __init__(self, iden, oper, expr, lineno):
-#        self.lineno = lineno
-#        self.iden = iden
-#        self.oper = oper
-#        self.expr = expr
-#        self.children = (iden, expr,)
-
-
 class Expr9(Node):
     def __init__(self, num, lineno):
         self.lineno = lineno
         self.num = num
         self.children = (num,)
+
+
+class Expr10(Node):
+    def __init__(self, string, lineno):
+        self.lineno = lineno
+        self.string = string
+        self.children = (string,)
+
+
+
+#class STRING(Node):
+#    def __init__(self, string, lineno):
+#        self.lineno = lineno
+#        self.string= string
+#        self.children = (string,)
 
 
 class Type(Node):

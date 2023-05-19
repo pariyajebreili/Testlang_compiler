@@ -1,9 +1,9 @@
 import os
 import config
 from compile import Compiler
-from utils.color_prints import Colorprints
 
-file_address = input("\033[32m{}\033[00m".format("Directory: "))
+
+file_address = "C:\\Users\\pariya\\OneDrive\\Desktop\\New folder\\testlang_compiler\\testgrammer.tes"
 file_not_found = False
 try:
     with open(file_address) as f:
@@ -17,4 +17,4 @@ if not file_not_found:
     compiler = Compiler()
     compiler.compile(data, show_syntax_tree=True, print_messages=True)
 else:
-    Colorprints.print_in_red("NO File With This Directory!")
+    print("Wrong Directory!")

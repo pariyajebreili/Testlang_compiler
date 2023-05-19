@@ -1,4 +1,7 @@
+from ply.lex import lex
+
 class Tokens(object):
+
 
     def __init__(self, lexer_messages):
         self.lexer_messages = lexer_messages
@@ -18,11 +21,12 @@ class Tokens(object):
         'or':  'OR',
         'vector':'VECTOR',
         'null':'NULL',
+       
     }
 
     #--Tokens--
     tokens=[
-        'NUM','COMMENT','STR','IDEN',
+        'NUM','IDEN','STRING',
         # Operators
         'PLUS','TIMES','DIVIDE','MOD','MINUS',
         # Delimeters
@@ -59,11 +63,10 @@ class Tokens(object):
 
 
     #ignore Tab and enter
-    #t_VECTOR = r'\[[^\]]*\]'
-   
+    t_ignore = ' \t'
 
     def t_COMMENT(self, t):
-        r"[ ]*\043[^\n]*"  # \043 is '#'
+        r' \x23.*'
         pass
 
     def t_IDEN(self,t):
@@ -79,15 +82,32 @@ class Tokens(object):
         return t
     
 
+    def t_STRING(self,t):
+        r'"[^"]*"'
+        t.value = t.value[1:-1]  # remove the quotes from the string value
+        return t
+
     def t_newline(self, t):
         r"\n+"
         #t.lexer.lineno += t.value.count("\n")
         t.lexer.lineno += len(t.value)
         #print(t.lexer.lineno)
-    t_ignore = ' \t'
+    
    
     # recognize illegal character
     def t_error(self, t):
         self.lexer_messages.add_message(
             {"message": f"Illegal character '{t.value[0]}'", "lineno": t.lexer.lineno})
         t.lexer.skip(1)
+
+
+    precedence = (
+        ('left', 'error'),
+        ('left', 'AND', 'OR'),
+        ('left', 'NOT', 'LESS_EQUAL', 'GREATER_EQUAL','NOT_EQ', 'PARITY', 'LESS_THAN', 'GREATER_THAN'),
+        ('left', 'EQ', 'QMARK', 'COLON'),
+        ('left', 'PLUS', 'MINUS'),
+        ('left', 'TIMES', 'DIVIDE', 'MOD'),
+        ('left', 'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE')
+    )
+
