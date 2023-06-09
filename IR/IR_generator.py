@@ -42,8 +42,7 @@ class IRGenerator(NodeVisitor):
         self.builtin_funcs.reverse()
         for i in range(len(self.builtin_funcs)):
             if self.builtin_funcs[i]["used"] and not self.builtin_funcs[i]["included"] :
-                code = f'''{self.builtin_funcs[i]["code"]}
-{code}'''
+                code = f'''{self.builtin_funcs[i]["code"]}{code}'''
                 self.builtin_funcs[i]["included"] = True
 
         config.iR_code = code
@@ -105,6 +104,154 @@ class IRGenerator(NodeVisitor):
             code =""
         return code
 
+    def visit_Stmt2(self, node, table):
+        print(f"visiting: stmt2")
+        res = self.visit(node.defvar, table)
+
+        code = res
+        return code
+        
+
+
+    def visit_Stmt3(self, node, table):
+        print(f"visiting: stmt3")
+        res = self.visit(node.expr, table)
+        expr_code = res["code"]
+        expr_returned_reg = res["reg"]
+        if_block_symbol_table = self.find_symbol_table(f"if_block_{node.lineno}", table) 
+        stmt_code = self.visit(node.stmt, if_block_symbol_table)
+
+        label = ""
+        label2 = ""
+        else_choice_code = ""
+        if not isinstance(node.else_choice, AST.Empty):
+            else_choice_code = self.visit(node.else_choice, table)
+            label = self.create_label()
+            label2 = self.create_label()
+            code = f'''{expr_code}
+\tjz {expr_returned_reg}, {label}
+{stmt_code}
+\tjmp {label2}
+{label}:
+{else_choice_code}
+{label2}:'''
+        else:
+            label = self.create_label()
+            code = f'''{expr_code}
+\tjz {expr_returned_reg}, {label}
+{stmt_code}
+{label}:'''
+
+        return code
+
+
+    def visit_Else_choice1(self, node, table):
+        print(f"visiting: stmt4")
+        code = ""
+        return code
+
+
+    def visit_Else_choice2(self, node, table):
+        print(f"visiting: stmt4")
+        else_block_symbol_table = self.find_symbol_table(f"else_block_{node.lineno}", table) 
+        stmt_code = self.visit(node.stmt, else_block_symbol_table)
+
+        label = self.create_label()
+        code = f'''{stmt_code}'''
+
+        return code
+
+
+
+    def visit_Stmt4(self, node, table):
+        print(f"visiting: stmt4")
+        res = self.visit(node.expr, table)
+        expr_code = res["code"]
+        expr_returned_reg = res["reg"]
+
+        loop_block_symbol_table = self.find_symbol_table(f"loop_block_{node.lineno}", table) 
+        stmt_code = self.visit(node.stmt, loop_block_symbol_table)
+
+        label = self.create_label()
+        label2 = self.create_label()
+        code = f'''
+{label}:
+{expr_code}
+\tjz {expr_returned_reg}, {label2}
+{stmt_code}
+\tjmp {label}
+{label2}:'''
+
+        return code
+
+
+    def visit_Stmt5(self, node, table):
+        print(f"visiting: stmt5")
+        for_block_symbol_table = self.find_symbol_table(f"for_block_{node.lineno}", table) 
+        code = ""
+        name1 = node.iden1.iden_value["name"]
+        iden1_reg = self.initiate_var_symbol_register(name1, for_block_symbol_table)
+        name2 = node.iden2.iden_value["name"]
+        iden2_reg = self.initiate_var_symbol_register(name2, for_block_symbol_table)
+
+        res = self.visit(node.expr, table)
+        expr_code = res["code"]
+        expr_returned_reg = res["reg"]
+
+        res2 = self.visit(node.stmt, for_block_symbol_table)
+        stmt_code = res2
+
+        expr_type = getattr(node, "type")
+        
+
+        if expr_type == "int":
+            iden_reg = self.create_register()
+            tmp_reg = self.create_register()
+            tmp_reg2 = self.create_register()
+            label = self.create_label()
+            label2 = self.create_label()
+            code = f'''{expr_code}
+\tmov {iden_reg}, 0   
+{label}:
+\tcmp< {tmp_reg}, {iden_reg}, {expr_returned_reg}
+\tjz {tmp_reg}, {label2}
+{stmt_code}
+\tmov {tmp_reg2}, 1
+\tadd {iden_reg}, {tmp_reg2}, {iden_reg}
+\tjmp {label}
+{label2}:'''
+
+
+        elif expr_type == "Vector":
+            tmp_reg = self.create_register()
+            tmp_reg2 = self.create_register()
+            tmp_reg3 = self.create_register()
+            tmp_reg4 = self.create_register()
+            tmp_reg5 = self.create_register()
+            tmp_reg6 = self.create_register()
+            tmp_reg7 = self.create_register()
+            label = self.create_label()
+            label2 = self.create_label()
+            code = f'''
+\tld {tmp_reg}, {expr_returned_reg}
+\tmov {tmp_reg2}, 0
+\tmov {tmp_reg3}, {expr_returned_reg}
+\tmov {tmp_reg4}, {8}
+\tadd {tmp_reg3}, {tmp_reg3}, {tmp_reg4}
+{label}:
+\tcmp< {tmp_reg5}, {tmp_reg2}, {tmp_reg}
+\tjz {tmp_reg5}, {label2}
+\tld {tmp_reg6}, {tmp_reg3}
+\tmov {iden_reg}, {tmp_reg6}
+{stmt_code}
+\tmov {tmp_reg7}, 1
+\tadd {tmp_reg2}, {tmp_reg2}, {tmp_reg7}
+\tadd {tmp_reg3}, {tmp_reg3}, {tmp_reg4}
+\tjmp {label}
+{label2}:'''
+        return code        
+
+
 
     def visit_Stmt6(self, node, table):
         print(f"visiting: stmt6")
@@ -125,6 +272,37 @@ class IRGenerator(NodeVisitor):
             
 
 
+
+    def visit_Stmt7(self, node, table):
+        print(f"visiting: stmt7")
+        body_block_symbol_table = self.find_symbol_table(f"body_block_{node.lineno}", table) 
+        body_code = self.visit(node.body, body_block_symbol_table)
+        code = body_code
+        return code
+
+    
+    def visit_Defvar1(self, node, table):
+        print(f"visiting: defvar")
+        name = node.iden.iden_value["name"]
+        type = node.type.type_value["name"]
+        reg = self.initiate_var_symbol_register(name, table)
+
+        code = f'''
+\tmov {reg}, {0}'''
+        return code
+    
+
+    def visit_Defvar2(self, node, table):
+        print(f"visiting: defvar")
+        name = node.iden.iden_value["name"]
+        type = node.type.type_value["name"]
+        reg = self.initiate_var_symbol_register(name, table)
+
+        code = f'''
+\tmov {reg}, {0}'''
+        return code
+
+
             
     def visit_Expr1(self, node, table):
         print(f"visiting: expr1")
@@ -140,7 +318,7 @@ class IRGenerator(NodeVisitor):
 
         returning_reg = self.create_register()
 
-        if function_iden == "Array":
+        if function_iden == "Vector":
             self.memory_allocated_registers.append(returning_reg)
         
         for i in range(len(arguments)):
@@ -481,8 +659,8 @@ class IRGenerator(NodeVisitor):
 
         self.builtin_funcs.append({"name":"scan", "used":False, "included":False,
         "code":'''proc scan
-\tcall iget, r0
-\tret'''})
+        \tcall iget, r0
+        \tret'''})
 
 
         self.builtin_funcs.append({"name":"print", "used":False, "included":False,
@@ -510,37 +688,37 @@ class IRGenerator(NodeVisitor):
 \tld r1, r0
 \tmov r2, 1   
 \tmov r3, 8   
-label_getArray:
+label_getVector:
 \tcmp<= r4, r2, r1
-\tjz r4, label2_getArray
+\tjz r4, label2_getVector
 \tmul r4, r2, r3
 \tadd r5, r0, r4
 \tcall iget, r6
 \tst r6, r5
 \tmov r7, 1
 \tadd r2, r2, r7
-\tjmp label_getArray
-label2_getArray:
+\tjmp label_getVector
+label2_getVector:
 \tret'''})
 
 
-        self.builtin_funcs.append({"name":"printArray", "used":False, "included":False,
-        "code":'''proc printArray
-\tld r1, r0
-\tmov r2, 1   
-\tmov r3, 8   
-label_printArray:
-\tcmp<= r4, r2, r1
-\tjz r4, label2_printArray
-\tmul r4, r2, r3
-\tadd r5, r0, r4
-\tld r6, r5
-\tcall iput, r6
-\tmov r7, 1
-\tadd r2, r2, r7
-\tjmp label_printArray
-label2_printArray:
-\tret'''})
+#        self.builtin_funcs.append({"name":"printArray", "used":False, "included":False,
+#        "code":'''proc printArray
+#\tld r1, r0
+#\tmov r2, 1   
+#\tmov r3, 8   
+#label_printArray:
+#\tcmp<= r4, r2, r1
+#\tjz r4, label2_printArray
+#\tmul r4, r2, r3
+#\tadd r5, r0, r4
+#\tld r6, r5
+#\tcall iput, r6
+#\tmov r7, 1
+#\tadd r2, r2, r7
+#\tjmp label_printArray
+#label2_printArray:
+#\tret'''})
 
 
         self.builtin_funcs.append({"name":"len", "used":False, "included":False,

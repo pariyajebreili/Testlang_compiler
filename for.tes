@@ -1,4 +1,10 @@
+
+
 def int main() {
-    print(1);
+    var int a;
+    var int b;
+    a = scan();
+    b = scan();
+    print(add(a, b));
     return 0;
 }

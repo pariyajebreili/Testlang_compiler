@@ -1,0 +1,3465 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    STRING
+    COLON
+    QMARK
+
+Grammar
+
+Rule 0     S' -> prog
+Rule 1     prog -> func
+Rule 2     prog -> func prog
+Rule 3     func -> DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
+Rule 4     body -> stmt
+Rule 5     body -> stmt body
+Rule 6     stmt -> expr SEMI_COLON
+Rule 7     stmt -> defvar SEMI_COLON
+Rule 8     stmt -> IF LPAREN expr RPAREN stmt
+Rule 9     stmt -> IF LPAREN expr RPAREN stmt ELSE stmt
+Rule 10    stmt -> WHILE LPAREN expr RPAREN stmt
+Rule 11    stmt -> FOR LPAREN expr TO expr RPAREN stmt
+Rule 12    stmt -> RETURN expr SEMI_COLON
+Rule 13    stmt -> LBRACE body RBRACE
+Rule 14    expr -> iden LPAREN clist RPAREN
+Rule 15    expr -> expr LSQUAREBR expr RSQUAREBR
+Rule 16    expr -> expr EQ expr
+Rule 17    expr -> expr PLUS expr
+Rule 18    expr -> expr MINUS expr
+Rule 19    expr -> expr TIMES expr
+Rule 20    expr -> expr DIVIDE expr
+Rule 21    expr -> expr MOD expr
+Rule 22    expr -> expr LESS_THAN expr
+Rule 23    expr -> expr GREATER_THAN expr
+Rule 24    expr -> expr PARITY expr
+Rule 25    expr -> expr NOT_EQ expr
+Rule 26    expr -> expr LESS_EQUAL expr
+Rule 27    expr -> expr GREATER_EQUAL expr
+Rule 28    expr -> expr OR expr
+Rule 29    expr -> expr AND expr
+Rule 30    expr -> NOT expr
+Rule 31    expr -> MINUS expr
+Rule 32    expr -> PLUS expr
+Rule 33    expr -> LPAREN expr RPAREN
+Rule 34    expr -> iden
+Rule 35    expr -> num
+Rule 36    flist -> type iden
+Rule 37    flist -> type iden COMMA flist
+Rule 38    flist -> <empty>
+Rule 39    clist -> expr
+Rule 40    clist -> expr COMMA clist
+Rule 41    clist -> <empty>
+Rule 42    defvar -> VAR type iden
+Rule 43    type -> INT
+Rule 44    type -> VECTOR
+Rule 45    type -> NULL
+Rule 46    num -> NUM
+Rule 47    iden -> IDEN
+
+Terminals, with rules where they appear
+
+AND                  : 29
+COLON                : 
+COMMA                : 37 40
+DEF                  : 3
+DIVIDE               : 20
+ELSE                 : 9
+EQ                   : 16
+FOR                  : 11
+GREATER_EQUAL        : 27
+GREATER_THAN         : 23
+IDEN                 : 47
+IF                   : 8 9
+INT                  : 43
+LBRACE               : 3 13
+LESS_EQUAL           : 26
+LESS_THAN            : 22
+LPAREN               : 3 8 9 10 11 14 33
+LSQUAREBR            : 15
+MINUS                : 18 31
+MOD                  : 21
+NOT                  : 30
+NOT_EQ               : 25
+NULL                 : 45
+NUM                  : 46
+OR                   : 28
+PARITY               : 24
+PLUS                 : 17 32
+QMARK                : 
+RBRACE               : 3 13
+RETURN               : 12
+RPAREN               : 3 8 9 10 11 14 33
+RSQUAREBR            : 15
+SEMI_COLON           : 6 7 12
+STRING               : 
+TIMES                : 19
+TO                   : 11
+VAR                  : 42
+VECTOR               : 44
+WHILE                : 10
+error                : 
+
+Nonterminals, with rules where they appear
+
+body                 : 3 5 13
+clist                : 14 40
+defvar               : 7
+expr                 : 6 8 9 10 11 11 12 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 31 32 33 39 40
+flist                : 3 37
+func                 : 1 2
+iden                 : 3 14 34 36 37 42
+num                  : 35
+prog                 : 2 0
+stmt                 : 4 5 8 9 9 10 11
+type                 : 3 36 37 42
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . prog
+    (1) prog -> . func
+    (2) prog -> . func prog
+    (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
+
+    DEF             shift and go to state 3
+
+    prog                           shift and go to state 1
+    func                           shift and go to state 2
+
+state 1
+
+    (0) S' -> prog .
+
+
+
+state 2
+
+    (1) prog -> func .
+    (2) prog -> func . prog
+    (1) prog -> . func
+    (2) prog -> . func prog
+    (3) func -> . DEF type iden LPAREN flist RPAREN LBRACE body RBRACE
+
+    $end            reduce using rule 1 (prog -> func .)
+    DEF             shift and go to state 3
+
+    func                           shift and go to state 2
+    prog                           shift and go to state 4
+
+state 3
+
+    (3) func -> DEF . type iden LPAREN flist RPAREN LBRACE body RBRACE
+    (43) type -> . INT
+    (44) type -> . VECTOR
+    (45) type -> . NULL
+
+    INT             shift and go to state 6
+    VECTOR          shift and go to state 7
+    NULL            shift and go to state 8
+
+    type                           shift and go to state 5
+
+state 4
+
+    (2) prog -> func prog .
+
+    $end            reduce using rule 2 (prog -> func prog .)
+
+
+state 5
+
+    (3) func -> DEF type . iden LPAREN flist RPAREN LBRACE body RBRACE
+    (47) iden -> . IDEN
+
+    IDEN            shift and go to state 10
+
+    iden                           shift and go to state 9
+
+state 6
+
+    (43) type -> INT .
+
+    IDEN            reduce using rule 43 (type -> INT .)
+
+
+state 7
+
+    (44) type -> VECTOR .
+
+    IDEN            reduce using rule 44 (type -> VECTOR .)
+
+
+state 8
+
+    (45) type -> NULL .
+
+    IDEN            reduce using rule 45 (type -> NULL .)
+
+
+state 9
+
+    (3) func -> DEF type iden . LPAREN flist RPAREN LBRACE body RBRACE
+
+    LPAREN          shift and go to state 11
+
+
+state 10
+
+    (47) iden -> IDEN .
+
+    LPAREN          reduce using rule 47 (iden -> IDEN .)
+    COMMA           reduce using rule 47 (iden -> IDEN .)
+    RPAREN          reduce using rule 47 (iden -> IDEN .)
+    SEMI_COLON      reduce using rule 47 (iden -> IDEN .)
+    LSQUAREBR       reduce using rule 47 (iden -> IDEN .)
+    EQ              reduce using rule 47 (iden -> IDEN .)
+    PLUS            reduce using rule 47 (iden -> IDEN .)
+    MINUS           reduce using rule 47 (iden -> IDEN .)
+    TIMES           reduce using rule 47 (iden -> IDEN .)
+    DIVIDE          reduce using rule 47 (iden -> IDEN .)
+    MOD             reduce using rule 47 (iden -> IDEN .)
+    LESS_THAN       reduce using rule 47 (iden -> IDEN .)
+    GREATER_THAN    reduce using rule 47 (iden -> IDEN .)
+    PARITY          reduce using rule 47 (iden -> IDEN .)
+    NOT_EQ          reduce using rule 47 (iden -> IDEN .)
+    LESS_EQUAL      reduce using rule 47 (iden -> IDEN .)
+    GREATER_EQUAL   reduce using rule 47 (iden -> IDEN .)
+    OR              reduce using rule 47 (iden -> IDEN .)
+    AND             reduce using rule 47 (iden -> IDEN .)
+    RSQUAREBR       reduce using rule 47 (iden -> IDEN .)
+    TO              reduce using rule 47 (iden -> IDEN .)
+
+
+state 11
+
+    (3) func -> DEF type iden LPAREN . flist RPAREN LBRACE body RBRACE
+    (36) flist -> . type iden
+    (37) flist -> . type iden COMMA flist
+    (38) flist -> .
+    (43) type -> . INT
+    (44) type -> . VECTOR
+    (45) type -> . NULL
+
+    RPAREN          reduce using rule 38 (flist -> .)
+    INT             shift and go to state 6
+    VECTOR          shift and go to state 7
+    NULL            shift and go to state 8
+
+    type                           shift and go to state 12
+    flist                          shift and go to state 13
+
+state 12
+
+    (36) flist -> type . iden
+    (37) flist -> type . iden COMMA flist
+    (47) iden -> . IDEN
+
+    IDEN            shift and go to state 10
+
+    iden                           shift and go to state 14
+
+state 13
+
+    (3) func -> DEF type iden LPAREN flist . RPAREN LBRACE body RBRACE
+
+    RPAREN          shift and go to state 15
+
+
+state 14
+
+    (36) flist -> type iden .
+    (37) flist -> type iden . COMMA flist
+
+    RPAREN          reduce using rule 36 (flist -> type iden .)
+    COMMA           shift and go to state 16
+
+
+state 15
+
+    (3) func -> DEF type iden LPAREN flist RPAREN . LBRACE body RBRACE
+
+    LBRACE          shift and go to state 17
+
+
+state 16
+
+    (37) flist -> type iden COMMA . flist
+    (36) flist -> . type iden
+    (37) flist -> . type iden COMMA flist
+    (38) flist -> .
+    (43) type -> . INT
+    (44) type -> . VECTOR
+    (45) type -> . NULL
+
+    RPAREN          reduce using rule 38 (flist -> .)
+    INT             shift and go to state 6
+    VECTOR          shift and go to state 7
+    NULL            shift and go to state 8
+
+    type                           shift and go to state 12
+    flist                          shift and go to state 18
+
+state 17
+
+    (3) func -> DEF type iden LPAREN flist RPAREN LBRACE . body RBRACE
+    (4) body -> . stmt
+    (5) body -> . stmt body
+    (6) stmt -> . expr SEMI_COLON
+    (7) stmt -> . defvar SEMI_COLON
+    (8) stmt -> . IF LPAREN expr RPAREN stmt
+    (9) stmt -> . IF LPAREN expr RPAREN stmt ELSE stmt
+    (10) stmt -> . WHILE LPAREN expr RPAREN stmt
+    (11) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
+    (12) stmt -> . RETURN expr SEMI_COLON
+    (13) stmt -> . LBRACE body RBRACE
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (42) defvar -> . VAR type iden
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    IF              shift and go to state 26
+    WHILE           shift and go to state 27
+    FOR             shift and go to state 28
+    RETURN          shift and go to state 29
+    LBRACE          shift and go to state 21
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    VAR             shift and go to state 34
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    iden                           shift and go to state 19
+    body                           shift and go to state 22
+    stmt                           shift and go to state 23
+    expr                           shift and go to state 24
+    defvar                         shift and go to state 25
+    num                            shift and go to state 33
+
+state 18
+
+    (37) flist -> type iden COMMA flist .
+
+    RPAREN          reduce using rule 37 (flist -> type iden COMMA flist .)
+
+
+state 19
+
+    (14) expr -> iden . LPAREN clist RPAREN
+    (34) expr -> iden .
+
+    LPAREN          shift and go to state 36
+    SEMI_COLON      reduce using rule 34 (expr -> iden .)
+    LSQUAREBR       reduce using rule 34 (expr -> iden .)
+    EQ              reduce using rule 34 (expr -> iden .)
+    PLUS            reduce using rule 34 (expr -> iden .)
+    MINUS           reduce using rule 34 (expr -> iden .)
+    TIMES           reduce using rule 34 (expr -> iden .)
+    DIVIDE          reduce using rule 34 (expr -> iden .)
+    MOD             reduce using rule 34 (expr -> iden .)
+    LESS_THAN       reduce using rule 34 (expr -> iden .)
+    GREATER_THAN    reduce using rule 34 (expr -> iden .)
+    PARITY          reduce using rule 34 (expr -> iden .)
+    NOT_EQ          reduce using rule 34 (expr -> iden .)
+    LESS_EQUAL      reduce using rule 34 (expr -> iden .)
+    GREATER_EQUAL   reduce using rule 34 (expr -> iden .)
+    OR              reduce using rule 34 (expr -> iden .)
+    AND             reduce using rule 34 (expr -> iden .)
+    RPAREN          reduce using rule 34 (expr -> iden .)
+    COMMA           reduce using rule 34 (expr -> iden .)
+    RSQUAREBR       reduce using rule 34 (expr -> iden .)
+    TO              reduce using rule 34 (expr -> iden .)
+
+
+state 20
+
+    (33) expr -> LPAREN . expr RPAREN
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 37
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 21
+
+    (13) stmt -> LBRACE . body RBRACE
+    (4) body -> . stmt
+    (5) body -> . stmt body
+    (6) stmt -> . expr SEMI_COLON
+    (7) stmt -> . defvar SEMI_COLON
+    (8) stmt -> . IF LPAREN expr RPAREN stmt
+    (9) stmt -> . IF LPAREN expr RPAREN stmt ELSE stmt
+    (10) stmt -> . WHILE LPAREN expr RPAREN stmt
+    (11) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
+    (12) stmt -> . RETURN expr SEMI_COLON
+    (13) stmt -> . LBRACE body RBRACE
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (42) defvar -> . VAR type iden
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    IF              shift and go to state 26
+    WHILE           shift and go to state 27
+    FOR             shift and go to state 28
+    RETURN          shift and go to state 29
+    LBRACE          shift and go to state 21
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    VAR             shift and go to state 34
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    body                           shift and go to state 38
+    stmt                           shift and go to state 23
+    expr                           shift and go to state 24
+    defvar                         shift and go to state 25
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 22
+
+    (3) func -> DEF type iden LPAREN flist RPAREN LBRACE body . RBRACE
+
+    RBRACE          shift and go to state 39
+
+
+state 23
+
+    (4) body -> stmt .
+    (5) body -> stmt . body
+    (4) body -> . stmt
+    (5) body -> . stmt body
+    (6) stmt -> . expr SEMI_COLON
+    (7) stmt -> . defvar SEMI_COLON
+    (8) stmt -> . IF LPAREN expr RPAREN stmt
+    (9) stmt -> . IF LPAREN expr RPAREN stmt ELSE stmt
+    (10) stmt -> . WHILE LPAREN expr RPAREN stmt
+    (11) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
+    (12) stmt -> . RETURN expr SEMI_COLON
+    (13) stmt -> . LBRACE body RBRACE
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (42) defvar -> . VAR type iden
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    RBRACE          reduce using rule 4 (body -> stmt .)
+    IF              shift and go to state 26
+    WHILE           shift and go to state 27
+    FOR             shift and go to state 28
+    RETURN          shift and go to state 29
+    LBRACE          shift and go to state 21
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    VAR             shift and go to state 34
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    stmt                           shift and go to state 23
+    body                           shift and go to state 40
+    expr                           shift and go to state 24
+    defvar                         shift and go to state 25
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 24
+
+    (6) stmt -> expr . SEMI_COLON
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      shift and go to state 41
+    LSQUAREBR       shift and go to state 42
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+    OR              shift and go to state 55
+    AND             shift and go to state 56
+
+
+state 25
+
+    (7) stmt -> defvar . SEMI_COLON
+
+    SEMI_COLON      shift and go to state 57
+
+
+state 26
+
+    (8) stmt -> IF . LPAREN expr RPAREN stmt
+    (9) stmt -> IF . LPAREN expr RPAREN stmt ELSE stmt
+
+    LPAREN          shift and go to state 58
+
+
+state 27
+
+    (10) stmt -> WHILE . LPAREN expr RPAREN stmt
+
+    LPAREN          shift and go to state 59
+
+
+state 28
+
+    (11) stmt -> FOR . LPAREN expr TO expr RPAREN stmt
+
+    LPAREN          shift and go to state 60
+
+
+state 29
+
+    (12) stmt -> RETURN . expr SEMI_COLON
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 61
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 30
+
+    (32) expr -> PLUS . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 62
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 31
+
+    (31) expr -> MINUS . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 63
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 32
+
+    (30) expr -> NOT . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 64
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 33
+
+    (35) expr -> num .
+
+    SEMI_COLON      reduce using rule 35 (expr -> num .)
+    LSQUAREBR       reduce using rule 35 (expr -> num .)
+    EQ              reduce using rule 35 (expr -> num .)
+    PLUS            reduce using rule 35 (expr -> num .)
+    MINUS           reduce using rule 35 (expr -> num .)
+    TIMES           reduce using rule 35 (expr -> num .)
+    DIVIDE          reduce using rule 35 (expr -> num .)
+    MOD             reduce using rule 35 (expr -> num .)
+    LESS_THAN       reduce using rule 35 (expr -> num .)
+    GREATER_THAN    reduce using rule 35 (expr -> num .)
+    PARITY          reduce using rule 35 (expr -> num .)
+    NOT_EQ          reduce using rule 35 (expr -> num .)
+    LESS_EQUAL      reduce using rule 35 (expr -> num .)
+    GREATER_EQUAL   reduce using rule 35 (expr -> num .)
+    OR              reduce using rule 35 (expr -> num .)
+    AND             reduce using rule 35 (expr -> num .)
+    RPAREN          reduce using rule 35 (expr -> num .)
+    COMMA           reduce using rule 35 (expr -> num .)
+    RSQUAREBR       reduce using rule 35 (expr -> num .)
+    TO              reduce using rule 35 (expr -> num .)
+
+
+state 34
+
+    (42) defvar -> VAR . type iden
+    (43) type -> . INT
+    (44) type -> . VECTOR
+    (45) type -> . NULL
+
+    INT             shift and go to state 6
+    VECTOR          shift and go to state 7
+    NULL            shift and go to state 8
+
+    type                           shift and go to state 65
+
+state 35
+
+    (46) num -> NUM .
+
+    SEMI_COLON      reduce using rule 46 (num -> NUM .)
+    LSQUAREBR       reduce using rule 46 (num -> NUM .)
+    EQ              reduce using rule 46 (num -> NUM .)
+    PLUS            reduce using rule 46 (num -> NUM .)
+    MINUS           reduce using rule 46 (num -> NUM .)
+    TIMES           reduce using rule 46 (num -> NUM .)
+    DIVIDE          reduce using rule 46 (num -> NUM .)
+    MOD             reduce using rule 46 (num -> NUM .)
+    LESS_THAN       reduce using rule 46 (num -> NUM .)
+    GREATER_THAN    reduce using rule 46 (num -> NUM .)
+    PARITY          reduce using rule 46 (num -> NUM .)
+    NOT_EQ          reduce using rule 46 (num -> NUM .)
+    LESS_EQUAL      reduce using rule 46 (num -> NUM .)
+    GREATER_EQUAL   reduce using rule 46 (num -> NUM .)
+    OR              reduce using rule 46 (num -> NUM .)
+    AND             reduce using rule 46 (num -> NUM .)
+    RPAREN          reduce using rule 46 (num -> NUM .)
+    COMMA           reduce using rule 46 (num -> NUM .)
+    RSQUAREBR       reduce using rule 46 (num -> NUM .)
+    TO              reduce using rule 46 (num -> NUM .)
+
+
+state 36
+
+    (14) expr -> iden LPAREN . clist RPAREN
+    (39) clist -> . expr
+    (40) clist -> . expr COMMA clist
+    (41) clist -> .
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    RPAREN          reduce using rule 41 (clist -> .)
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    iden                           shift and go to state 19
+    clist                          shift and go to state 66
+    expr                           shift and go to state 67
+    num                            shift and go to state 33
+
+state 37
+
+    (33) expr -> LPAREN expr . RPAREN
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    RPAREN          shift and go to state 68
+    LSQUAREBR       shift and go to state 42
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+    OR              shift and go to state 55
+    AND             shift and go to state 56
+
+
+state 38
+
+    (13) stmt -> LBRACE body . RBRACE
+
+    RBRACE          shift and go to state 69
+
+
+state 39
+
+    (3) func -> DEF type iden LPAREN flist RPAREN LBRACE body RBRACE .
+
+    DEF             reduce using rule 3 (func -> DEF type iden LPAREN flist RPAREN LBRACE body RBRACE .)
+    $end            reduce using rule 3 (func -> DEF type iden LPAREN flist RPAREN LBRACE body RBRACE .)
+
+
+state 40
+
+    (5) body -> stmt body .
+
+    RBRACE          reduce using rule 5 (body -> stmt body .)
+
+
+state 41
+
+    (6) stmt -> expr SEMI_COLON .
+
+    IF              reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    WHILE           reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    FOR             reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    RETURN          reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    LBRACE          reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    NOT             reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    MINUS           reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    PLUS            reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    LPAREN          reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    VAR             reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    IDEN            reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    NUM             reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    RBRACE          reduce using rule 6 (stmt -> expr SEMI_COLON .)
+    ELSE            reduce using rule 6 (stmt -> expr SEMI_COLON .)
+
+
+state 42
+
+    (15) expr -> expr LSQUAREBR . expr RSQUAREBR
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 70
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 43
+
+    (16) expr -> expr EQ . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 71
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 44
+
+    (17) expr -> expr PLUS . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 72
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 45
+
+    (18) expr -> expr MINUS . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 73
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 46
+
+    (19) expr -> expr TIMES . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 74
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 47
+
+    (20) expr -> expr DIVIDE . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 75
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 48
+
+    (21) expr -> expr MOD . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 76
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 49
+
+    (22) expr -> expr LESS_THAN . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 77
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 50
+
+    (23) expr -> expr GREATER_THAN . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 78
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 51
+
+    (24) expr -> expr PARITY . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 79
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 52
+
+    (25) expr -> expr NOT_EQ . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 80
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 53
+
+    (26) expr -> expr LESS_EQUAL . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 81
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 54
+
+    (27) expr -> expr GREATER_EQUAL . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 82
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 55
+
+    (28) expr -> expr OR . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 83
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 56
+
+    (29) expr -> expr AND . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 84
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 57
+
+    (7) stmt -> defvar SEMI_COLON .
+
+    IF              reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    WHILE           reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    FOR             reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    RETURN          reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    LBRACE          reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    NOT             reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    MINUS           reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    PLUS            reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    LPAREN          reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    VAR             reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    IDEN            reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    NUM             reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    RBRACE          reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+    ELSE            reduce using rule 7 (stmt -> defvar SEMI_COLON .)
+
+
+state 58
+
+    (8) stmt -> IF LPAREN . expr RPAREN stmt
+    (9) stmt -> IF LPAREN . expr RPAREN stmt ELSE stmt
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 85
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 59
+
+    (10) stmt -> WHILE LPAREN . expr RPAREN stmt
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 86
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 60
+
+    (11) stmt -> FOR LPAREN . expr TO expr RPAREN stmt
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 87
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 61
+
+    (12) stmt -> RETURN expr . SEMI_COLON
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      shift and go to state 88
+    LSQUAREBR       shift and go to state 42
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+    OR              shift and go to state 55
+    AND             shift and go to state 56
+
+
+state 62
+
+    (32) expr -> PLUS expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 32 (expr -> PLUS expr .)
+    LSQUAREBR       reduce using rule 32 (expr -> PLUS expr .)
+    EQ              reduce using rule 32 (expr -> PLUS expr .)
+    PLUS            reduce using rule 32 (expr -> PLUS expr .)
+    MINUS           reduce using rule 32 (expr -> PLUS expr .)
+    LESS_THAN       reduce using rule 32 (expr -> PLUS expr .)
+    GREATER_THAN    reduce using rule 32 (expr -> PLUS expr .)
+    PARITY          reduce using rule 32 (expr -> PLUS expr .)
+    NOT_EQ          reduce using rule 32 (expr -> PLUS expr .)
+    LESS_EQUAL      reduce using rule 32 (expr -> PLUS expr .)
+    GREATER_EQUAL   reduce using rule 32 (expr -> PLUS expr .)
+    OR              reduce using rule 32 (expr -> PLUS expr .)
+    AND             reduce using rule 32 (expr -> PLUS expr .)
+    RPAREN          reduce using rule 32 (expr -> PLUS expr .)
+    COMMA           reduce using rule 32 (expr -> PLUS expr .)
+    RSQUAREBR       reduce using rule 32 (expr -> PLUS expr .)
+    TO              reduce using rule 32 (expr -> PLUS expr .)
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! TIMES           [ reduce using rule 32 (expr -> PLUS expr .) ]
+  ! DIVIDE          [ reduce using rule 32 (expr -> PLUS expr .) ]
+  ! MOD             [ reduce using rule 32 (expr -> PLUS expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! EQ              [ shift and go to state 43 ]
+  ! PLUS            [ shift and go to state 44 ]
+  ! MINUS           [ shift and go to state 45 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 63
+
+    (31) expr -> MINUS expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 31 (expr -> MINUS expr .)
+    LSQUAREBR       reduce using rule 31 (expr -> MINUS expr .)
+    EQ              reduce using rule 31 (expr -> MINUS expr .)
+    PLUS            reduce using rule 31 (expr -> MINUS expr .)
+    MINUS           reduce using rule 31 (expr -> MINUS expr .)
+    LESS_THAN       reduce using rule 31 (expr -> MINUS expr .)
+    GREATER_THAN    reduce using rule 31 (expr -> MINUS expr .)
+    PARITY          reduce using rule 31 (expr -> MINUS expr .)
+    NOT_EQ          reduce using rule 31 (expr -> MINUS expr .)
+    LESS_EQUAL      reduce using rule 31 (expr -> MINUS expr .)
+    GREATER_EQUAL   reduce using rule 31 (expr -> MINUS expr .)
+    OR              reduce using rule 31 (expr -> MINUS expr .)
+    AND             reduce using rule 31 (expr -> MINUS expr .)
+    RPAREN          reduce using rule 31 (expr -> MINUS expr .)
+    COMMA           reduce using rule 31 (expr -> MINUS expr .)
+    RSQUAREBR       reduce using rule 31 (expr -> MINUS expr .)
+    TO              reduce using rule 31 (expr -> MINUS expr .)
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! TIMES           [ reduce using rule 31 (expr -> MINUS expr .) ]
+  ! DIVIDE          [ reduce using rule 31 (expr -> MINUS expr .) ]
+  ! MOD             [ reduce using rule 31 (expr -> MINUS expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! EQ              [ shift and go to state 43 ]
+  ! PLUS            [ shift and go to state 44 ]
+  ! MINUS           [ shift and go to state 45 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 64
+
+    (30) expr -> NOT expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 30 (expr -> NOT expr .)
+    LSQUAREBR       reduce using rule 30 (expr -> NOT expr .)
+    LESS_THAN       reduce using rule 30 (expr -> NOT expr .)
+    GREATER_THAN    reduce using rule 30 (expr -> NOT expr .)
+    PARITY          reduce using rule 30 (expr -> NOT expr .)
+    NOT_EQ          reduce using rule 30 (expr -> NOT expr .)
+    LESS_EQUAL      reduce using rule 30 (expr -> NOT expr .)
+    GREATER_EQUAL   reduce using rule 30 (expr -> NOT expr .)
+    OR              reduce using rule 30 (expr -> NOT expr .)
+    AND             reduce using rule 30 (expr -> NOT expr .)
+    RPAREN          reduce using rule 30 (expr -> NOT expr .)
+    COMMA           reduce using rule 30 (expr -> NOT expr .)
+    RSQUAREBR       reduce using rule 30 (expr -> NOT expr .)
+    TO              reduce using rule 30 (expr -> NOT expr .)
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! EQ              [ reduce using rule 30 (expr -> NOT expr .) ]
+  ! PLUS            [ reduce using rule 30 (expr -> NOT expr .) ]
+  ! MINUS           [ reduce using rule 30 (expr -> NOT expr .) ]
+  ! TIMES           [ reduce using rule 30 (expr -> NOT expr .) ]
+  ! DIVIDE          [ reduce using rule 30 (expr -> NOT expr .) ]
+  ! MOD             [ reduce using rule 30 (expr -> NOT expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 65
+
+    (42) defvar -> VAR type . iden
+    (47) iden -> . IDEN
+
+    IDEN            shift and go to state 10
+
+    iden                           shift and go to state 89
+
+state 66
+
+    (14) expr -> iden LPAREN clist . RPAREN
+
+    RPAREN          shift and go to state 90
+
+
+state 67
+
+    (39) clist -> expr .
+    (40) clist -> expr . COMMA clist
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    RPAREN          reduce using rule 39 (clist -> expr .)
+    COMMA           shift and go to state 91
+    LSQUAREBR       shift and go to state 42
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+    OR              shift and go to state 55
+    AND             shift and go to state 56
+
+
+state 68
+
+    (33) expr -> LPAREN expr RPAREN .
+
+    SEMI_COLON      reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    LSQUAREBR       reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    EQ              reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    PLUS            reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    MINUS           reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    TIMES           reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    DIVIDE          reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    MOD             reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    LESS_THAN       reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    GREATER_THAN    reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    PARITY          reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    NOT_EQ          reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    LESS_EQUAL      reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    GREATER_EQUAL   reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    OR              reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    AND             reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    RPAREN          reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    COMMA           reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    RSQUAREBR       reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+    TO              reduce using rule 33 (expr -> LPAREN expr RPAREN .)
+
+
+state 69
+
+    (13) stmt -> LBRACE body RBRACE .
+
+    IF              reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    WHILE           reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    FOR             reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    RETURN          reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    LBRACE          reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    NOT             reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    MINUS           reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    PLUS            reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    LPAREN          reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    VAR             reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    IDEN            reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    NUM             reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    RBRACE          reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+    ELSE            reduce using rule 13 (stmt -> LBRACE body RBRACE .)
+
+
+state 70
+
+    (15) expr -> expr LSQUAREBR expr . RSQUAREBR
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    RSQUAREBR       shift and go to state 92
+    LSQUAREBR       shift and go to state 42
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+    OR              shift and go to state 55
+    AND             shift and go to state 56
+
+
+state 71
+
+    (16) expr -> expr EQ expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 16 (expr -> expr EQ expr .)
+    LSQUAREBR       reduce using rule 16 (expr -> expr EQ expr .)
+    EQ              reduce using rule 16 (expr -> expr EQ expr .)
+    LESS_THAN       reduce using rule 16 (expr -> expr EQ expr .)
+    GREATER_THAN    reduce using rule 16 (expr -> expr EQ expr .)
+    PARITY          reduce using rule 16 (expr -> expr EQ expr .)
+    NOT_EQ          reduce using rule 16 (expr -> expr EQ expr .)
+    LESS_EQUAL      reduce using rule 16 (expr -> expr EQ expr .)
+    GREATER_EQUAL   reduce using rule 16 (expr -> expr EQ expr .)
+    OR              reduce using rule 16 (expr -> expr EQ expr .)
+    AND             reduce using rule 16 (expr -> expr EQ expr .)
+    RPAREN          reduce using rule 16 (expr -> expr EQ expr .)
+    COMMA           reduce using rule 16 (expr -> expr EQ expr .)
+    RSQUAREBR       reduce using rule 16 (expr -> expr EQ expr .)
+    TO              reduce using rule 16 (expr -> expr EQ expr .)
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! PLUS            [ reduce using rule 16 (expr -> expr EQ expr .) ]
+  ! MINUS           [ reduce using rule 16 (expr -> expr EQ expr .) ]
+  ! TIMES           [ reduce using rule 16 (expr -> expr EQ expr .) ]
+  ! DIVIDE          [ reduce using rule 16 (expr -> expr EQ expr .) ]
+  ! MOD             [ reduce using rule 16 (expr -> expr EQ expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! EQ              [ shift and go to state 43 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 72
+
+    (17) expr -> expr PLUS expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 17 (expr -> expr PLUS expr .)
+    LSQUAREBR       reduce using rule 17 (expr -> expr PLUS expr .)
+    EQ              reduce using rule 17 (expr -> expr PLUS expr .)
+    PLUS            reduce using rule 17 (expr -> expr PLUS expr .)
+    MINUS           reduce using rule 17 (expr -> expr PLUS expr .)
+    LESS_THAN       reduce using rule 17 (expr -> expr PLUS expr .)
+    GREATER_THAN    reduce using rule 17 (expr -> expr PLUS expr .)
+    PARITY          reduce using rule 17 (expr -> expr PLUS expr .)
+    NOT_EQ          reduce using rule 17 (expr -> expr PLUS expr .)
+    LESS_EQUAL      reduce using rule 17 (expr -> expr PLUS expr .)
+    GREATER_EQUAL   reduce using rule 17 (expr -> expr PLUS expr .)
+    OR              reduce using rule 17 (expr -> expr PLUS expr .)
+    AND             reduce using rule 17 (expr -> expr PLUS expr .)
+    RPAREN          reduce using rule 17 (expr -> expr PLUS expr .)
+    COMMA           reduce using rule 17 (expr -> expr PLUS expr .)
+    RSQUAREBR       reduce using rule 17 (expr -> expr PLUS expr .)
+    TO              reduce using rule 17 (expr -> expr PLUS expr .)
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! TIMES           [ reduce using rule 17 (expr -> expr PLUS expr .) ]
+  ! DIVIDE          [ reduce using rule 17 (expr -> expr PLUS expr .) ]
+  ! MOD             [ reduce using rule 17 (expr -> expr PLUS expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! EQ              [ shift and go to state 43 ]
+  ! PLUS            [ shift and go to state 44 ]
+  ! MINUS           [ shift and go to state 45 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 73
+
+    (18) expr -> expr MINUS expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 18 (expr -> expr MINUS expr .)
+    LSQUAREBR       reduce using rule 18 (expr -> expr MINUS expr .)
+    EQ              reduce using rule 18 (expr -> expr MINUS expr .)
+    PLUS            reduce using rule 18 (expr -> expr MINUS expr .)
+    MINUS           reduce using rule 18 (expr -> expr MINUS expr .)
+    LESS_THAN       reduce using rule 18 (expr -> expr MINUS expr .)
+    GREATER_THAN    reduce using rule 18 (expr -> expr MINUS expr .)
+    PARITY          reduce using rule 18 (expr -> expr MINUS expr .)
+    NOT_EQ          reduce using rule 18 (expr -> expr MINUS expr .)
+    LESS_EQUAL      reduce using rule 18 (expr -> expr MINUS expr .)
+    GREATER_EQUAL   reduce using rule 18 (expr -> expr MINUS expr .)
+    OR              reduce using rule 18 (expr -> expr MINUS expr .)
+    AND             reduce using rule 18 (expr -> expr MINUS expr .)
+    RPAREN          reduce using rule 18 (expr -> expr MINUS expr .)
+    COMMA           reduce using rule 18 (expr -> expr MINUS expr .)
+    RSQUAREBR       reduce using rule 18 (expr -> expr MINUS expr .)
+    TO              reduce using rule 18 (expr -> expr MINUS expr .)
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! TIMES           [ reduce using rule 18 (expr -> expr MINUS expr .) ]
+  ! DIVIDE          [ reduce using rule 18 (expr -> expr MINUS expr .) ]
+  ! MOD             [ reduce using rule 18 (expr -> expr MINUS expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! EQ              [ shift and go to state 43 ]
+  ! PLUS            [ shift and go to state 44 ]
+  ! MINUS           [ shift and go to state 45 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 74
+
+    (19) expr -> expr TIMES expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 19 (expr -> expr TIMES expr .)
+    LSQUAREBR       reduce using rule 19 (expr -> expr TIMES expr .)
+    EQ              reduce using rule 19 (expr -> expr TIMES expr .)
+    PLUS            reduce using rule 19 (expr -> expr TIMES expr .)
+    MINUS           reduce using rule 19 (expr -> expr TIMES expr .)
+    TIMES           reduce using rule 19 (expr -> expr TIMES expr .)
+    DIVIDE          reduce using rule 19 (expr -> expr TIMES expr .)
+    MOD             reduce using rule 19 (expr -> expr TIMES expr .)
+    LESS_THAN       reduce using rule 19 (expr -> expr TIMES expr .)
+    GREATER_THAN    reduce using rule 19 (expr -> expr TIMES expr .)
+    PARITY          reduce using rule 19 (expr -> expr TIMES expr .)
+    NOT_EQ          reduce using rule 19 (expr -> expr TIMES expr .)
+    LESS_EQUAL      reduce using rule 19 (expr -> expr TIMES expr .)
+    GREATER_EQUAL   reduce using rule 19 (expr -> expr TIMES expr .)
+    OR              reduce using rule 19 (expr -> expr TIMES expr .)
+    AND             reduce using rule 19 (expr -> expr TIMES expr .)
+    RPAREN          reduce using rule 19 (expr -> expr TIMES expr .)
+    COMMA           reduce using rule 19 (expr -> expr TIMES expr .)
+    RSQUAREBR       reduce using rule 19 (expr -> expr TIMES expr .)
+    TO              reduce using rule 19 (expr -> expr TIMES expr .)
+
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! EQ              [ shift and go to state 43 ]
+  ! PLUS            [ shift and go to state 44 ]
+  ! MINUS           [ shift and go to state 45 ]
+  ! TIMES           [ shift and go to state 46 ]
+  ! DIVIDE          [ shift and go to state 47 ]
+  ! MOD             [ shift and go to state 48 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 75
+
+    (20) expr -> expr DIVIDE expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 20 (expr -> expr DIVIDE expr .)
+    LSQUAREBR       reduce using rule 20 (expr -> expr DIVIDE expr .)
+    EQ              reduce using rule 20 (expr -> expr DIVIDE expr .)
+    PLUS            reduce using rule 20 (expr -> expr DIVIDE expr .)
+    MINUS           reduce using rule 20 (expr -> expr DIVIDE expr .)
+    TIMES           reduce using rule 20 (expr -> expr DIVIDE expr .)
+    DIVIDE          reduce using rule 20 (expr -> expr DIVIDE expr .)
+    MOD             reduce using rule 20 (expr -> expr DIVIDE expr .)
+    LESS_THAN       reduce using rule 20 (expr -> expr DIVIDE expr .)
+    GREATER_THAN    reduce using rule 20 (expr -> expr DIVIDE expr .)
+    PARITY          reduce using rule 20 (expr -> expr DIVIDE expr .)
+    NOT_EQ          reduce using rule 20 (expr -> expr DIVIDE expr .)
+    LESS_EQUAL      reduce using rule 20 (expr -> expr DIVIDE expr .)
+    GREATER_EQUAL   reduce using rule 20 (expr -> expr DIVIDE expr .)
+    OR              reduce using rule 20 (expr -> expr DIVIDE expr .)
+    AND             reduce using rule 20 (expr -> expr DIVIDE expr .)
+    RPAREN          reduce using rule 20 (expr -> expr DIVIDE expr .)
+    COMMA           reduce using rule 20 (expr -> expr DIVIDE expr .)
+    RSQUAREBR       reduce using rule 20 (expr -> expr DIVIDE expr .)
+    TO              reduce using rule 20 (expr -> expr DIVIDE expr .)
+
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! EQ              [ shift and go to state 43 ]
+  ! PLUS            [ shift and go to state 44 ]
+  ! MINUS           [ shift and go to state 45 ]
+  ! TIMES           [ shift and go to state 46 ]
+  ! DIVIDE          [ shift and go to state 47 ]
+  ! MOD             [ shift and go to state 48 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 76
+
+    (21) expr -> expr MOD expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 21 (expr -> expr MOD expr .)
+    LSQUAREBR       reduce using rule 21 (expr -> expr MOD expr .)
+    EQ              reduce using rule 21 (expr -> expr MOD expr .)
+    PLUS            reduce using rule 21 (expr -> expr MOD expr .)
+    MINUS           reduce using rule 21 (expr -> expr MOD expr .)
+    TIMES           reduce using rule 21 (expr -> expr MOD expr .)
+    DIVIDE          reduce using rule 21 (expr -> expr MOD expr .)
+    MOD             reduce using rule 21 (expr -> expr MOD expr .)
+    LESS_THAN       reduce using rule 21 (expr -> expr MOD expr .)
+    GREATER_THAN    reduce using rule 21 (expr -> expr MOD expr .)
+    PARITY          reduce using rule 21 (expr -> expr MOD expr .)
+    NOT_EQ          reduce using rule 21 (expr -> expr MOD expr .)
+    LESS_EQUAL      reduce using rule 21 (expr -> expr MOD expr .)
+    GREATER_EQUAL   reduce using rule 21 (expr -> expr MOD expr .)
+    OR              reduce using rule 21 (expr -> expr MOD expr .)
+    AND             reduce using rule 21 (expr -> expr MOD expr .)
+    RPAREN          reduce using rule 21 (expr -> expr MOD expr .)
+    COMMA           reduce using rule 21 (expr -> expr MOD expr .)
+    RSQUAREBR       reduce using rule 21 (expr -> expr MOD expr .)
+    TO              reduce using rule 21 (expr -> expr MOD expr .)
+
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! EQ              [ shift and go to state 43 ]
+  ! PLUS            [ shift and go to state 44 ]
+  ! MINUS           [ shift and go to state 45 ]
+  ! TIMES           [ shift and go to state 46 ]
+  ! DIVIDE          [ shift and go to state 47 ]
+  ! MOD             [ shift and go to state 48 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 77
+
+    (22) expr -> expr LESS_THAN expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    LSQUAREBR       reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    LESS_THAN       reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    GREATER_THAN    reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    PARITY          reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    NOT_EQ          reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    LESS_EQUAL      reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    GREATER_EQUAL   reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    OR              reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    AND             reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    RPAREN          reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    COMMA           reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    RSQUAREBR       reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    TO              reduce using rule 22 (expr -> expr LESS_THAN expr .)
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! EQ              [ reduce using rule 22 (expr -> expr LESS_THAN expr .) ]
+  ! PLUS            [ reduce using rule 22 (expr -> expr LESS_THAN expr .) ]
+  ! MINUS           [ reduce using rule 22 (expr -> expr LESS_THAN expr .) ]
+  ! TIMES           [ reduce using rule 22 (expr -> expr LESS_THAN expr .) ]
+  ! DIVIDE          [ reduce using rule 22 (expr -> expr LESS_THAN expr .) ]
+  ! MOD             [ reduce using rule 22 (expr -> expr LESS_THAN expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 78
+
+    (23) expr -> expr GREATER_THAN expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    LSQUAREBR       reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    LESS_THAN       reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    GREATER_THAN    reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    PARITY          reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    NOT_EQ          reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    LESS_EQUAL      reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    GREATER_EQUAL   reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    OR              reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    AND             reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    RPAREN          reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    COMMA           reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    RSQUAREBR       reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    TO              reduce using rule 23 (expr -> expr GREATER_THAN expr .)
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! EQ              [ reduce using rule 23 (expr -> expr GREATER_THAN expr .) ]
+  ! PLUS            [ reduce using rule 23 (expr -> expr GREATER_THAN expr .) ]
+  ! MINUS           [ reduce using rule 23 (expr -> expr GREATER_THAN expr .) ]
+  ! TIMES           [ reduce using rule 23 (expr -> expr GREATER_THAN expr .) ]
+  ! DIVIDE          [ reduce using rule 23 (expr -> expr GREATER_THAN expr .) ]
+  ! MOD             [ reduce using rule 23 (expr -> expr GREATER_THAN expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 79
+
+    (24) expr -> expr PARITY expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 24 (expr -> expr PARITY expr .)
+    LSQUAREBR       reduce using rule 24 (expr -> expr PARITY expr .)
+    LESS_THAN       reduce using rule 24 (expr -> expr PARITY expr .)
+    GREATER_THAN    reduce using rule 24 (expr -> expr PARITY expr .)
+    PARITY          reduce using rule 24 (expr -> expr PARITY expr .)
+    NOT_EQ          reduce using rule 24 (expr -> expr PARITY expr .)
+    LESS_EQUAL      reduce using rule 24 (expr -> expr PARITY expr .)
+    GREATER_EQUAL   reduce using rule 24 (expr -> expr PARITY expr .)
+    OR              reduce using rule 24 (expr -> expr PARITY expr .)
+    AND             reduce using rule 24 (expr -> expr PARITY expr .)
+    RPAREN          reduce using rule 24 (expr -> expr PARITY expr .)
+    COMMA           reduce using rule 24 (expr -> expr PARITY expr .)
+    RSQUAREBR       reduce using rule 24 (expr -> expr PARITY expr .)
+    TO              reduce using rule 24 (expr -> expr PARITY expr .)
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! EQ              [ reduce using rule 24 (expr -> expr PARITY expr .) ]
+  ! PLUS            [ reduce using rule 24 (expr -> expr PARITY expr .) ]
+  ! MINUS           [ reduce using rule 24 (expr -> expr PARITY expr .) ]
+  ! TIMES           [ reduce using rule 24 (expr -> expr PARITY expr .) ]
+  ! DIVIDE          [ reduce using rule 24 (expr -> expr PARITY expr .) ]
+  ! MOD             [ reduce using rule 24 (expr -> expr PARITY expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 80
+
+    (25) expr -> expr NOT_EQ expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    LSQUAREBR       reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    LESS_THAN       reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    GREATER_THAN    reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    PARITY          reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    NOT_EQ          reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    LESS_EQUAL      reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    GREATER_EQUAL   reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    OR              reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    AND             reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    RPAREN          reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    COMMA           reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    RSQUAREBR       reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    TO              reduce using rule 25 (expr -> expr NOT_EQ expr .)
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! EQ              [ reduce using rule 25 (expr -> expr NOT_EQ expr .) ]
+  ! PLUS            [ reduce using rule 25 (expr -> expr NOT_EQ expr .) ]
+  ! MINUS           [ reduce using rule 25 (expr -> expr NOT_EQ expr .) ]
+  ! TIMES           [ reduce using rule 25 (expr -> expr NOT_EQ expr .) ]
+  ! DIVIDE          [ reduce using rule 25 (expr -> expr NOT_EQ expr .) ]
+  ! MOD             [ reduce using rule 25 (expr -> expr NOT_EQ expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 81
+
+    (26) expr -> expr LESS_EQUAL expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    LSQUAREBR       reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    LESS_THAN       reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    GREATER_THAN    reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    PARITY          reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    NOT_EQ          reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    LESS_EQUAL      reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    GREATER_EQUAL   reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    OR              reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    AND             reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    RPAREN          reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    COMMA           reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    RSQUAREBR       reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    TO              reduce using rule 26 (expr -> expr LESS_EQUAL expr .)
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! EQ              [ reduce using rule 26 (expr -> expr LESS_EQUAL expr .) ]
+  ! PLUS            [ reduce using rule 26 (expr -> expr LESS_EQUAL expr .) ]
+  ! MINUS           [ reduce using rule 26 (expr -> expr LESS_EQUAL expr .) ]
+  ! TIMES           [ reduce using rule 26 (expr -> expr LESS_EQUAL expr .) ]
+  ! DIVIDE          [ reduce using rule 26 (expr -> expr LESS_EQUAL expr .) ]
+  ! MOD             [ reduce using rule 26 (expr -> expr LESS_EQUAL expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 82
+
+    (27) expr -> expr GREATER_EQUAL expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    LSQUAREBR       reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    LESS_THAN       reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    GREATER_THAN    reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    PARITY          reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    NOT_EQ          reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    LESS_EQUAL      reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    GREATER_EQUAL   reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    OR              reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    AND             reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    RPAREN          reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    COMMA           reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    RSQUAREBR       reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    TO              reduce using rule 27 (expr -> expr GREATER_EQUAL expr .)
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+
+  ! EQ              [ reduce using rule 27 (expr -> expr GREATER_EQUAL expr .) ]
+  ! PLUS            [ reduce using rule 27 (expr -> expr GREATER_EQUAL expr .) ]
+  ! MINUS           [ reduce using rule 27 (expr -> expr GREATER_EQUAL expr .) ]
+  ! TIMES           [ reduce using rule 27 (expr -> expr GREATER_EQUAL expr .) ]
+  ! DIVIDE          [ reduce using rule 27 (expr -> expr GREATER_EQUAL expr .) ]
+  ! MOD             [ reduce using rule 27 (expr -> expr GREATER_EQUAL expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! LESS_THAN       [ shift and go to state 49 ]
+  ! GREATER_THAN    [ shift and go to state 50 ]
+  ! PARITY          [ shift and go to state 51 ]
+  ! NOT_EQ          [ shift and go to state 52 ]
+  ! LESS_EQUAL      [ shift and go to state 53 ]
+  ! GREATER_EQUAL   [ shift and go to state 54 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 83
+
+    (28) expr -> expr OR expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 28 (expr -> expr OR expr .)
+    LSQUAREBR       reduce using rule 28 (expr -> expr OR expr .)
+    OR              reduce using rule 28 (expr -> expr OR expr .)
+    AND             reduce using rule 28 (expr -> expr OR expr .)
+    RPAREN          reduce using rule 28 (expr -> expr OR expr .)
+    COMMA           reduce using rule 28 (expr -> expr OR expr .)
+    RSQUAREBR       reduce using rule 28 (expr -> expr OR expr .)
+    TO              reduce using rule 28 (expr -> expr OR expr .)
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+
+  ! EQ              [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! PLUS            [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! MINUS           [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! TIMES           [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! DIVIDE          [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! MOD             [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! LESS_THAN       [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! GREATER_THAN    [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! PARITY          [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! NOT_EQ          [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! LESS_EQUAL      [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! GREATER_EQUAL   [ reduce using rule 28 (expr -> expr OR expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 84
+
+    (29) expr -> expr AND expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 29 (expr -> expr AND expr .)
+    LSQUAREBR       reduce using rule 29 (expr -> expr AND expr .)
+    OR              reduce using rule 29 (expr -> expr AND expr .)
+    AND             reduce using rule 29 (expr -> expr AND expr .)
+    RPAREN          reduce using rule 29 (expr -> expr AND expr .)
+    COMMA           reduce using rule 29 (expr -> expr AND expr .)
+    RSQUAREBR       reduce using rule 29 (expr -> expr AND expr .)
+    TO              reduce using rule 29 (expr -> expr AND expr .)
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+
+  ! EQ              [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! PLUS            [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! MINUS           [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! TIMES           [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! DIVIDE          [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! MOD             [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! LESS_THAN       [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! GREATER_THAN    [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! PARITY          [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! NOT_EQ          [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! LESS_EQUAL      [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! GREATER_EQUAL   [ reduce using rule 29 (expr -> expr AND expr .) ]
+  ! LSQUAREBR       [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 55 ]
+  ! AND             [ shift and go to state 56 ]
+
+
+state 85
+
+    (8) stmt -> IF LPAREN expr . RPAREN stmt
+    (9) stmt -> IF LPAREN expr . RPAREN stmt ELSE stmt
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    RPAREN          shift and go to state 93
+    LSQUAREBR       shift and go to state 42
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+    OR              shift and go to state 55
+    AND             shift and go to state 56
+
+
+state 86
+
+    (10) stmt -> WHILE LPAREN expr . RPAREN stmt
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    RPAREN          shift and go to state 94
+    LSQUAREBR       shift and go to state 42
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+    OR              shift and go to state 55
+    AND             shift and go to state 56
+
+
+state 87
+
+    (11) stmt -> FOR LPAREN expr . TO expr RPAREN stmt
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    TO              shift and go to state 95
+    LSQUAREBR       shift and go to state 42
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+    OR              shift and go to state 55
+    AND             shift and go to state 56
+
+
+state 88
+
+    (12) stmt -> RETURN expr SEMI_COLON .
+
+    IF              reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    WHILE           reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    FOR             reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    RETURN          reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    LBRACE          reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    NOT             reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    MINUS           reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    PLUS            reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    LPAREN          reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    VAR             reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    IDEN            reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    NUM             reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    RBRACE          reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+    ELSE            reduce using rule 12 (stmt -> RETURN expr SEMI_COLON .)
+
+
+state 89
+
+    (42) defvar -> VAR type iden .
+
+    SEMI_COLON      reduce using rule 42 (defvar -> VAR type iden .)
+
+
+state 90
+
+    (14) expr -> iden LPAREN clist RPAREN .
+
+    SEMI_COLON      reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    LSQUAREBR       reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    EQ              reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    PLUS            reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    MINUS           reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    TIMES           reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    DIVIDE          reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    MOD             reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    LESS_THAN       reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    GREATER_THAN    reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    PARITY          reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    NOT_EQ          reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    LESS_EQUAL      reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    GREATER_EQUAL   reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    OR              reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    AND             reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    RPAREN          reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    COMMA           reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    RSQUAREBR       reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+    TO              reduce using rule 14 (expr -> iden LPAREN clist RPAREN .)
+
+
+state 91
+
+    (40) clist -> expr COMMA . clist
+    (39) clist -> . expr
+    (40) clist -> . expr COMMA clist
+    (41) clist -> .
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    RPAREN          reduce using rule 41 (clist -> .)
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 67
+    clist                          shift and go to state 96
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 92
+
+    (15) expr -> expr LSQUAREBR expr RSQUAREBR .
+
+    SEMI_COLON      reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    LSQUAREBR       reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    EQ              reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    PLUS            reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    MINUS           reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    TIMES           reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    DIVIDE          reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    MOD             reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    LESS_THAN       reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    GREATER_THAN    reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    PARITY          reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    NOT_EQ          reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    LESS_EQUAL      reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    GREATER_EQUAL   reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    OR              reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    AND             reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    RPAREN          reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    COMMA           reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    RSQUAREBR       reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+    TO              reduce using rule 15 (expr -> expr LSQUAREBR expr RSQUAREBR .)
+
+
+state 93
+
+    (8) stmt -> IF LPAREN expr RPAREN . stmt
+    (9) stmt -> IF LPAREN expr RPAREN . stmt ELSE stmt
+    (6) stmt -> . expr SEMI_COLON
+    (7) stmt -> . defvar SEMI_COLON
+    (8) stmt -> . IF LPAREN expr RPAREN stmt
+    (9) stmt -> . IF LPAREN expr RPAREN stmt ELSE stmt
+    (10) stmt -> . WHILE LPAREN expr RPAREN stmt
+    (11) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
+    (12) stmt -> . RETURN expr SEMI_COLON
+    (13) stmt -> . LBRACE body RBRACE
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (42) defvar -> . VAR type iden
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    IF              shift and go to state 26
+    WHILE           shift and go to state 27
+    FOR             shift and go to state 28
+    RETURN          shift and go to state 29
+    LBRACE          shift and go to state 21
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    VAR             shift and go to state 34
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 24
+    stmt                           shift and go to state 97
+    defvar                         shift and go to state 25
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 94
+
+    (10) stmt -> WHILE LPAREN expr RPAREN . stmt
+    (6) stmt -> . expr SEMI_COLON
+    (7) stmt -> . defvar SEMI_COLON
+    (8) stmt -> . IF LPAREN expr RPAREN stmt
+    (9) stmt -> . IF LPAREN expr RPAREN stmt ELSE stmt
+    (10) stmt -> . WHILE LPAREN expr RPAREN stmt
+    (11) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
+    (12) stmt -> . RETURN expr SEMI_COLON
+    (13) stmt -> . LBRACE body RBRACE
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (42) defvar -> . VAR type iden
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    IF              shift and go to state 26
+    WHILE           shift and go to state 27
+    FOR             shift and go to state 28
+    RETURN          shift and go to state 29
+    LBRACE          shift and go to state 21
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    VAR             shift and go to state 34
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 24
+    stmt                           shift and go to state 98
+    defvar                         shift and go to state 25
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 95
+
+    (11) stmt -> FOR LPAREN expr TO . expr RPAREN stmt
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 99
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 96
+
+    (40) clist -> expr COMMA clist .
+
+    RPAREN          reduce using rule 40 (clist -> expr COMMA clist .)
+
+
+state 97
+
+    (8) stmt -> IF LPAREN expr RPAREN stmt .
+    (9) stmt -> IF LPAREN expr RPAREN stmt . ELSE stmt
+
+    IF              reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    WHILE           reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    FOR             reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    RETURN          reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    LBRACE          reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    NOT             reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    MINUS           reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    PLUS            reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    LPAREN          reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    VAR             reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    IDEN            reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    NUM             reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    RBRACE          reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+    ELSE            reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
+
+  ! ELSE            [ shift and go to state 100 ]
+
+
+state 98
+
+    (10) stmt -> WHILE LPAREN expr RPAREN stmt .
+
+    IF              reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    WHILE           reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    FOR             reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    RETURN          reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    LBRACE          reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    NOT             reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    MINUS           reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    PLUS            reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    LPAREN          reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    VAR             reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    IDEN            reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    NUM             reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    RBRACE          reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+    ELSE            reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
+
+
+state 99
+
+    (11) stmt -> FOR LPAREN expr TO expr . RPAREN stmt
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    RPAREN          shift and go to state 101
+    LSQUAREBR       shift and go to state 42
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+    OR              shift and go to state 55
+    AND             shift and go to state 56
+
+
+state 100
+
+    (9) stmt -> IF LPAREN expr RPAREN stmt ELSE . stmt
+    (6) stmt -> . expr SEMI_COLON
+    (7) stmt -> . defvar SEMI_COLON
+    (8) stmt -> . IF LPAREN expr RPAREN stmt
+    (9) stmt -> . IF LPAREN expr RPAREN stmt ELSE stmt
+    (10) stmt -> . WHILE LPAREN expr RPAREN stmt
+    (11) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
+    (12) stmt -> . RETURN expr SEMI_COLON
+    (13) stmt -> . LBRACE body RBRACE
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (42) defvar -> . VAR type iden
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    IF              shift and go to state 26
+    WHILE           shift and go to state 27
+    FOR             shift and go to state 28
+    RETURN          shift and go to state 29
+    LBRACE          shift and go to state 21
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    VAR             shift and go to state 34
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 24
+    stmt                           shift and go to state 102
+    defvar                         shift and go to state 25
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 101
+
+    (11) stmt -> FOR LPAREN expr TO expr RPAREN . stmt
+    (6) stmt -> . expr SEMI_COLON
+    (7) stmt -> . defvar SEMI_COLON
+    (8) stmt -> . IF LPAREN expr RPAREN stmt
+    (9) stmt -> . IF LPAREN expr RPAREN stmt ELSE stmt
+    (10) stmt -> . WHILE LPAREN expr RPAREN stmt
+    (11) stmt -> . FOR LPAREN expr TO expr RPAREN stmt
+    (12) stmt -> . RETURN expr SEMI_COLON
+    (13) stmt -> . LBRACE body RBRACE
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (42) defvar -> . VAR type iden
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    IF              shift and go to state 26
+    WHILE           shift and go to state 27
+    FOR             shift and go to state 28
+    RETURN          shift and go to state 29
+    LBRACE          shift and go to state 21
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    VAR             shift and go to state 34
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    expr                           shift and go to state 24
+    stmt                           shift and go to state 103
+    defvar                         shift and go to state 25
+    iden                           shift and go to state 19
+    num                            shift and go to state 33
+
+state 102
+
+    (9) stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .
+
+    IF              reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    WHILE           reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    FOR             reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    RETURN          reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    LBRACE          reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    NOT             reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    MINUS           reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    PLUS            reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    LPAREN          reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    VAR             reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    IDEN            reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    NUM             reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    RBRACE          reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+    ELSE            reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
+
+
+state 103
+
+    (11) stmt -> FOR LPAREN expr TO expr RPAREN stmt .
+
+    IF              reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    WHILE           reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    FOR             reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    RETURN          reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    LBRACE          reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    NOT             reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    MINUS           reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    PLUS            reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    LPAREN          reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    VAR             reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    IDEN            reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    NUM             reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    RBRACE          reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+    ELSE            reduce using rule 11 (stmt -> FOR LPAREN expr TO expr RPAREN stmt .)
+

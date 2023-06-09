@@ -125,15 +125,15 @@ class PreProcess(NodeVisitor):
         print_funcition_symbol = FunctionSymbol("print", "int", [{"iden": "n", "type": "int"}] )
         table.put(print_funcition_symbol)
 
-        printVector_funcition_symbol = FunctionSymbol("print", "vector", [{"iden": "A", "type": "vector"}] )
-        table.put(printVector_funcition_symbol)
+        #printVector_funcition_symbol = FunctionSymbol("print", "vector", [{"iden": "A", "type": "vector"}] )
+        #table.put(printVector_funcition_symbol)
 
 
         vector_funcition_symbol = FunctionSymbol("list", "vector", [{"iden": "x", "type": "int"}] )
         table.put(vector_funcition_symbol)
 
-        getVector_funcition_symbol = FunctionSymbol("getVector", "vector", [{"iden": "A", "type": "vector"}] )
-        table.put(getVector_funcition_symbol)
+        #getVector_funcition_symbol = FunctionSymbol("getVector", "vector", [{"iden": "A", "type": "vector"}] )
+        #table.put(getVector_funcition_symbol)
 
 
         len_funcition_symbol = FunctionSymbol("length", "int", [{"iden": "A", "type": "vector"}] )
