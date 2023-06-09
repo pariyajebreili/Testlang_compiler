@@ -252,7 +252,7 @@ class Clist3(Node):
         self.children = (expr, clist,)
 
 
-class Defvar(Node):
+class Defvar1(Node):
     def __init__(self, type, iden, lineno):
         self.lineno = lineno
         self.type = type
@@ -267,6 +267,7 @@ class Defvar2(Node):
         self.iden = iden
         self.expr = expr
         self.children = (type, iden, expr,)
+
 
 class Flist2(Node):
     def __init__(self, type, iden, lineno):

@@ -1,5 +1,4 @@
 from my_utils.symbol_table import SymbolTable
-#from my_utils.compiler_messages import CompilerMessages
 from Lexical_Analyzer_PLY_package.tokens import Tokens
 from Lexical_Analyzer_PLY_package.lexer import Lexer
 from Parser_PLY_package.grammer import Grammar
@@ -9,6 +8,9 @@ from semantic.preprocess import PreProcess
 from my_utils.show_tree import show_tree
 import config
 from my_utils.colorprints import ColorPrints
+import os 
+from IR.IR_generator import IRGenerator
+from tsvm.run_tsvm import RunTSVM
 
 
 class Compiler(object):
@@ -28,6 +30,8 @@ class Compiler(object):
         self.type_checker = TypeChecker(self.semantic_messages)
         self.preprocess = PreProcess(self.semantic_messages)
         self.compiled_failed = False
+        self.iR_generator = IRGenerator() 
+        self.run_tsvm = RunTSVM()
     
 
 
@@ -44,7 +48,7 @@ class Compiler(object):
                     show_tree(config.syntax_tree)
                 except:
                     ColorPrints.print_in_red("Can Not Build The Syntax Tree!")
-            #lexer errors
+            
             if print_messages:
                 if self.lexer_messages.errors == 0 and not self.compiled_failed:
                     ColorPrints.print_in_purple(f"No Lexer Error Found!")
@@ -54,7 +58,7 @@ class Compiler(object):
                     ColorPrints.print_in_red(f"{self.lexer_messages.errors} Lexer Errors Found!")
                     self.lexer_messages.print_messages()
                 
-                #parser errors
+               
                 if self.parser_messages.errors == 0 and not self.compiled_failed:
                     ColorPrints.print_in_purple(f"No Parser Error Found!")
                     self.parser_messages.print_messages()
@@ -63,10 +67,10 @@ class Compiler(object):
                     ColorPrints.print_in_red(f"{self.parser_messages.errors} Parser Errors Found!")
                     self.parser_messages.print_messages()
 
-            #semantic
+           
             self.preprocess.visit(config.ast, None)
             self.type_checker.visit(config.ast, None)
-            #semantic errors
+           
             if print_messages:
                 if self.semantic_messages.errors == 0 and not self.compiled_failed:
                     ColorPrints.print_in_purple(f"No Semantic Error Found!")
@@ -75,7 +79,19 @@ class Compiler(object):
                 elif self.semantic_messages.errors != 0 and not self.compiled_failed:
                     ColorPrints.print_in_red(f"{self.semantic_messages.errors} Semantic Errors Found!")
                     self.semantic_messages.print_messages()
-       
+            
+           
+            if self.lexer_messages.errors == 0 and self.parser_messages.errors == 0 and self.semantic_messages.errors == 0:
+                self.iR_generator.visit(config.ast, None)
+                
+                f = open(f"{os.path.join(os.getcwd(), 'generated_IR.out')}", "w")
+                f.write(config.iR_code)
+                f.close()
+
+
+                ColorPrints.print_in_purple("TSLANG Terminal")
+                self.run_tsvm.run()
+
         except:
             self.compiled_failed = True
 

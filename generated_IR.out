@@ -1,0 +1,13 @@
+proc print
+	call iput, r0
+	ret
+proc main
+
+
+	mov r0, 1
+	mov r1, r0
+	call print, r1
+	mov r2, 0
+	mov r0, r2
+
+	ret

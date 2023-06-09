@@ -403,7 +403,7 @@ class Grammar(object):
             "name": "defvar",
             "lineno": self.lexer.lineno,
             "st": SyntaxTreeUtil.create_node(p),
-            "ast": Defvar(p[2]["ast"], p[3]["ast"], self.lexer.lineno)
+            "ast": Defvar1(p[2]["ast"], p[3]["ast"], self.lexer.lineno)
         }
 
 
