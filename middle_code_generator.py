@@ -138,7 +138,7 @@ temp_code=[]
 varList=[]
 
 #For save Function type
-functionList=[('vector', 'list', (('num', 'n'),)+()),('num', 'print',(('num', 'n'),)+()),('num', 'scan', ()),('', 'print', (('num', 'n'),)+()),('num', 'len',(('list', 'A'),)+())]
+functionList=[('vector', 'list', (('int', 'n'),)+()),('int', 'print',(('int', 'n'),)+()),('int', 'scan', ()),('', 'print', (('int', 'n'),)+()),('int', 'len',(('list', 'A'),)+())]
 
 #For save return type
 returnList=[]
@@ -180,7 +180,7 @@ def p_function(p):
     temp1=temp_code+ ir_code
     ir_code.clear()
     ir_code.extend(temp1)
-    ir_code.insert(0,f'proc {p[2]}:')
+    ir_code.insert(0,f'proc {p[3]}:')
     ir_code.insert(0,'\n')
     temp_code.clear()
     for i in functionList:
@@ -194,7 +194,7 @@ def p_function(p):
     varList.append((p[2],p[3]))
     for i in returnList:
         if(p[2]=='int'):
-            if(p[1]!=i[0] and i[0]!='number' and i[0]!='num' ):
+            if(p[1]!=i[0] and i[0]!='number' and i[0]!='int' ):
                 print(f'{p[1]}!={i} : Illegal return type')
                 verity=False
         elif (p[2]=='vector'):
@@ -226,12 +226,12 @@ def p_function(p):
                                         print(f'Illegal parameter!')
                                         verity=False
 
-                            if(i[2][t][0]=='num' and k[0]!='number'):
+                            if(i[2][t][0]=='int' and k[0]!='number'):
                                 if(k[0]=='vector'):
                                     print('Illegal parameter!')
                                     verity=False
                             elif(i[2][t][0]=='vector'):
-                                if(k[0]=='num' or k[0]=='number'):
+                                if(k[0]=='int' or k[0]=='number'):
                                     print('Illegal parameter!')
                                     verity=False
                         t+=1
@@ -293,14 +293,14 @@ def p_statement(p):
                     if(type(p[2][1])==tuple):
                         if(p[2][1][0]=='number'):
                             temp_code.insert(len(temp_code),f'\tmov r0, -{p[2][1][1]} \n\tret')
-                        if(p[2][1][0]=='num'):
+                        if(p[2][1][0]=='int'):
                             temp_code.insert(len(temp_code),f'\tmul {register[p[2][1][1]]}, {register[p[2][1][1]]}, -1 \n\tmov r0, {register[p[2][1][1]]} \n\tret')
                         returnList.append(p[2][1])
                     elif (type(p[2][1])!=tuple):
                         returnList.append(p[2])
                         if(p[2][0]=='number'):
                             temp_code.insert(len(temp_code),f'\tmov r0, {p[2][1]} \n\tret')
-                        elif(p[2][0]=='num'):
+                        elif(p[2][0]=='int'):
                             temp_code.insert(len(temp_code),f'\tmov r0, {register[p[2][1]]} \n\tret')
 
 
@@ -311,7 +311,7 @@ def p_statement(p):
             if(p[3][1]=='=='):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(len(temp_code)-1,f'\tcmp= r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                     temp_code.insert(len(temp_code),f'label {label_count}:')
                 elif(p[3][2][0]=='number'):
@@ -320,7 +320,7 @@ def p_statement(p):
             elif(p[3][1]=='>='):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(len(temp_code)-1,f'\tcmp>= r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                     temp_code.insert(len(temp_code),f'label {label_count}:')
                 elif(p[3][2][0]=='number'):
@@ -329,7 +329,7 @@ def p_statement(p):
             elif(p[3][1]=='>'):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(len(temp_code)-1,f'\tcmp > r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                     temp_code.insert(len(temp_code),f'label {label_count}:')
                 elif(p[3][2][0]=='number'):
@@ -338,7 +338,7 @@ def p_statement(p):
             elif(p[3][1]=='<='):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(len(temp_code)-1,f'\tcmp<= r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                     temp_code.insert(len(temp_code),f'label {label_count}:')
                 elif(p[3][2][0]=='number'):
@@ -347,7 +347,7 @@ def p_statement(p):
             elif(p[3][1]=='<'):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(len(temp_code)-1,f'\tcmp< r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                     temp_code.insert(len(temp_code),f'label {label_count}:')
                 elif(p[3][2][0]=='number'):
@@ -371,35 +371,35 @@ def p_statement(p):
             if(p[3][1]=='=='):
                 reg_count=reg_count+1
                 label_count=label_count+1
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(level,f'\tcmp= r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                 elif(p[3][2][0]=='number'):
                     temp_code.insert(level,f'\tcmp= r{reg_count}, {register[p[3][0][1]]}, {p[3][2][1]} \n\tjz r{reg_count}, label {label_count}')
             elif(p[3][1]=='>='):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(level,f'\tcmp>= r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                 elif(p[3][2][0]=='number'):
                     temp_code.insert(level,f'\tcmp>= r{reg_count}, {register[p[3][0][1]]}, {p[3][2][1]} \n\tjz r{reg_count}, label {label_count}')
             elif(p[3][1]=='>'):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(level,f'\tcmp > r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                 elif(p[3][2][0]=='number'):
                     temp_code.insert(level,f'\tcmp > r{reg_count}, {register[p[3][0][1]]}, {p[3][2][1]} \n\tjz r{reg_count}, label {label_count}')
             elif(p[3][1]=='<='):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(level,f'\tcmp<= r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                 elif(p[3][2][0]=='number'):
                     temp_code.insert(level,f'\tcmp<= r{reg_count}, {register[p[3][0][1]]}, {p[3][2][1]} \n\tjz r{reg_count}, label {label_count}')
             elif(p[3][1]=='<'):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(level,f'\tcmp< r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                 elif(p[3][2][0]=='number'):
                     temp_code.insert(level,f'\tcmp< r{reg_count}, {register[p[3][0][1]]}, {p[3][2][1]} \n\tjz r{reg_count}, label {label_count}')
@@ -412,7 +412,7 @@ def p_statement(p):
             if(p[3][1]=='=='):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(len(temp_code)-2,f'\tcmp= r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
 
                 elif(p[3][2][0]=='number'):
@@ -420,14 +420,14 @@ def p_statement(p):
             elif(p[3][1]=='>='):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(len(temp_code)-2,f'\tcmp>= r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                 elif(p[3][2][0]=='number'):
                     temp_code.insert(len(temp_code)-2,f'\tcmp>= r{reg_count}, {register[p[3][0][1]]}, {p[3][2][1]} \n\tjz r{reg_count}, label {label_count}')
             elif(p[3][1]=='>'):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(len(temp_code)-2,f'\tcmp > r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
 
                 elif(p[3][2][0]=='number'):
@@ -435,14 +435,14 @@ def p_statement(p):
             elif(p[3][1]=='<='):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(len(temp_code)-2,f'\tcmp<= r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                 elif(p[3][2][0]=='number'):
                     temp_code.insert(len(temp_code)-2,f'\tcmp<= r{reg_count}, {register[p[3][0][1]]}, {p[3][2][1]} \n\tjz r{reg_count}, label {label_count}')
             elif(p[3][1]=='<'):
                 reg_count=reg_count+1
                 label_count=label_count+1;
-                if(p[3][0][0]=='num' and p[3][2][0]=='num'):
+                if(p[3][0][0]=='int' and p[3][2][0]=='int'):
                     temp_code.insert(len(temp_code)-2,f'\tcmp< r{reg_count}, {register[p[3][0][1]]}, {register[p[3][2][1]]} \n\tjz r{reg_count}, label {label_count}')
                 elif(p[3][2][0]=='number'):
                     temp_code.insert(len(temp_code)-2,f'\tcmp< r{reg_count}, {register[p[3][0][1]]}, {p[3][2][1]} \n\tjz r{reg_count}, label {label_count}')
@@ -520,16 +520,16 @@ def p_define_expression(p):
 
     elif (len(p)==3):
         if(p[1]=='+'):
-            if(p[2][0]!='num' and p[2][0]!='number'):
+            if(p[2][0]!='int' and p[2][0]!='number'):
                 print(f'{p[0]} {p[1]} {p[2]} : Incompatible operands!')
                 verity=False
         if(p[1]=='-'):
 
-            if(p[2][0]!='num' and p[2][0]!='number'):
+            if(p[2][0]!='int' and p[2][0]!='number'):
                 print(f'{p[0]} {p[1]} {p[2]} : Incompatible operands!')
                 verity=False
         if(p[1]=='!'):
-            if(p[2][0]!='num' or p[2][0]!='number'):
+            if(p[2][0]!='int' or p[2][0]!='number'):
                 print(f'{p[1]} {p[2]} : Incompatible operands!')
                 verity=False
         p[0]=(p[1],p[2])
@@ -544,29 +544,29 @@ def p_define_expression(p):
                     reg_count=reg_count+1
                     if(p[3][0]=='number'):
                         temp_code.append(f'\tld r{reg_count}, r{reg_count-1}')
-                    elif(p[3][0]=='num'):
+                    elif(p[3][0]=='int'):
                         temp_code.append(f'\tld r{reg_count}, r{reg_count-1}')
-                elif(p[1][2][0]=='num'):
+                elif(p[1][2][0]=='int'):
                     temp_code.append(f'\tadd r{reg_count}, {register[p[1][0][1]]}, {register[p[1][2][1]]}')
                     reg_count=reg_count+1
                     if(p[3][0]=='number'):
                         temp_code.append(f'\tld r{reg_count}, r{reg_count-1}')
-                    elif(p[3][0]=='num'):
+                    elif(p[3][0]=='int'):
                         temp_code.append(f'\tld r{reg_count}, r{reg_count-1}')
 
             if(len(p[1])==2):
                 reg_count=reg_count+1
-                if(p[1][0]=='num' and p[3][0]=='num'):
+                if(p[1][0]=='int' and p[3][0]=='int'):
                     temp_code.append(f'\tadd r{reg_count}, {register[p[1][1]]}, {register[p[3][1]]}')
-                elif(p[1][0]=='num' and p[3][0]=='number'):
+                elif(p[1][0]=='int' and p[3][0]=='number'):
                     temp_code.append(f'\tadd r{reg_count}, {register[p[1][1]]}, {p[3][1]}')
-                elif(p[1][0]=='number' and p[3][0]=='num'):
+                elif(p[1][0]=='number' and p[3][0]=='int'):
                     temp_code.append(f'\tadd r{reg_count}, {p[1][1]}, {register[p[3][1]]}')
                 elif(p[1][0]=='number' and p[3][0]=='number'):
                     temp_code.append(f'\tadd r{reg_count}, {p[1][1]}, {p[3][1]}')
             else:
                 reg_count=reg_count+1
-                if( p[3][0]=='num'):
+                if( p[3][0]=='int'):
                     temp_code.append(f'\tadd r{reg_count}, r{reg_count-1}, {register[p[3][1]]}')
                 elif(p[3][0]=='number'):
                     temp_code.append(f'\tadd r{reg_count}, r{reg_count-1}, {p[3][1]}')
@@ -575,14 +575,14 @@ def p_define_expression(p):
 
 
             if(len(p[1])==2 and len(p[3])==2):
-                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                     print(f'{p[1]} {p[2]} {p[3]} : Incompatible operands!')
                     verity=False
                     return
                 else:
                     p[0]=(p[1][0],p[1],p[2],p[3])
             else:
-                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                     print(f'{p[1]} {p[2]} {p[3]} : Incompatible operands!')
                     verity=False
 
@@ -594,73 +594,73 @@ def p_define_expression(p):
                     temp_code.append(f'\tadd r{reg_count}, {register[p[1][0][1]]}, {p[1][2][1]*8}')
                     reg_count=reg_count+1
                     temp_code.append(f'\tld r{reg_count}, {reg_count-1} ')
-                elif(p[1][2][0]=='num'):
+                elif(p[1][2][0]=='int'):
                     temp_code.append(f'\tadd r{reg_count}, {register[p[1][0][1]]}, {register[p[1][2][1]]}')
                     reg_count=reg_count+1
                     temp_code.append(f'\tld r{reg_count}, {reg_count-1} ')
 
             if(len(p[1])==2):
                 reg_count=reg_count+1
-                if(p[1][0]=='num' and p[3][0]=='num'):
+                if(p[1][0]=='int' and p[3][0]=='int'):
                     temp_code.append(f'\tsub r{reg_count}, {register[p[1][1]]}, {register[p[3][1]]}')
-                elif(p[1][0]=='num' and p[3][0]=='number'):
+                elif(p[1][0]=='int' and p[3][0]=='number'):
                     temp_code.append(f'\tsub r{reg_count}, {register[p[1][1]]}, {p[3][1]}')
-                elif(p[1][0]=='number' and p[3][0]=='num'):
+                elif(p[1][0]=='number' and p[3][0]=='int'):
                     temp_code.append(f'\tsub r{reg_count}, {p[1][1]}, {register[p[3][1]]}')
                 elif(p[1][0]=='number' and p[3][0]=='number'):
                     temp_code.append(f'\tsub r{reg_count}, {p[1][1]}, {p[3][1]}')
             else:
                 reg_count=reg_count+1
-                if( p[3][0]=='num'):
+                if( p[3][0]=='int'):
                     temp_code.append(f'\tsub r{reg_count}, r{reg_count-1}, {register[p[3][1]]}')
                 elif(p[3][0]=='number'):
                     temp_code.append(f'\tsub r{reg_count}, r{reg_count-1}, {p[3][1]}')
 
 
             if(len(p[1])==2 and len(p[3])==2):
-                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                     print(f'{p[1]} {p[2]} {p[3]} : Incompatible operands!')
                     verity=False
                 else:
                     p[0]=(p[1][0],p[1],p[2],p[3])
             else:
-                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                     print(f'{p[1]} {p[2]} {p[3]} : Incompatible operands!')
                     verity=False
 
         if(p[2]=='*'):
             if(len(p[1])==2 and len(p[3])==2):
-                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                     print(f'{p[1]} {p[2]} {p[3]} : Incompatible operands!')
                     verity=False
                 else:
                     p[0]=(p[1][0],p[1],p[2],p[3])
             else:
-                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                     print(f'{p[1]} {p[2]} {p[3]} : Incompatible operands!')
                     verity=False
 
         if(p[2]=='/'):
             if(len(p[1])==2 and len(p[3])==2):
-                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                     print(f'{p[1]} {p[2]} {p[3]} : Incompatible operands!')
                     verity=False
                 else:
                     p[0]=(p[1][0],p[1],p[2],p[3])
             else:
-                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                     print(f'{p[1]} {p[2]} {p[3]} : Incompatible operands!')
                     verity=False
 
         if(p[2]=='%'):
             if(len(p[1])==2 and len(p[3])==2):
-                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                     print(f'{p[1]} {p[2]} {p[3]} : Incompatible operands!')
                     verity=False
                 else:
                     p[0]=(p[1][0],p[1],p[2],p[3])
             else:
-                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                     print(f'{p[1]} {p[2]} {p[3]} : Incompatible operands!')
                     verity=False
 
@@ -675,7 +675,7 @@ def p_define_expression(p):
                             reg_count=reg_count+1
                             temp_string=f'\tadd r{reg_count}, {register[p[1][0][1]]}, {p[1][2][1]*8}\n\tst r{reg_count-1}, r{reg_count}'
                         temp_code.append(temp_string)
-                    elif(p[1][2][0]=='num'):
+                    elif(p[1][2][0]=='int'):
                         #I have to fix array's value (index*8)
                         if(len(p[3])==2):
                             reg_count=reg_count+2
@@ -689,49 +689,49 @@ def p_define_expression(p):
                     if(len(p[0][2])==2):
                         if(p[0][2][0]=='number'):
                             temp_code.append(f'\tmov {register[p[0][0][1]]}, {p[0][2][1]}')
-                        elif(p[0][2][0]=='num'):
+                        elif(p[0][2][0]=='int'):
                             temp_code.append(f'\tmov {register[p[0][0][1]]}, {register[p[0][2][1]]}')
                         elif(p[0][2][0]=='list'):
                             temp_code.append(f'\tmov {register[p[0][0][1]]}, {register[p[0][2][1]]}')
                     elif(len(p[0][2])==4):
                         if(p[0][2][2]=='+'):
                             #temp_code.pop()
-                            if(p[0][2][1][0]=='num'):
+                            if(p[0][2][1][0]=='int'):
                                 temp_code.append(f'\tadd {register[p[0][0][1]]}, {register[p[0][2][1][1]]}, {p[0][2][3][1]}')
-                            elif(p[0][2][3][0]=='num'):
+                            elif(p[0][2][3][0]=='int'):
                                 temp_code.append(f'\tadd {register[p[0][0][1]]}, {register[p[0][2][3][1]]}, {p[0][2][1][1]}')
                             else:
                                 temp_code.append(f'\tadd {register[p[0][0][1]]}, {register[p[0][2][3][1]]}, {register[p[0][2][1][1]]}')                
 
                         if(p[0][2][2]=='-'):
                             temp_code.pop()
-                            if(p[0][2][1][0]=='num'):
+                            if(p[0][2][1][0]=='int'):
                                 temp_code.append(f'\tsub {register[p[0][0][1]]}, {register[p[0][2][1][1]]}, {p[0][2][3][1]}')
-                            elif(p[0][2][3][0]=='num'):
+                            elif(p[0][2][3][0]=='int'):
                                 temp_code.append(f'\tsub {register[p[0][0][1]]}, {register[p[0][2][3][1]]}, {p[0][2][1][1]}')
                             else:
                                 temp_code.append(f'\tsub {register[p[0][0][1]]}, {register[p[0][2][3][1]]}, {register[p[0][2][1][1]]}')                
 
                         if(p[0][2][2]=='*'):
-                            if(p[0][2][1][0]=='num'):
+                            if(p[0][2][1][0]=='int'):
                                 temp_code.append(f'\tmul {register[p[0][0][1]]}, {register[p[0][2][1][1]]}, {p[0][2][3][1]}')
-                            elif(p[0][2][3][0]=='num'):
+                            elif(p[0][2][3][0]=='int'):
                                 temp_code.append(f'\tmul {register[p[0][0][1]]}, {register[p[0][2][3][1]]}, {p[0][2][1][1]}')
                             else:
                                 temp_code.append(f'\tmul {register[p[0][0][1]]}, {register[p[0][2][3][1]]}, {register[p[0][2][1][1]]}')                
 
                         if(p[0][2][2]=='/'):
-                            if(p[0][2][1][0]=='num'):
+                            if(p[0][2][1][0]=='int'):
                                 temp_code.append(f'\tdiv {register[p[0][0][1]]}, {register[p[0][2][1][1]]}, {p[0][2][3][1]}')
-                            elif(p[0][2][3][0]=='num'):
+                            elif(p[0][2][3][0]=='int'):
                                 temp_code.append(f'\tdiv {register[p[0][0][1]]}, {register[p[0][2][3][1]]}, {p[0][2][1][1]}')
                             else:
                                 temp_code.append(f'\tdiv {register[p[0][0][1]]}, {register[p[0][2][3][1]]}, {register[p[0][2][1][1]]}')                
 
                         if(p[0][2][2]=='%'):
-                            if(p[0][2][1][0]=='num'):
+                            if(p[0][2][1][0]=='int'):
                                 temp_code.append(f'\tmod {register[p[0][0][1]]}, {register[p[0][2][1][1]]}, {p[0][2][3][1]}')
-                            elif(p[0][2][3][0]=='num'):
+                            elif(p[0][2][3][0]=='int'):
                                 temp_code.append(f'\tmod {register[p[0][0][1]]}, {register[p[0][2][3][1]]}, {p[0][2][1][1]}')
                             else:
                                 temp_code.append(f'mod {register[p[0][0][1]]}, {register[p[0][2][3][1]]}, {register[p[0][2][1][1]]}')                
@@ -743,24 +743,24 @@ def p_define_expression(p):
                         print(f'{p[1]} {p[2]} {p[3]} : Illegal assignment!')
                         verity=False
                     if(p[1][0]!=p[3][0]):
-                        if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='num' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='num')):
+                        if((p[3][0]=='number' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='number') or (p[3][0]=='int' and p[1][0]=='list') or (p[3][0]=='list' and p[1][0]=='int')):
                             print(f'{p[1]} {p[2]} {p[3]} : Illegal assignment!')
                             verity=False
                 if(p[3][1]=='('):
-                    temp_code.pop()
+                    #temp_code.pop()
                     assignmentList.append((p[1],p[3][0]))
                     p[3]=(p[3][0],p[3][2])
                     p[0]=(p[1],p[2],p[3])
                     if(p[0][2][0]=='makeList'):
 
                         temp_code.append(f'\tmov {register[p[0][0][1]]}, {p[0][2][1][0][1]} \n\tcall mem, {register[p[0][0][1]]}')
-                    elif(p[0][2][0]=='numread'):
-                        temp_code.append(f'\tcall iget, {register[p[0][0][1]]}')
+                    elif(p[0][2][0]=='scan'):
+                        temp_code.append(f'\tcall read, {register[p[0][0][1]]}')
                     else:
                         temp_string=f'\tcall {p[0][2][0]}, {register[p[0][0][1]]}'
                         if(len(p[3][1])>0):
                             for i in p[3][1]:
-                                if(i[0]=='num'):
+                                if(i[0]=='int'):
                                     temp_string=temp_string+f', {register[i[1]]}'
                                 elif(i[0]=='list'):
                                     temp_string=temp_string+f', {register[i[1]]}'
@@ -795,7 +795,7 @@ def p_define_expression(p):
         if(p[2]=='=='):
             if(p[1]!=None and p[3]!=None):
                 if(len(p[1])==2 and len(p[3])==2):
-                    if(p[1][0]!=p[3][0] and ((p[1][0]=='num' and p[3][0]=='list') or(p[1][0]=='list' and p[3][0]=='num')) ):
+                    if(p[1][0]!=p[3][0] and ((p[1][0]=='int' and p[3][0]=='list') or(p[1][0]=='list' and p[3][0]=='int')) ):
                         print(f'{p[1]} {p[2]} {p[3]} : Illegal assignment!')
                         verity=False
         if(p[2]=='!='):
@@ -818,25 +818,25 @@ def p_define_expression(p):
                 inputs.append((p[1],p[3]))
                 p[0]=(p[1],p[2],p[3],p[4])
                 temp_string=f''
-                if(p[0][0]=='numprint'):
+                if(p[0][0]=='print'):
                     #very sensetive
                     if(temp_code[len(temp_code)-1]==''):
                         temp_code.pop()
                     for i in functionList:
                         if(p[0][2][0][0] in i):
-                            temp_string=f'\tcall iput, {register[i[2][0][1]]}'
+                            temp_string=f'\tcall log, {register[i[2][0][1]]}'
                             break
                     if(temp_string==f''):
                         if(p[0][2][0]=='number'):
                             reg_count=reg_count+1
                             register[p[0][2][1]]=f'r{reg_count}'
-                            temp_string=f'\tcall iput, {register[p[0][2][1]]}'
+                            temp_string=f'\tcall log, {register[p[0][2][1]]}'
                     temp_code.append(temp_string)
                 else:
                     temp_string=f'\tcall {p[0][0]}'
                     if(len(p[3])>0):
                         for i in p[3]:
-                                if(i[0]=='num'):
+                                if(i[0]=='int'):
                                     temp_string=temp_string+f', {register[i[1]]}'
                                 elif(i[0]=='list'):
                                     temp_string=temp_string+f', {register[i[1]]}'

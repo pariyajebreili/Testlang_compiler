@@ -1,5 +1,8 @@
-
-
+def int add(int a, int b) {
+    var int result = a+b;
+    result = a + b;
+    return result;
+}
 def int main() {
     var int a;
     var int b;

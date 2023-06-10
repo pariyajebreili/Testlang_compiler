@@ -50,7 +50,7 @@ Rule 38    flist -> <empty>
 Rule 39    clist -> expr
 Rule 40    clist -> expr COMMA clist
 Rule 41    clist -> <empty>
-Rule 42    defvar -> VAR type iden
+Rule 42    defvar -> VAR type iden EQ expr
 Rule 43    type -> INT
 Rule 44    type -> VECTOR
 Rule 45    type -> NULL
@@ -65,7 +65,7 @@ COMMA                : 37 40
 DEF                  : 3
 DIVIDE               : 20
 ELSE                 : 9
-EQ                   : 16
+EQ                   : 16 42
 FOR                  : 11
 GREATER_EQUAL        : 27
 GREATER_THAN         : 23
@@ -105,7 +105,7 @@ Nonterminals, with rules where they appear
 body                 : 3 5 13
 clist                : 14 40
 defvar               : 7
-expr                 : 6 8 9 10 11 11 12 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 31 32 33 39 40
+expr                 : 6 8 9 10 11 11 12 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 31 32 33 39 40 42
 flist                : 3 37
 func                 : 1 2
 iden                 : 3 14 34 36 37 42
@@ -336,7 +336,7 @@ state 17
     (33) expr -> . LPAREN expr RPAREN
     (34) expr -> . iden
     (35) expr -> . num
-    (42) defvar -> . VAR type iden
+    (42) defvar -> . VAR type iden EQ expr
     (47) iden -> . IDEN
     (46) num -> . NUM
 
@@ -469,7 +469,7 @@ state 21
     (33) expr -> . LPAREN expr RPAREN
     (34) expr -> . iden
     (35) expr -> . num
-    (42) defvar -> . VAR type iden
+    (42) defvar -> . VAR type iden EQ expr
     (47) iden -> . IDEN
     (46) num -> . NUM
 
@@ -536,7 +536,7 @@ state 23
     (33) expr -> . LPAREN expr RPAREN
     (34) expr -> . iden
     (35) expr -> . num
-    (42) defvar -> . VAR type iden
+    (42) defvar -> . VAR type iden EQ expr
     (47) iden -> . IDEN
     (46) num -> . NUM
 
@@ -811,7 +811,7 @@ state 33
 
 state 34
 
-    (42) defvar -> VAR . type iden
+    (42) defvar -> VAR . type iden EQ expr
     (43) type -> . INT
     (44) type -> . VECTOR
     (45) type -> . NULL
@@ -1904,7 +1904,7 @@ state 64
 
 state 65
 
-    (42) defvar -> VAR type . iden
+    (42) defvar -> VAR type . iden EQ expr
     (47) iden -> . IDEN
 
     IDEN            shift and go to state 10
@@ -2972,9 +2972,9 @@ state 88
 
 state 89
 
-    (42) defvar -> VAR type iden .
+    (42) defvar -> VAR type iden . EQ expr
 
-    SEMI_COLON      reduce using rule 42 (defvar -> VAR type iden .)
+    EQ              shift and go to state 96
 
 
 state 90
@@ -3043,7 +3043,7 @@ state 91
     NUM             shift and go to state 35
 
     expr                           shift and go to state 67
-    clist                          shift and go to state 96
+    clist                          shift and go to state 97
     iden                           shift and go to state 19
     num                            shift and go to state 33
 
@@ -3107,7 +3107,7 @@ state 93
     (33) expr -> . LPAREN expr RPAREN
     (34) expr -> . iden
     (35) expr -> . num
-    (42) defvar -> . VAR type iden
+    (42) defvar -> . VAR type iden EQ expr
     (47) iden -> . IDEN
     (46) num -> . NUM
 
@@ -3125,7 +3125,7 @@ state 93
     NUM             shift and go to state 35
 
     expr                           shift and go to state 24
-    stmt                           shift and go to state 97
+    stmt                           shift and go to state 98
     defvar                         shift and go to state 25
     iden                           shift and go to state 19
     num                            shift and go to state 33
@@ -3163,7 +3163,7 @@ state 94
     (33) expr -> . LPAREN expr RPAREN
     (34) expr -> . iden
     (35) expr -> . num
-    (42) defvar -> . VAR type iden
+    (42) defvar -> . VAR type iden EQ expr
     (47) iden -> . IDEN
     (46) num -> . NUM
 
@@ -3181,7 +3181,7 @@ state 94
     NUM             shift and go to state 35
 
     expr                           shift and go to state 24
-    stmt                           shift and go to state 98
+    stmt                           shift and go to state 99
     defvar                         shift and go to state 25
     iden                           shift and go to state 19
     num                            shift and go to state 33
@@ -3221,18 +3221,57 @@ state 95
     IDEN            shift and go to state 10
     NUM             shift and go to state 35
 
-    expr                           shift and go to state 99
+    expr                           shift and go to state 100
     iden                           shift and go to state 19
     num                            shift and go to state 33
 
 state 96
+
+    (42) defvar -> VAR type iden EQ . expr
+    (14) expr -> . iden LPAREN clist RPAREN
+    (15) expr -> . expr LSQUAREBR expr RSQUAREBR
+    (16) expr -> . expr EQ expr
+    (17) expr -> . expr PLUS expr
+    (18) expr -> . expr MINUS expr
+    (19) expr -> . expr TIMES expr
+    (20) expr -> . expr DIVIDE expr
+    (21) expr -> . expr MOD expr
+    (22) expr -> . expr LESS_THAN expr
+    (23) expr -> . expr GREATER_THAN expr
+    (24) expr -> . expr PARITY expr
+    (25) expr -> . expr NOT_EQ expr
+    (26) expr -> . expr LESS_EQUAL expr
+    (27) expr -> . expr GREATER_EQUAL expr
+    (28) expr -> . expr OR expr
+    (29) expr -> . expr AND expr
+    (30) expr -> . NOT expr
+    (31) expr -> . MINUS expr
+    (32) expr -> . PLUS expr
+    (33) expr -> . LPAREN expr RPAREN
+    (34) expr -> . iden
+    (35) expr -> . num
+    (47) iden -> . IDEN
+    (46) num -> . NUM
+
+    NOT             shift and go to state 32
+    MINUS           shift and go to state 31
+    PLUS            shift and go to state 30
+    LPAREN          shift and go to state 20
+    IDEN            shift and go to state 10
+    NUM             shift and go to state 35
+
+    iden                           shift and go to state 19
+    expr                           shift and go to state 101
+    num                            shift and go to state 33
+
+state 97
 
     (40) clist -> expr COMMA clist .
 
     RPAREN          reduce using rule 40 (clist -> expr COMMA clist .)
 
 
-state 97
+state 98
 
     (8) stmt -> IF LPAREN expr RPAREN stmt .
     (9) stmt -> IF LPAREN expr RPAREN stmt . ELSE stmt
@@ -3252,10 +3291,10 @@ state 97
     RBRACE          reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
     ELSE            reduce using rule 8 (stmt -> IF LPAREN expr RPAREN stmt .)
 
-  ! ELSE            [ shift and go to state 100 ]
+  ! ELSE            [ shift and go to state 102 ]
 
 
-state 98
+state 99
 
     (10) stmt -> WHILE LPAREN expr RPAREN stmt .
 
@@ -3275,7 +3314,7 @@ state 98
     ELSE            reduce using rule 10 (stmt -> WHILE LPAREN expr RPAREN stmt .)
 
 
-state 99
+state 100
 
     (11) stmt -> FOR LPAREN expr TO expr . RPAREN stmt
     (15) expr -> expr . LSQUAREBR expr RSQUAREBR
@@ -3294,7 +3333,7 @@ state 99
     (28) expr -> expr . OR expr
     (29) expr -> expr . AND expr
 
-    RPAREN          shift and go to state 101
+    RPAREN          shift and go to state 103
     LSQUAREBR       shift and go to state 42
     EQ              shift and go to state 43
     PLUS            shift and go to state 44
@@ -3312,7 +3351,44 @@ state 99
     AND             shift and go to state 56
 
 
-state 100
+state 101
+
+    (42) defvar -> VAR type iden EQ expr .
+    (15) expr -> expr . LSQUAREBR expr RSQUAREBR
+    (16) expr -> expr . EQ expr
+    (17) expr -> expr . PLUS expr
+    (18) expr -> expr . MINUS expr
+    (19) expr -> expr . TIMES expr
+    (20) expr -> expr . DIVIDE expr
+    (21) expr -> expr . MOD expr
+    (22) expr -> expr . LESS_THAN expr
+    (23) expr -> expr . GREATER_THAN expr
+    (24) expr -> expr . PARITY expr
+    (25) expr -> expr . NOT_EQ expr
+    (26) expr -> expr . LESS_EQUAL expr
+    (27) expr -> expr . GREATER_EQUAL expr
+    (28) expr -> expr . OR expr
+    (29) expr -> expr . AND expr
+
+    SEMI_COLON      reduce using rule 42 (defvar -> VAR type iden EQ expr .)
+    LSQUAREBR       shift and go to state 42
+    EQ              shift and go to state 43
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 45
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 47
+    MOD             shift and go to state 48
+    LESS_THAN       shift and go to state 49
+    GREATER_THAN    shift and go to state 50
+    PARITY          shift and go to state 51
+    NOT_EQ          shift and go to state 52
+    LESS_EQUAL      shift and go to state 53
+    GREATER_EQUAL   shift and go to state 54
+    OR              shift and go to state 55
+    AND             shift and go to state 56
+
+
+state 102
 
     (9) stmt -> IF LPAREN expr RPAREN stmt ELSE . stmt
     (6) stmt -> . expr SEMI_COLON
@@ -3345,7 +3421,7 @@ state 100
     (33) expr -> . LPAREN expr RPAREN
     (34) expr -> . iden
     (35) expr -> . num
-    (42) defvar -> . VAR type iden
+    (42) defvar -> . VAR type iden EQ expr
     (47) iden -> . IDEN
     (46) num -> . NUM
 
@@ -3363,12 +3439,12 @@ state 100
     NUM             shift and go to state 35
 
     expr                           shift and go to state 24
-    stmt                           shift and go to state 102
+    stmt                           shift and go to state 104
     defvar                         shift and go to state 25
     iden                           shift and go to state 19
     num                            shift and go to state 33
 
-state 101
+state 103
 
     (11) stmt -> FOR LPAREN expr TO expr RPAREN . stmt
     (6) stmt -> . expr SEMI_COLON
@@ -3401,7 +3477,7 @@ state 101
     (33) expr -> . LPAREN expr RPAREN
     (34) expr -> . iden
     (35) expr -> . num
-    (42) defvar -> . VAR type iden
+    (42) defvar -> . VAR type iden EQ expr
     (47) iden -> . IDEN
     (46) num -> . NUM
 
@@ -3419,12 +3495,12 @@ state 101
     NUM             shift and go to state 35
 
     expr                           shift and go to state 24
-    stmt                           shift and go to state 103
+    stmt                           shift and go to state 105
     defvar                         shift and go to state 25
     iden                           shift and go to state 19
     num                            shift and go to state 33
 
-state 102
+state 104
 
     (9) stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .
 
@@ -3444,7 +3520,7 @@ state 102
     ELSE            reduce using rule 9 (stmt -> IF LPAREN expr RPAREN stmt ELSE stmt .)
 
 
-state 103
+state 105
 
     (11) stmt -> FOR LPAREN expr TO expr RPAREN stmt .
 
