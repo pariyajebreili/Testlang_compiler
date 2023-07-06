@@ -968,9 +968,6 @@ def p_error(p):
         print("Syntax error at token", p.type)
         print("Syntax error at '%s'" % p.value)
         print("line : '%s'" % p.lineno)
-        #print("Syntax error in input!")
-        #parser.errok()
-        # print(p.lexer.skip(1))
    else:
        print("Syntax error at EOF")
 

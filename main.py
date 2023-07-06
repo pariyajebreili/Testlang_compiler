@@ -3,7 +3,7 @@ import config
 from compile import Compiler
 
 
-file_address = "C:\\Users\\pariya\\OneDrive\\Desktop\\testlang_compiler\\IR.tes"
+file_address = "C:\\Users\\pariya\\OneDrive\\Desktop\\New folder\\Testlang_compiler\\funcfail.tes"
 file_not_found = False
 try:
     with open(file_address) as f:

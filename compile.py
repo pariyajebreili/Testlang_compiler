@@ -9,8 +9,6 @@ from my_utils.show_tree import show_tree
 import config
 from my_utils.colorprints import ColorPrints
 import os 
-from IR.IR_generator import IRGenerator
-from tsvm.run_tsvm import RunTSVM
 
 
 class Compiler(object):
@@ -30,9 +28,7 @@ class Compiler(object):
         self.type_checker = TypeChecker(self.semantic_messages)
         self.preprocess = PreProcess(self.semantic_messages)
         self.compiled_failed = False
-        self.iR_generator = IRGenerator() 
-        self.run_tsvm = RunTSVM()
-    
+
 
 
     def compile(self, data, show_syntax_tree=False, print_messages=True):
