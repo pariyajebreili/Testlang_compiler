@@ -26,8 +26,6 @@ The testlang supported by the compiler includes the following features:
 
 ## Architecture
 
-The compiler is designed using a three-stage architecture:
-
 1. **Lexical Analysis**: The source code is tokenized into a sequence of lexemes by the lexer, which identifies the basic building blocks of the language, such as keywords, identifiers, and literals.
 
 2. **Syntax Analysis**: The parser reads the sequence of lexemes and constructs a parse tree that represents the structure of the program according to the language grammar rules.
